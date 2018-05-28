@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 65541432581369190}
   - component: {fileID: 23021757590429966}
   - component: {fileID: 195543080246832418}
-  - component: {fileID: 114788142178101538}
   - component: {fileID: 114941232193181632}
   m_Layer: 9
   m_Name: zombie
@@ -98,18 +97,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114788142178101538
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1090373362045166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21f7f882af0d0154e91cc0a5aa342686, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TargetPosition: {x: 6.31, y: 0.5, z: 3.1}
 --- !u!114 &114941232193181632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -122,6 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_eUnit: 2
+  TargetPosition: {x: 6.31, y: 0.5, z: 3.1}
 --- !u!195 &195543080246832418
 NavMeshAgent:
   m_ObjectHideFlags: 1

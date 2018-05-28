@@ -5,21 +5,19 @@ using UnityEngine.AI;
 
 public class UnitBox : MonoBehaviour {
     public UnitManager.eUnit m_eUnit;
+    public Vector3 TargetPosition;
+    NavMeshAgent nav;//유닛 박스에 직접 네비매시를 입력
     public Unit m_sUnit;
 
     // Use this for initialization
     void Start () {
-          
+        nav = GetComponent<NavMeshAgent>();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        
+        nav.SetDestination(TargetPosition);
     }
  
-    //public void Unitstat()
-    //{
-    //    m_cUnit = GameManager.GetInstance().m_cUnitManager.GetUnit(m_eUnit);
-    //    Debug.Log(m_cUnit.Name);
-    //}
+    
 }

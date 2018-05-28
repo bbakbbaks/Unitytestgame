@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 65792947770841972}
   - component: {fileID: 23395414079114278}
   - component: {fileID: 195428332592515358}
-  - component: {fileID: 114535371007224420}
   - component: {fileID: 114368301763259252}
   m_Layer: 8
   m_Name: worker
@@ -110,17 +109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_eUnit: 0
---- !u!114 &114535371007224420
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1065926695755342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21f7f882af0d0154e91cc0a5aa342686, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   TargetPosition: {x: 20.69, y: 0.5, z: 16.64}
 --- !u!195 &195428332592515358
 NavMeshAgent:
