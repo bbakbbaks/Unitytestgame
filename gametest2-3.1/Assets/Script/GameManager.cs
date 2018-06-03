@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
     //Unitstat m_cUnitstat1;
     //Unitstat m_cUnitstat2;
     //UnitBox m_cUnitbox;
-    public List<UnitBox> m_cUnits=new List<UnitBox>(); //플레이어가 가지고있는 유닛의 리스트
+    public List<UnitBox> m_cUnits=new List<UnitBox>();
     public List<UnitBox> m_cEnemies = new List<UnitBox>();
     public BuildingManager m_cBuildingManager;
     public List<BuildingBox> m_cBuildingBoxes;
@@ -20,12 +20,12 @@ public class GameManager : MonoBehaviour {
     //public Player m_cPlayer;
     int unitcount = -1;
     int Zcount = -1;
-    UnitBox Target = null; //컨트롤할 유닛
+    UnitBox Target = null;
     UnitBox Targetenemy = null;
     //UnitBox Targetcmd = null;
     //UnitBox Targetenemycmd = null;
     Vector3 Positon;
-    List<UnitBox> m_cTargetlist = new List<UnitBox>();//컨트롤할 유닛의 리스트
+    List<UnitBox> m_cTargetlist = new List<UnitBox>();
     //List<UnitBox> m_cTargetcmdlist = new List<UnitBox>();
     float m_fDist = 0;
 
@@ -49,14 +49,19 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         PdUnit();
+        UnitSelect();
         MultiUnitaction();
+        UnitDetect();
+        StartCoroutine("UnitAttack");
+        //StartCoroutine("UnitDetect");
+        //InvokeRepeating("UnitDetect", 1, 2);
     }
 
     public void CreateUnit()
     {
-        m_cUnitManager.m_listunits.Add(new Unit("일꾼", 5, 1, 1, 1, "imgworker"));
-        m_cUnitManager.m_listunits.Add(new Unit("군인", 15, 4, 4, 1, "imgsolider"));
-        m_cUnitManager.m_listunits.Add(new Unit("좀비", 20, 3, 1, 1, "imgzombie"));
+        m_cUnitManager.m_listunits.Add(new Unit("일꾼", 50, 1, 1, 1, "imgworker"));
+        m_cUnitManager.m_listunits.Add(new Unit("군인", 150, 4, 4, 1, "imgsolider"));
+        m_cUnitManager.m_listunits.Add(new Unit("좀비", 200, 3, 1, 1, "imgzombie"));
     }
 
     public void PdEnemy()
@@ -106,7 +111,8 @@ public class GameManager : MonoBehaviour {
             Debug.Log(m_cUnits[unitcount].m_sUnit.Name/* + m_cUnits[unitcount].m_sUnit.Hp*/);
         }
     }
-    public void MultiUnitaction()
+
+    public void UnitSelect()
     {
         if (Input.GetMouseButtonDown(0)/*&&Input.GetKey(KeyCode.LeftShift)*/)
         {
@@ -127,30 +133,36 @@ public class GameManager : MonoBehaviour {
                 //m_cTargetcmdlist.Clear();
             }
         }
+    }
+
+    public void MultiUnitaction()
+    {
         if (Target != null)
         {
-            Target.Detect(Target, m_cEnemies[0]);
             if (Input.GetMouseButtonDown(1))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hitinfo;
-
-                if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("enemyunit")))
+                
+                if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("enemyunit")))//타겟 선택 공격
                 {
                     Targetenemy = hitinfo.collider.gameObject.GetComponent<UnitBox>();
-                    m_fDist = Vector3.Distance(Target.transform.position, Targetenemy.transform.position);//Target.transform.position <= 객체의 현재위치
+                    for (int i = 0; i < m_cTargetlist.Count; i++)
+                    {
+                        m_fDist = Vector3.Distance(m_cTargetlist[i].transform.position, Targetenemy.transform.position);//Target.transform.position <= 객체의 현재위치
 
-                    if (m_fDist <= Target.m_sUnit.Range)
-                    {
-                        Debug.Log("Detect Enemy");
-                        //Target.m_sUnit.Attack(Targetenemy.m_sUnit);
-                        Targetenemy.m_sUnit.Hp = Targetenemy.m_sUnit.Hp - Target.m_sUnit.Damage;//임시 공격
-                        Debug.Log(Targetenemy.m_sUnit.Hp);
-                        Targetenemy.ChangeHp(Targetenemy.m_sUnit.Hp, Targetenemy.m_sUnit.MaxHp);//Hp바에 체력 표시
-                    }
-                    if (Targetenemy.m_sUnit.Hp <= 0)
-                    {
-                        Destroy(Targetenemy.gameObject);//게임오브젝트를 파괴시켜서 화면에서 없앤다
+                        if (m_fDist <= m_cTargetlist[i].m_sUnit.Range)
+                        {
+                            Debug.Log("Detect Enemy");
+                            //Target.m_sUnit.Attack(Targetenemy.m_sUnit);
+                            Targetenemy.m_sUnit.Hp = Targetenemy.m_sUnit.Hp - m_cTargetlist[i].m_sUnit.Damage;//임시 공격
+                            Debug.Log(Targetenemy.m_sUnit.Hp);
+                            Targetenemy.ChangeHp(Targetenemy.m_sUnit.Hp, Targetenemy.m_sUnit.MaxHp);//Hp바에 체력 표시
+                        }
+                        if (Targetenemy.m_sUnit.Hp <= 0)
+                        {
+                            Destroy(Targetenemy.gameObject);//게임오브젝트를 파괴시켜서 화면에서 없앤다
+                        }
                     }
                 }
                 //문제점1 적을 찍어도 적 밑의 지형도 같이 찍히면서 타켓의 포지션이 적의 포지션 근처로
@@ -164,14 +176,60 @@ public class GameManager : MonoBehaviour {
                     {
                         m_cTargetlist[i].TargetPosition = Positon;
                     }
-
+                    
                 }
                 //이렇게 else if로 땅클릭을 적용하면 적 유닛 클릭시 적유닛쪽으로 이동을 안함
                 //Target.TargetPosition = Positon;
-
+                
             }
         }
     }
+    public void UnitDetect()
+    {
+        if (Target != null)
+        {
+            if (Input.GetKey(KeyCode.A)/*&&Input.GetMouseButtonDown(1)*/)//A키를 누르고있으면 어택땅
+            {
+                //Target.Detect(Target);
+                for (int i = 0; i < m_cTargetlist.Count; i++)
+                {
+                    m_cTargetlist[i].Detect(/*m_cTargetlist[i]*/);
+                }
+            }
+        }
+    }
+
+    IEnumerator UnitAttack()
+    {
+        for (int i = 0; i < m_cTargetlist.Count; i++)
+        {
+            if (m_cTargetlist[i].DetectCheck == 1)
+            {
+                yield return new WaitForSeconds(1.0f);
+                m_cTargetlist[i].Attack();
+                //Debug.Log(m_cTargetlist[i].counttest);
+            }
+        }
+    }
+    //IEnumerator UnitDetect()
+    //{
+    //    if (Target != null)
+    //    {
+    //        if (Input.GetKey(KeyCode.A)/*&&Input.GetMouseButtonDown(1)*/)//A키를 누르고있으면 어택땅
+    //        {
+    //            //Target.Detect(Target);
+    //            for (int i = 0; i < m_cTargetlist.Count; i++)
+    //            {
+    //                m_cTargetlist[i].Detect(/*m_cTargetlist[i]*/);
+    //                if (m_cTargetlist[i].DetectCheck == 1)
+    //                {
+    //                    yield return new WaitForSeconds(1.0f);
+    //                    m_cTargetlist[i].Attack();
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
     private void OnGUI()
     {
