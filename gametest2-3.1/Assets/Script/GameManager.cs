@@ -50,11 +50,13 @@ public class GameManager : MonoBehaviour {
 	void Update () {
         PdUnit();
         UnitSelect();
-        MultiUnitaction();
+        UnitCommend();
+        UnitMoves();
         UnitDetect();
-        StartCoroutine("UnitAttack");
+        ZombieAction();
+        //StartCoroutine("UnitAttack");
         //StartCoroutine("UnitDetect");
-        //InvokeRepeating("UnitDetect", 1, 2);
+        //InvokeRepeating("UnitDetect", 1, 1);
     }
 
     public void CreateUnit()
@@ -76,7 +78,7 @@ public class GameManager : MonoBehaviour {
 
     public void PdUnit()
     {
-       
+        
         if (Input.GetKeyDown(KeyCode.M))//배럭에서 솔저 생산
         {
             GameObject pdSolider = Instantiate(G_Solider, m_cBarrack.Regenposition.position, m_cBarrack.Regenposition.rotation);
@@ -135,7 +137,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void MultiUnitaction()
+    public void UnitMoves()
     {
         if (Target != null)
         {
@@ -150,19 +152,26 @@ public class GameManager : MonoBehaviour {
                     for (int i = 0; i < m_cTargetlist.Count; i++)
                     {
                         m_fDist = Vector3.Distance(m_cTargetlist[i].transform.position, Targetenemy.transform.position);//Target.transform.position <= 객체의 현재위치
+                        m_cTargetlist[i].DirectAttack(Targetenemy);
+                        //if (m_fDist > m_cTargetlist[i].m_sUnit.Range)
+                        //{
+                        //    m_cTargetlist[i].TargetPosition = Targetenemy.transform.position;
+                        //}
 
-                        if (m_fDist <= m_cTargetlist[i].m_sUnit.Range)
-                        {
-                            Debug.Log("Detect Enemy");
-                            //Target.m_sUnit.Attack(Targetenemy.m_sUnit);
-                            Targetenemy.m_sUnit.Hp = Targetenemy.m_sUnit.Hp - m_cTargetlist[i].m_sUnit.Damage;//임시 공격
-                            Debug.Log(Targetenemy.m_sUnit.Hp);
-                            Targetenemy.ChangeHp(Targetenemy.m_sUnit.Hp, Targetenemy.m_sUnit.MaxHp);//Hp바에 체력 표시
-                        }
-                        if (Targetenemy.m_sUnit.Hp <= 0)
-                        {
-                            Destroy(Targetenemy.gameObject);//게임오브젝트를 파괴시켜서 화면에서 없앤다
-                        }
+                        //if (m_fDist <= m_cTargetlist[i].m_sUnit.Range)
+                        //{
+                        //    m_cTargetlist[i].TargetPosition = m_cTargetlist[i].transform.position;
+                        //    Debug.Log("Detect Enemy");
+                        //    Target.m_sUnit.Attack(Targetenemy.m_sUnit);
+                        //    Targetenemy.m_sUnit.Hp = Targetenemy.m_sUnit.Hp - m_cTargetlist[i].m_sUnit.Damage;//임시 공격
+                        //    Debug.Log(Targetenemy.m_sUnit.Hp);
+                        //    Targetenemy.ChangeHp(Targetenemy.m_sUnit.Hp, Targetenemy.m_sUnit.MaxHp);//Hp바에 체력 표시
+                        //}
+                        //if (Targetenemy.m_sUnit.Hp <= 0)
+                        //{
+                        //    Destroy(Targetenemy.gameObject);//게임오브젝트를 파괴시켜서 화면에서 없앤다
+                        //}
+                        //m_cTargetlist[i].Attack();
                     }
                 }
                 //문제점1 적을 찍어도 적 밑의 지형도 같이 찍히면서 타켓의 포지션이 적의 포지션 근처로
@@ -184,33 +193,99 @@ public class GameManager : MonoBehaviour {
             }
         }
     }
+
+    public void UnitCommend()
+    {
+        if (Target != null)
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                for (int i = 0; i < m_cTargetlist.Count; i++)
+                    m_cTargetlist[i].m_UnitCommend = 1;
+            }
+            else if(Input.GetKeyDown(KeyCode.S))
+            {
+                for (int i = 0; i < m_cTargetlist.Count; i++)
+                    m_cTargetlist[i].m_UnitCommend = 0;
+            }
+        }
+    }
+
     public void UnitDetect()
     {
         if (Target != null)
         {
-            if (Input.GetKey(KeyCode.A)/*&&Input.GetMouseButtonDown(1)*/)//A키를 누르고있으면 어택땅
+            //if (Input.GetKey(KeyCode.A)/*&&Input.GetMouseButtonDown(1)*/)//A키를 누르고있으면 어택땅
+            for (int i = 0; i < m_cTargetlist.Count; i++)
             {
                 //Target.Detect(Target);
-                for (int i = 0; i < m_cTargetlist.Count; i++)
+                if(m_cTargetlist[i].m_UnitCommend == 1)
                 {
                     m_cTargetlist[i].Detect(/*m_cTargetlist[i]*/);
+                    if(m_cTargetlist[i].DetectCheck == 1)
+                    {
+                        if (m_cTargetlist[i].m_enemy != null)
+                        {
+                            m_cTargetlist[i].m_enemy.m_sUnit.Hp = m_cTargetlist[i].m_enemy.m_sUnit.Hp - m_cTargetlist[i].m_sUnit.Damage;
+                            m_cTargetlist[i].m_enemy.ChangeHp(m_cTargetlist[i].m_enemy.m_sUnit.Hp, m_cTargetlist[i].m_enemy.m_sUnit.MaxHp);
+                            if (m_cTargetlist[i].m_enemy.m_sUnit.Hp <= 0)
+                            {
+                                Destroy(m_cTargetlist[i].m_enemy.gameObject);
+                                m_cTargetlist[i].m_enemy = null;
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
-    IEnumerator UnitAttack()
+    public void ZombieAction()
     {
-        for (int i = 0; i < m_cTargetlist.Count; i++)
+        if (m_cEnemies != null)
         {
-            if (m_cTargetlist[i].DetectCheck == 1)
+            for (int i = 0; i < m_cEnemies.Count; i++)
             {
-                yield return new WaitForSeconds(1.0f);
-                m_cTargetlist[i].Attack();
-                //Debug.Log(m_cTargetlist[i].counttest);
+                m_cEnemies[i].Detect();
+                if (m_cEnemies[i].DetectCheck == 1)
+                {
+                    if (m_cEnemies[i].m_enemy != null)
+                    {
+                        m_cEnemies[i].m_enemy.m_sUnit.Hp = m_cEnemies[i].m_enemy.m_sUnit.Hp - m_cEnemies[i].m_sUnit.Damage;
+                        m_cEnemies[i].m_enemy.ChangeHp(m_cEnemies[i].m_enemy.m_sUnit.Hp, m_cEnemies[i].m_enemy.m_sUnit.MaxHp);
+                        if (m_cEnemies[i].m_enemy.m_sUnit.Hp <= 0)
+                        {
+                            Destroy(m_cEnemies[i].m_enemy.gameObject);
+                            m_cEnemies[i].m_enemy = null;
+                        }
+                    }
+                }
             }
         }
     }
+    //if (m_enemy != null)
+    //    {
+    //        m_enemy.m_sUnit.Hp = m_enemy.m_sUnit.Hp - m_sUnit.Damage;
+    //        m_enemy.ChangeHp(m_enemy.m_sUnit.Hp, m_enemy.m_sUnit.MaxHp);
+    //        //counttest++;
+    //        if (m_enemy.m_sUnit.Hp <= 0)
+    //        {
+    //            Destroy(m_enemy.gameObject);
+    //            m_enemy = null;
+    //        }
+    //    }
+    //IEnumerator UnitAttack()
+    //{
+    //    for (int i = 0; i < m_cTargetlist.Count; i++)
+    //    {
+    //        if (m_cTargetlist[i].DetectCheck == 1)
+    //        {
+    //            yield return new WaitForSeconds(1.0f);
+    //            m_cTargetlist[i].Attack();
+    //            //Debug.Log(m_cTargetlist[i].counttest);
+    //        }
+    //    }
+    //}
     //IEnumerator UnitDetect()
     //{
     //    if (Target != null)

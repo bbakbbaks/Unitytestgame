@@ -268,7 +268,10 @@ MonoBehaviour:
   m_eUnit: 2
   TargetPosition: {x: 6, y: 0.5, z: 6}
   m_UnitHp: {fileID: 114084489609352856}
+  m_enemy: {fileID: 0}
   m_MyBox: {fileID: 114941232193181632}
+  DetectCheck: 0
+  m_UnitCommend: 0
 --- !u!195 &195543080246832418
 NavMeshAgent:
   m_ObjectHideFlags: 1

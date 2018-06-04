@@ -44,10 +44,10 @@ public struct Unit
     //    m_nMovespeed = movespeed;
     //    strImage = image;
     //}
-    public void Attack(Unit unit)//외부로 값이 빠져나가지 못함
-    {
-        unit.Hp = unit.Hp - Damage;
-    }
+    //public void Attack(Unit unit)//외부로 값이 빠져나가지 못함
+    //{
+    //    unit.Hp = unit.Hp - Damage;
+    //}
 
     //public bool Dead()
     //{
