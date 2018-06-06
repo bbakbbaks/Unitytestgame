@@ -9,7 +9,6 @@ public class UnitHp : MonoBehaviour {
     // Use this for initialization
     void Start () {
         m_cRectTransform = this.gameObject.GetComponent<RectTransform>();
-        
     }
 	
 	// Update is called once per frame
