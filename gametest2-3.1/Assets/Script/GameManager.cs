@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
     //public Player m_cPlayer;
     int unitcount = -1;
     int Zcount = -1;
+    int StartZcount = 0;
     //UnitBox Target = null;
     //UnitBox Targetenemy = null;
     //UnitBox Targetcmd = null;
@@ -66,14 +67,15 @@ public class GameManager : MonoBehaviour {
         m_cUnitManager.m_listunits.Add(new Unit("좀비", 20, 3, 1, 1, "imgzombie"));
     }
 
-    public void PdEnemy()
+    public void PdEnemy()//임시 웨이브. 정식 웨이브 함수를 따로 만들어야한다.
     {
-        for (Zcount = 0; Zcount < 2; Zcount++)
+        for (Zcount = StartZcount; Zcount < StartZcount + 2; Zcount++)
         {
             GameObject pdZombie = Instantiate(G_Zombie, Z_Point.position, Z_Point.rotation);
             m_cEnemies.Add(pdZombie.GetComponent<UnitBox>());
             m_cEnemies[Zcount].m_sUnit = m_cUnitManager.GetUnit(UnitManager.eUnit.Zombie);
         }
+        StartZcount += 2;
     }
 
     public void PdUnit()
