@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
     int unitcount = -1;
     int Zcount = -1;
     int StartZcount = 0;
+    int WaveCount = 0;
     //UnitBox Target = null;
     //UnitBox Targetenemy = null;
     //UnitBox Targetcmd = null;
@@ -41,7 +42,8 @@ public class GameManager : MonoBehaviour {
 	void Start () {
         m_cInstance = this;
         CreateUnit();
-        PdEnemy();
+        //PdEnemy();
+        InvokeRepeating("PdEnemy", 10, 10);
         //Debug.Log(m_cUnitManager.GetUnit(UnitManager.eUnit.Worker).Name);
         //Debug.Log(m_cUnitManager.GetUnit(UnitManager.eUnit.Solider).Name);
         //Debug.Log(m_cUnitManager.GetUnit(UnitManager.eUnit.Zombie).Name);
@@ -69,13 +71,14 @@ public class GameManager : MonoBehaviour {
 
     public void PdEnemy()//임시 웨이브. 정식 웨이브 함수를 따로 만들어야한다.
     {
-        for (Zcount = StartZcount; Zcount < StartZcount + 2; Zcount++)
+        for (Zcount = StartZcount; Zcount < StartZcount + 3; Zcount++)
         {
             GameObject pdZombie = Instantiate(G_Zombie, Z_Point.position, Z_Point.rotation);
             m_cEnemies.Add(pdZombie.GetComponent<UnitBox>());
             m_cEnemies[Zcount].m_sUnit = m_cUnitManager.GetUnit(UnitManager.eUnit.Zombie);
         }
-        StartZcount += 2;
+        StartZcount += 3;
+        WaveCount++;
     }
 
     public void PdUnit()

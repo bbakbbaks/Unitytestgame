@@ -16,7 +16,7 @@ public class UnitBox : MonoBehaviour {
     public int DetectCheck = 0; //1이면 사거리안, 0이면 밖
     // public int counttest = 0;
     public int m_UnitCommend = 0; //1이면 공격모드, 0이면 스탑모드
-    int SelectCheck = 0; //1이면 유닛선택, 0이면 해제
+    public int SelectCheck = 0; //1이면 유닛선택, 0이면 해제
 
     // Use this for initialization
     void Start () {
@@ -34,10 +34,10 @@ public class UnitBox : MonoBehaviour {
         //    StartCoroutine("Attack");
         //}
         //Dead();
-        UnitCommend();
-        Detect();
         UnitSelect();
+        UnitCommend();
         UnitMove();
+        Detect();
         //InvokeRepeating("Attack", 0, 1);
         //StartCoroutine("DirectAttack");
         DirectAttack();
@@ -81,31 +81,31 @@ public class UnitBox : MonoBehaviour {
                     }
                 }
             }
-            if (m_MyBox.tag == "EnemyU")
-            {
-                foreach (Collider hit in hitCollider)
-                {
-                    if (hit.tag == "PlayerU")
-                    {
-                        //Debug.Log("탐지");
-                        m_enemy = hit.gameObject.GetComponent<UnitBox>(); //탐지 한 적개체를 타겟으로 지정
-                        m_fDists = Vector3.Distance(m_MyBox.transform.position, m_enemy.transform.position);
-                        if (m_fDists > m_MyBox.m_sUnit.Range)
-                        {
-                            m_MyBox.TargetPosition = m_enemy.transform.position;//적유닛의 위치로이동
-                                                                                //Debug.Log("too far");
-                            DetectCheck = 0;
-                        }
-                        if (m_fDists <= m_MyBox.m_sUnit.Range)//사거리 안으로 이동시
-                        {
-                            m_MyBox.TargetPosition = m_MyBox.transform.position;//현재위치에 멈춤
-                                                                                //Attack();
-                                                                                //StartCoroutine("Attack");
-                            DetectCheck = 1;
-                        }
-                    }
-                }
-            }
+            //if (m_MyBox.tag == "EnemyU")
+            //{
+            //    foreach (Collider hit in hitCollider)
+            //    {
+            //        if (hit.tag == "PlayerU")
+            //        {
+            //            //Debug.Log("탐지");
+            //            m_enemy = hit.gameObject.GetComponent<UnitBox>(); //탐지 한 적개체를 타겟으로 지정
+            //            m_fDists = Vector3.Distance(m_MyBox.transform.position, m_enemy.transform.position);
+            //            if (m_fDists > m_MyBox.m_sUnit.Range)
+            //            {
+            //                m_MyBox.TargetPosition = m_enemy.transform.position;//적유닛의 위치로이동
+            //                                                                    //Debug.Log("too far");
+            //                DetectCheck = 0;
+            //            }
+            //            if (m_fDists <= m_MyBox.m_sUnit.Range)//사거리 안으로 이동시
+            //            {
+            //                m_MyBox.TargetPosition = m_MyBox.transform.position;//현재위치에 멈춤
+            //                                                                    //Attack();
+            //                                                                    //StartCoroutine("Attack");
+            //                DetectCheck = 1;
+            //            }
+            //        }
+            //    }
+            //}
         }
     }
 
@@ -165,7 +165,7 @@ public class UnitBox : MonoBehaviour {
 
     public void UnitCommend()
     {
-        if (m_MyBox.tag == "PlayerU")
+        if (SelectCheck == 1 && m_MyBox.tag == "PlayerU")
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
