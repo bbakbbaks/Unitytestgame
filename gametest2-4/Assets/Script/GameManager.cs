@@ -30,14 +30,15 @@ public class GameManager : MonoBehaviour {
 	void Start () {
         m_cInstance = this;
         CreateUnit();
-        //InvokeRepeating("PdEnemy", 1, 1);
+        InvokeRepeating("PdEnemy", 1, 1);
         PdEnemy();
     }
 
 	void Update () {
         PdUnit();
-        //if (WaveCount == 5)
-        //    CancelInvoke("PdEnemy");
+        if (WaveCount == 5)
+            CancelInvoke("PdEnemy");
+        GameCheck();
     }
 
     public void CreateUnit()
@@ -92,4 +93,9 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void GameCheck()
+    {
+        if (m_cCenter == null)
+            Debug.Log("GameOver");
+    }
 }
