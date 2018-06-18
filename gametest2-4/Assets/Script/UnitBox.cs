@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -119,7 +119,11 @@ public class UnitBox : MonoBehaviour {
                             this.TargetPosition = m_enemys_target.transform.position;
                             //ZombieDeCheck = 0;
                         }
+<<<<<<< HEAD
                         if (m_fDists <= this.m_sUnit.Range + 2)
+=======
+                        if (m_fDists <= this.m_sUnit.Range)
+>>>>>>> d5abf603f45fdb9ac40323a57ff442326b1c8902
                         {
                             this.TargetPosition = this.transform.position;
                             //ZombieDeCheck = 1;
@@ -212,7 +216,11 @@ public class UnitBox : MonoBehaviour {
             if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("playerunit")))
             {
                 hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCheck = 1;
+<<<<<<< HEAD
                 //m_MyBox.SelectCheck = 1;
+=======
+                //this.SelectCheck = 1;
+>>>>>>> d5abf603f45fdb9ac40323a57ff442326b1c8902
                 Debug.Log(SelectCheck);
             }
             else if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
@@ -299,3 +307,4 @@ public class UnitBox : MonoBehaviour {
         }
     }
 }
+
