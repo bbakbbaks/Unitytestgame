@@ -18,7 +18,7 @@ public class Center : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        DestroyCenter();
+        
 	}
 
     public void ChangeHp(float unithp, float unitmaxhp)//HP바의 체력변화

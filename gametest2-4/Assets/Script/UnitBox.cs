@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class UnitBox : MonoBehaviour {
+    public GameManager GM;
     public UnitManager.eUnit m_eUnit;
     public Vector3 TargetPosition;
     NavMeshAgent nav;//유닛 박스에 직접 네비매시를 입력
@@ -12,10 +13,10 @@ public class UnitBox : MonoBehaviour {
     float m_fMax; //Hp바 x축의 크기를 나타내는 변수
     float m_fDists; //유닛과 유닛사이의 거리 측정용 변수
     public UnitBox m_enemy = null; //타겟을 저장하는 변수
-    public UnitBox m_MyBox; //자기 자신을 저장하는 변수
+    //public UnitBox m_MyBox; //자기 자신을 저장하는 변수
     public Center m_enemys_target;
     public BuildingBox m_TargetofZombie;
-    public int DetectCheck = 0; //1이면 사거리안, 0이면 밖
+    public int DetectCheck = 0; //1이면 사거리안, 0이면 밖, 2면 센터
     public int m_UnitCommend = 0; //1이면 공격모드, 0이면 스탑모드
     public int SelectCheck = 0; //1이면 유닛선택, 0이면 해제
     public int ZombieDeCheck = 0;//좀비의 건물 체크
@@ -46,32 +47,32 @@ public class UnitBox : MonoBehaviour {
 
     public void Detect(/*UnitBox uBox*//*, UnitBox euBox*/)//유닛 탐지
     {
-        if (m_MyBox != null)
+        if (this != null)
         {
-            Collider[] hitCollider = Physics.OverlapSphere(m_MyBox.transform.position, 6.0f); //탐지
+            Collider[] hitCollider = Physics.OverlapSphere(this.transform.position, 6.0f); //탐지
 
-            if (m_MyBox.tag == "PlayerU" && m_UnitCommend != 0)
+            if (this.tag == "PlayerU" && m_UnitCommend != 0)
             {
                 foreach (Collider hit in hitCollider)
                 {
                     if (hit.tag == "EnemyU")
                     {
                         m_enemy = hit.gameObject.GetComponent<UnitBox>(); //탐지 한 적개체를 타겟으로 지정
-                        m_fDists = Vector3.Distance(m_MyBox.transform.position, m_enemy.transform.position);
-                        if (m_fDists > m_MyBox.m_sUnit.Range)
+                        m_fDists = Vector3.Distance(this.transform.position, m_enemy.transform.position);
+                        if (m_fDists > this.m_sUnit.Range)
                         {
-                            m_MyBox.TargetPosition = m_enemy.transform.position;//적유닛의 위치로이동
+                            this.TargetPosition = m_enemy.transform.position;//적유닛의 위치로이동
                             DetectCheck = 0;
                         }
-                        if (m_fDists <= m_MyBox.m_sUnit.Range)//사거리 안으로 이동시
+                        if (m_fDists <= this.m_sUnit.Range)//사거리 안으로 이동시
                         {
-                            m_MyBox.TargetPosition = m_MyBox.transform.position;//현재위치에 멈춤
+                            this.TargetPosition = this.transform.position;//현재위치에 멈춤
                             DetectCheck = 1;
                         }
                     }
                 }
             }
-            if (m_MyBox.tag == "EnemyU")
+            if (this.tag == "EnemyU")
             {
                 foreach (Collider hit in hitCollider)
                 {
@@ -79,16 +80,16 @@ public class UnitBox : MonoBehaviour {
                     {
                         //Debug.Log("탐지");
                         m_enemy = hit.gameObject.GetComponent<UnitBox>(); //탐지 한 적개체를 타겟으로 지정
-                        m_fDists = Vector3.Distance(m_MyBox.transform.position, m_enemy.transform.position);
-                        if (m_fDists > m_MyBox.m_sUnit.Range)
+                        m_fDists = Vector3.Distance(this.transform.position, m_enemy.transform.position);
+                        if (m_fDists > this.m_sUnit.Range)
                         {
-                            m_MyBox.TargetPosition = m_enemy.transform.position;//적유닛의 위치로이동
+                            this.TargetPosition = m_enemy.transform.position;//적유닛의 위치로이동
                                                                                 //Debug.Log("too far");
                             DetectCheck = 0;
                         }
-                        if (m_fDists <= m_MyBox.m_sUnit.Range)//사거리 안으로 이동시
+                        if (m_fDists <= this.m_sUnit.Range)//사거리 안으로 이동시
                         {
-                            m_MyBox.TargetPosition = m_MyBox.transform.position;//현재위치에 멈춤
+                            this.TargetPosition = this.transform.position;//현재위치에 멈춤
                                                                                 //Attack();
                                                                                 //StartCoroutine("Attack");
                             DetectCheck = 1;
@@ -97,31 +98,32 @@ public class UnitBox : MonoBehaviour {
                     if(hit.tag=="PlayerB")
                     {
                         m_TargetofZombie = hit.gameObject.GetComponent<BuildingBox>();
-                        m_fDists = Vector3.Distance(m_MyBox.transform.position, m_TargetofZombie.transform.position);
-                        if (m_fDists > m_MyBox.m_sUnit.Range)
+                        m_fDists = Vector3.Distance(this.transform.position, m_TargetofZombie.transform.position);
+                        if (m_fDists > this.m_sUnit.Range)
                         {
-                            m_MyBox.TargetPosition = m_TargetofZombie.transform.position;
+                            this.TargetPosition = m_TargetofZombie.transform.position;
                             ZombieDeCheck = 0;
                         }
-                        if (m_fDists <= m_MyBox.m_sUnit.Range)
+                        if (m_fDists <= this.m_sUnit.Range)
                         {
-                            m_MyBox.TargetPosition = m_MyBox.transform.position;
+                            this.TargetPosition = this.transform.position;
                             ZombieDeCheck = 1;
                         }
                     }
                     if (hit.tag == "Center")
                     {
                         m_enemys_target = hit.gameObject.GetComponent<Center>();
-                        m_fDists = Vector3.Distance(m_MyBox.transform.position, m_enemys_target.transform.position);
-                        if (m_fDists > m_MyBox.m_sUnit.Range)
+                        m_fDists = Vector3.Distance(this.transform.position, m_enemys_target.transform.position);
+                        if (m_fDists > this.m_sUnit.Range)
                         {
-                            m_MyBox.TargetPosition = m_enemys_target.transform.position;
+                            this.TargetPosition = m_enemys_target.transform.position;
                             //ZombieDeCheck = 0;
                         }
-                        if (m_fDists <= m_MyBox.m_sUnit.Range)
+                        if (m_fDists <= this.m_sUnit.Range + 2)
                         {
-                            m_MyBox.TargetPosition = m_MyBox.transform.position;
+                            this.TargetPosition = this.transform.position;
                             //ZombieDeCheck = 1;
+                            DetectCheck = 2;
                         }
                     }
                 }
@@ -131,7 +133,7 @@ public class UnitBox : MonoBehaviour {
 
     public void DirectAttack()
     {
-        if (m_MyBox.tag=="PlayerU" && Input.GetMouseButtonDown(1))
+        if (this.tag=="PlayerU" && Input.GetMouseButtonDown(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitinfo;
@@ -140,10 +142,10 @@ public class UnitBox : MonoBehaviour {
             {
                 m_enemy = hitinfo.collider.gameObject.GetComponent<UnitBox>();
 
-                m_fDists = Vector3.Distance(m_MyBox.transform.position, m_enemy.transform.position);
-                if (m_fDists <= m_MyBox.m_sUnit.Range)
+                m_fDists = Vector3.Distance(this.transform.position, m_enemy.transform.position);
+                if (m_fDists <= this.m_sUnit.Range)
                 {
-                    m_MyBox.TargetPosition = m_MyBox.transform.position;
+                    this.TargetPosition = this.transform.position;
                     if (m_enemy != null)
                     {
                         m_enemy.m_sUnit.Hp = m_enemy.m_sUnit.Hp - m_sUnit.Damage;
@@ -155,9 +157,9 @@ public class UnitBox : MonoBehaviour {
                         }
                     }
                 }
-                if (m_fDists > m_MyBox.m_sUnit.Range)
+                if (m_fDists > this.m_sUnit.Range)
                 {
-                    m_MyBox.TargetPosition = m_enemy.transform.position;
+                    this.TargetPosition = m_enemy.transform.position;
                 }
             }
         }
@@ -174,8 +176,11 @@ public class UnitBox : MonoBehaviour {
                 m_enemy.ChangeHp(m_enemy.m_sUnit.Hp, m_enemy.m_sUnit.MaxHp);
                 if (m_enemy.m_sUnit.Hp <= 0)
                 {
+                    if (m_enemy.tag == "PlayerU")
+                        GM.unitcount--;
                     Destroy(m_enemy.gameObject);
                     m_enemy = null;
+                    
                 }
             }
         }
@@ -183,7 +188,7 @@ public class UnitBox : MonoBehaviour {
 
     public void UnitCommend()
     {
-        if (SelectCheck == 1 && m_MyBox.tag == "PlayerU")
+        if (SelectCheck == 1 && this.tag == "PlayerU")
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
@@ -200,14 +205,14 @@ public class UnitBox : MonoBehaviour {
 
     public void UnitSelect()
     {
-        if (m_MyBox.tag == "PlayerU" && Input.GetMouseButtonDown(0))
+        if (this.tag == "PlayerU" && Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitinfo;
             if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("playerunit")))
             {
-                m_MyBox = hitinfo.collider.gameObject.GetComponent<UnitBox>();
-                m_MyBox.SelectCheck = 1;
+                hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCheck = 1;
+                //m_MyBox.SelectCheck = 1;
                 Debug.Log(SelectCheck);
             }
             else if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
@@ -226,8 +231,8 @@ public class UnitBox : MonoBehaviour {
             RaycastHit hitinfo;
             if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
             {
-                m_UnitCommend = 0;
-                TargetPosition = hitinfo.point;
+                this.m_UnitCommend = 0;
+                this.TargetPosition = hitinfo.point;
             }
         }
     }
@@ -268,9 +273,9 @@ public class UnitBox : MonoBehaviour {
 
     public void ZombieAttacktoBuilding()
     {
-        if(m_MyBox.tag=="EnemyU" )
+        if(this.tag=="EnemyU" )
         {
-            if (m_UnitCommend == 1 /*&& ZombieDeCheck == 1*/ && m_TargetofZombie != null)
+            if (m_UnitCommend == 1 && DetectCheck == 2 && m_TargetofZombie != null)
             {
                 m_TargetofZombie.m_Building.Hp = m_TargetofZombie.m_Building.Hp - m_sUnit.Damage;
                 m_TargetofZombie.ChangeHp(m_TargetofZombie.m_Building.Hp, m_TargetofZombie.m_Building.MaxHp);
@@ -280,7 +285,7 @@ public class UnitBox : MonoBehaviour {
                     m_TargetofZombie = null;
                 }
             }
-            if (m_UnitCommend == 1 /*&& ZombieDeCheck == 1*/ && m_enemys_target != null)
+            if (m_UnitCommend == 1 && DetectCheck == 2 && m_enemys_target != null)
             {
                 m_enemys_target.m_Center.Hp = m_enemys_target.m_Center.Hp - m_sUnit.Damage;
                 Debug.Log("1");

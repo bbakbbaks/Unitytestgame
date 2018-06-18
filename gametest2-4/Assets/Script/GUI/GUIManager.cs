@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GUIManager : MonoBehaviour {
     public List<GameObject> m_listScene;
-    public enum eScene { TITLE, GAMEOVER, MAX };
+    public enum eScene { TITLE, GAMEOVER, PLAY, THEEND, MAX };
     eScene m_eScene;
 
     public void SetScene(eScene scene)
@@ -15,7 +15,12 @@ public class GUIManager : MonoBehaviour {
                 break;
             case eScene.GAMEOVER:
                 break;
+            case eScene.PLAY:
+                break;
+            case eScene.THEEND:
+                break;
         }
+        ShowScene(scene);
         m_eScene = scene;
     }
 
@@ -26,6 +31,10 @@ public class GUIManager : MonoBehaviour {
             case eScene.TITLE:
                 break;
             case eScene.GAMEOVER:
+                break;
+            case eScene.PLAY:
+                break;
+            case eScene.THEEND:
                 break;
         }
     }
@@ -52,6 +61,6 @@ public class GUIManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        UpdateStatus();
+        UpdateScene();
     }
 }

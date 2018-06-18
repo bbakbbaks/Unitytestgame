@@ -14,11 +14,13 @@ public class GameManager : MonoBehaviour {
     public GameObject G_Worker;
     public GameObject G_Zombie;
     public Transform Z_Point;
-    int unitcount = -1;
+    public int unitcount = -1;
     int Zcount = -1;
     int StartZcount = 0;
     int WaveCount = 0;
     float m_fDist = 0;
+    public GUIManager m_cGUIManager;
+    public GUIManager.eScene m_eScene;
 
     static GameManager m_cInstance;
 
@@ -29,8 +31,8 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {
         m_cInstance = this;
-        CreateUnit();
-        InvokeRepeating("PdEnemy", 1, 1);
+        //m_cGUIManager.SetScene(m_eScene);
+        //InvokeRepeating("PdEnemy", 1, 1);
         PdEnemy();
     }
 
@@ -96,6 +98,37 @@ public class GameManager : MonoBehaviour {
     public void GameCheck()
     {
         if (m_cCenter == null)
+        {
             Debug.Log("GameOver");
+            m_cGUIManager.SetScene(GUIManager.eScene.GAMEOVER);
+        }
+    }
+
+    public void EventStart()
+    {
+        m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
+        InvokeRepeating("PdEnemy", 10, 500);
+        CreateUnit();
+        m_cCenter.DestroyCenter();
+    }
+
+    public void EventRetry()
+    {
+        m_cGUIManager.SetScene(GUIManager.eScene.TITLE);
+    }
+
+    public void EventExit()
+    {
+        Application.Quit();
+    }
+
+    public void EventTheEnd()
+    {
+        m_cGUIManager.SetScene(GUIManager.eScene.THEEND);
+    }
+
+    public void EventGameOver()
+    {
+        m_cGUIManager.SetScene(GUIManager.eScene.GAMEOVER);
     }
 }
