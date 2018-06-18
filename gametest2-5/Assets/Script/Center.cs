@@ -7,7 +7,7 @@ public class Center : MonoBehaviour {
     //public GameManager GameM;
     public Transform Regenposition;
     public UnitHp m_CHp;
-    public int CenterCheck = 0;
+    //public int CenterCheck = 0;
     float m_fMax;
 
     // Use this for initialization
@@ -27,9 +27,9 @@ public class Center : MonoBehaviour {
         m_CHp.m_cRectTransform.sizeDelta = new Vector3(HpRatio, m_CHp.m_cRectTransform.sizeDelta.y);
     }
 
-    public void DestroyCenter()
-    {
-        if (m_Center.Hp <= 0)
-            CenterCheck = 1;
-    }
+    //public void DestroyCenter()
+    //{
+    //    if (m_Center.Hp <= 0)
+    //        CenterCheck = 1;
+    //}
 }

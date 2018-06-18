@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class UnitBox : MonoBehaviour
-{
+public class UnitBox : MonoBehaviour {
     public GameManager GM;
     public UnitManager.eUnit m_eUnit;
     public Vector3 TargetPosition;
@@ -39,7 +38,7 @@ public class UnitBox : MonoBehaviour
         Detect();
         DirectAttack();
         //TestBuildingAttack();
-
+        Dead();
     }
 
     public void ChangeHp(float unithp, float unitmaxhp)//HP바의 체력변화
@@ -297,5 +296,11 @@ public class UnitBox : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void Dead()
+    {
+        if (this.tag == "PlayerU" && this.m_sUnit.Hp <= 0)
+            GM.unitcount--;
     }
 }

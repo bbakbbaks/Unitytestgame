@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     float m_fDist = 0;
     public GUIManager m_cGUIManager;
     public GUIManager.eScene m_eScene;
+    int Food = 0;
+    int Wood = 0;
+    int Population = 0;
 
     static GameManager m_cInstance;
 
@@ -102,7 +105,7 @@ public class GameManager : MonoBehaviour
     {
         if (m_cCenter == null)
         {
-            Debug.Log("GameOver");
+            //Debug.Log("GameOver");
             m_cGUIManager.SetScene(GUIManager.eScene.GAMEOVER);
         }
     }
@@ -112,7 +115,7 @@ public class GameManager : MonoBehaviour
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
         InvokeRepeating("PdEnemy", 1, 1);
         CreateUnit();
-        m_cCenter.DestroyCenter();
+        //m_cCenter.DestroyCenter();
     }
 
     public void EventRetry()
