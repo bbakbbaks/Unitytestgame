@@ -14,8 +14,12 @@ public class GameManager : MonoBehaviour
     public GameObject G_Solider;
     public GameObject G_Worker;
     public GameObject G_Zombie;
+    public GameObject G_Lumber;
+    public GameObject G_House;
+    public GameObject G_Farm;
     public Transform Z_Point;
-    public int unitcount = 0;
+    public int unitcount = -1;
+    int BuildingCount = -1;
     int Zcount = -1;
     int StartZcount = 0;
     int WaveCount = 0;
@@ -77,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     public void PdBuilding()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitinfo = new RaycastHit();
@@ -85,6 +89,49 @@ public class GameManager : MonoBehaviour
             {
                 Vector3 posi = hitinfo.point;
                 Instantiate(m_cBarrack, posi, Quaternion.identity);
+                //GameObject pdBarrack = Instantiate(m_cBarrack, posi, Quaternion.identity);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitinfo = new RaycastHit();
+            if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
+            {
+                Vector3 posi = hitinfo.point;
+                GameObject pdFarm = Instantiate(G_Farm, posi, Quaternion.identity);
+                BuildingCount++;
+                m_cBuildings.Add(pdFarm.GetComponent<BuildingBox>());
+                m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Farm);
+                Debug.Log(BuildingCount);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitinfo = new RaycastHit();
+            if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
+            {
+                Vector3 posi = hitinfo.point;
+                GameObject pdLumber = Instantiate(G_Lumber, posi, Quaternion.identity);
+                BuildingCount++;
+                m_cBuildings.Add(pdLumber.GetComponent<BuildingBox>());
+                m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Lumbermill);
+                Debug.Log(BuildingCount);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitinfo = new RaycastHit();
+            if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
+            {
+                Vector3 posi = hitinfo.point;
+                GameObject pdHouse = Instantiate(G_House, posi, Quaternion.identity);
+                BuildingCount++;
+                m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
+                m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.House);
+                Debug.Log(BuildingCount);
             }
         }
     }
