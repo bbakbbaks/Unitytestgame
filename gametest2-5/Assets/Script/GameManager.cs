@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
         if (WaveCount == 5)
             CancelInvoke("PdEnemy");
         GameCheck();
+        PdBuilding();
     }
 
     public void CreateUnit()
@@ -76,7 +77,16 @@ public class GameManager : MonoBehaviour
 
     public void PdBuilding()
     {
-
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitinfo = new RaycastHit();
+            if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
+            {
+                Vector3 posi = hitinfo.point;
+                Instantiate(m_cBarrack, posi, Quaternion.identity);
+            }
+        }
     }
 
     public void PdUnit()
@@ -113,7 +123,7 @@ public class GameManager : MonoBehaviour
     public void EventStart()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        InvokeRepeating("PdEnemy", 1, 1);
+        //InvokeRepeating("PdEnemy", 1, 1);
         CreateUnit();
         //m_cCenter.DestroyCenter();
     }
