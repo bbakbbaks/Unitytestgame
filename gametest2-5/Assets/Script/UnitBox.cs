@@ -37,7 +37,7 @@ public class UnitBox : MonoBehaviour {
         Detect();
         DirectAttack();
         //TestBuildingAttack();
-        Dead();
+        //Dead();
     }
 
     public void ChangeHp(float unithp, float unitmaxhp)//HP바의 체력변화
