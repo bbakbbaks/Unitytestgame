@@ -28,10 +28,10 @@ public class GameManager : MonoBehaviour
     int Food = 0; //식량
     int Wood = 200; //목재
     int MaxPopulation = 0; //최대인구수
-    int NowPopulation = 0; //현재인구수
-    int LumCount = 0; //재재소 갯수
-    int FarmCount = 0; //농장 갯수
-    int HouseCount = 0; //집 갯수
+    public int NowPopulation = 0; //현재인구수
+    public int LumCount = 0; //재재소 갯수
+    public int FarmCount = 0; //농장 갯수
+    public int HouseCount = 0; //집 갯수
 
     static GameManager m_cInstance;
 
@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
             CancelInvoke("PdEnemy");
         GameCheck();
         PdBuilding();
+        //Decrease();
     }
 
     public void CreateUnit()
@@ -193,7 +194,7 @@ public class GameManager : MonoBehaviour
     public void EventStart()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        //InvokeRepeating("PdEnemy", 1, 1);
+        InvokeRepeating("PdEnemy", 3, 100);
         CreateUnit();
         InvokeRepeating("IncreaseRecource", 0, 1);
         //m_cCenter.DestroyCenter();

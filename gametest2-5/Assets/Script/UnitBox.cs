@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class UnitBox : MonoBehaviour {
-    //public GameManager GM;
     public UnitManager.eUnit m_eUnit;
     public Vector3 TargetPosition;
     NavMeshAgent nav;//유닛 박스에 직접 네비매시를 입력
@@ -14,7 +13,8 @@ public class UnitBox : MonoBehaviour {
     float m_fDists; //유닛과 유닛사이의 거리 측정용 변수
     public UnitBox m_enemy = null; //타겟을 저장하는 변수
     //public UnitBox m_MyBox; //자기 자신을 저장하는 변수
-    public Center m_enemys_target;
+    public Center m_enemys_target; //좀비가 센터를 타겟으로 정하는 변수
+    public Center TargetCenter; //센터의 위치를 가져오기 위한 변수
     public BuildingBox m_TargetofZombie = null;
     public int DetectCheck = 0; //1이면 사거리안 유닛, 0이면 밖, 2면 건물, 3이면 센터
     public int m_UnitCommend = 0; //1이면 공격모드, 0이면 스탑모드
@@ -37,7 +37,7 @@ public class UnitBox : MonoBehaviour {
         Detect();
         DirectAttack();
         //TestBuildingAttack();
-        //Dead();
+        Dead();
     }
 
     public void ChangeHp(float unithp, float unitmaxhp)//HP바의 체력변화
@@ -74,10 +74,10 @@ public class UnitBox : MonoBehaviour {
                 }
             }
 
-            Collider[] hitZombieCollider = Physics.OverlapSphere(this.transform.position, 100.0f);
+            //Collider[] hitZombieCollider = Physics.OverlapSphere(this.transform.position, 100.0f);
             if (this.tag == "EnemyU")
             {
-                foreach (Collider hit in hitZombieCollider)
+                foreach (Collider hit in hitCollider)
                 {
                     if (hit.tag == "PlayerU")
                     {
@@ -178,7 +178,7 @@ public class UnitBox : MonoBehaviour {
                 m_enemy.ChangeHp(m_enemy.m_sUnit.Hp, m_enemy.m_sUnit.MaxHp);
                 if (m_enemy.m_sUnit.Hp <= 0)
                 {
-                    Destroy(m_enemy.gameObject);
+                    //Destroy(m_enemy.gameObject);
                     m_enemy = null;
                 }
             }
@@ -234,6 +234,11 @@ public class UnitBox : MonoBehaviour {
                 this.TargetPosition = hitinfo.point;
             }
         }
+
+        if(this.tag=="EnemyU" && m_enemy == null)
+        {
+            this.TargetPosition = TargetCenter.transform.position;
+        }
     }
 
     //public void TestBuildingAttack()
@@ -281,7 +286,7 @@ public class UnitBox : MonoBehaviour {
                 m_TargetofZombie.ChangeHp(m_TargetofZombie.m_Building.Hp, m_TargetofZombie.m_Building.MaxHp);
                 if (m_TargetofZombie.m_Building.Hp <= 0)
                 {
-                    Destroy(m_TargetofZombie.gameObject);
+                    //Destroy(m_TargetofZombie.gameObject);
                     m_TargetofZombie = null;
                 }
             }
@@ -305,9 +310,15 @@ public class UnitBox : MonoBehaviour {
     //        this.TargetPosition = GM.m_cCenter.transform.position;
     //}
 
-    //public void Dead()
-    //{
-    //    if (this.tag == "PlayerU" && this.m_sUnit.Hp <= 0)
-    //        GM.unitcount--;
-    //}
+    public void Dead()
+    {
+        if (this.m_sUnit.Hp <= 0)
+        {
+            if (this.tag == "PlayerU")
+            {
+                GameManager.GetInstance().NowPopulation--;
+            }
+            Destroy(this.gameObject);
+        }
+    }
 }

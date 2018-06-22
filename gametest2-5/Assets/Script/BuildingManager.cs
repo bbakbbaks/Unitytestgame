@@ -38,7 +38,7 @@ public class Building
 }
 
 public class BuildingManager : MonoBehaviour {
-    public enum eBuilding { Center, Lumbermill, House, Farm, Barrack }
+    public enum eBuilding { Lumbermill, House, Farm, Barrack }
     public List<Building> m_listBuildings = new List<Building>();
 
     public Building GetBuilding(eBuilding building)

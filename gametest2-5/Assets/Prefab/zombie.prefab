@@ -266,12 +266,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63c1a2ca5d8be864d8fe3b0e2efd38a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GM: {fileID: 0}
   m_eUnit: 2
   TargetPosition: {x: 0, y: 0.5, z: 0}
   m_UnitHp: {fileID: 114084489609352856}
   m_enemy: {fileID: 0}
   m_enemys_target: {fileID: 0}
+  TargetCenter: {fileID: 114647375408115162, guid: 6e326f8ba47d5204c8a368b2000ccdd4,
+    type: 2}
   m_TargetofZombie: {fileID: 0}
   DetectCheck: 0
   m_UnitCommend: 1

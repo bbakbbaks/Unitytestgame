@@ -15,12 +15,32 @@ public class BuildingBox : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        DTbuilding();
 	}
 
     public void ChangeHp(float unithp, float unitmaxhp)//HP바의 체력변화
     {
         float HpRatio = unithp / unitmaxhp * m_fMax;
         m_Hp.m_cRectTransform.sizeDelta = new Vector3(HpRatio, m_Hp.m_cRectTransform.sizeDelta.y);
+    }
+
+    public void DTbuilding()
+    {
+        if (this.m_Building.Hp <= 0) 
+        {
+            if (this.m_Building.Name == "제재소")
+            {
+                GameManager.GetInstance().LumCount--;
+            }
+            if (this.m_Building.Name == "농장")
+            {
+                GameManager.GetInstance().FarmCount--;
+            }
+            if (this.m_Building.Name == "집")
+            {
+                GameManager.GetInstance().HouseCount--;
+            }
+            Destroy(this.gameObject);
+        }
     }
 }
