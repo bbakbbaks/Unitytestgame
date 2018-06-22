@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     int unitcount = -1; //리스트에 추가되는 유닛을 위한 카운트
     int BuildingCount = -1; //리스트에 추가되는 빌딩을 위한 카운트
     int Zcount = -1; //좀비리스트에 추가되는 좀비를 위한 카운트
+    public int ZombieAmount = 0;
     int StartZcount = 0; //한 웨이브에 나오는 좀비의 수에 관련된 변수
     int WaveCount = 0; //웨이브 횟수
     public GUIManager m_cGUIManager;
@@ -78,6 +79,7 @@ public class GameManager : MonoBehaviour
             GameObject pdZombie = Instantiate(G_Zombie, Z_Point.position, Z_Point.rotation);
             m_cEnemies.Add(pdZombie.GetComponent<UnitBox>());
             m_cEnemies[Zcount].m_sUnit = m_cUnitManager.GetUnit(UnitManager.eUnit.Zombie);
+            ZombieAmount++;
         }
         StartZcount += 3;
         WaveCount++;
@@ -184,17 +186,22 @@ public class GameManager : MonoBehaviour
 
     public void GameCheck()
     {
-        if (m_cCenter == null)
+        if (m_cCenter == null) //패배
         {
             //Debug.Log("GameOver");
             m_cGUIManager.SetScene(GUIManager.eScene.GAMEOVER);
         }
+        if (WaveCount == 5 && ZombieAmount == 0) //승리
+        {
+            m_cGUIManager.SetScene(GUIManager.eScene.THEEND); 
+        }
+
     }
 
     public void EventStart()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        InvokeRepeating("PdEnemy", 3, 100);
+        InvokeRepeating("PdEnemy", 30, 1);
         CreateUnit();
         InvokeRepeating("IncreaseRecource", 0, 1);
         //m_cCenter.DestroyCenter();

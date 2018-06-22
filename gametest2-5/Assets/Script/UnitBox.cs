@@ -318,6 +318,10 @@ public class UnitBox : MonoBehaviour {
             {
                 GameManager.GetInstance().NowPopulation--;
             }
+            if (this.tag == "EnemyU")
+            {
+                GameManager.GetInstance().ZombieAmount--;
+            }
             Destroy(this.gameObject);
         }
     }
