@@ -279,10 +279,10 @@ public class UnitBox : MonoBehaviour {
     {
         if (this.tag == "EnemyU")
         {
-            if (m_UnitCommend == 1 && DetectCheck == 2 && m_TargetofZombie != null)
+            if (DetectCheck == 2 && m_TargetofZombie != null)
             {
                 m_TargetofZombie.m_Building.Hp = m_TargetofZombie.m_Building.Hp - m_sUnit.Damage;
-                Debug.Log("건물공격중");
+                //Debug.Log("건물공격중");
                 m_TargetofZombie.ChangeHp(m_TargetofZombie.m_Building.Hp, m_TargetofZombie.m_Building.MaxHp);
                 if (m_TargetofZombie.m_Building.Hp <= 0)
                 {
@@ -290,10 +290,10 @@ public class UnitBox : MonoBehaviour {
                     m_TargetofZombie = null;
                 }
             }
-            if (m_UnitCommend == 1 && DetectCheck == 3 && m_enemys_target != null)
+            if (DetectCheck == 3 && m_enemys_target != null)
             {
                 m_enemys_target.m_Center.Hp = m_enemys_target.m_Center.Hp - m_sUnit.Damage;
-                Debug.Log("1");
+                //Debug.Log("1");
                 m_enemys_target.ChangeHp(m_enemys_target.m_Center.Hp, m_enemys_target.m_Center.MaxHp);
                 if (m_enemys_target.m_Center.Hp <= 0)
                 {

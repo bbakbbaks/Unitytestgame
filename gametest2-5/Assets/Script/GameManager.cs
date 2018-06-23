@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
         m_cBuildingManager.m_listBuildings.Add(new Building("병영", 50, 200, 0, "imgbarrack"));
     }
 
-    public void PdEnemy()//임시 웨이브. 정식 웨이브 함수를 따로 만들어야한다.
+    public void PdEnemy()//임시 웨이브 StartZcount + 숫자 로 한웨이브당 나오는 좀비수를 정한다
     {
         for (Zcount = StartZcount; Zcount < StartZcount + 3; Zcount++)
         {
@@ -87,17 +87,17 @@ public class GameManager : MonoBehaviour
 
     public void PdBuilding()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitinfo = new RaycastHit();
-            if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
-            {
-                Vector3 posi = hitinfo.point;
-                Instantiate(m_cBarrack, posi, Quaternion.identity);
-                //GameObject pdBarrack = Instantiate(m_cBarrack, posi, Quaternion.identity);
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hitinfo = new RaycastHit();
+        //    if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
+        //    {
+        //        Vector3 posi = hitinfo.point;
+        //        Instantiate(m_cBarrack, posi, Quaternion.identity);
+        //        //GameObject pdBarrack = Instantiate(m_cBarrack, posi, Quaternion.identity);
+        //    }
+        //}
         if (Input.GetKeyDown(KeyCode.F) && Wood >= 100)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M) && Food >= 25 && MaxPopulation > NowPopulation)//배럭에서 솔저 생산
         {
-            GameObject pdSolider = Instantiate(G_Solider, m_cBarrack.Regenposition.position, m_cBarrack.Regenposition.rotation);
+            GameObject pdSolider = Instantiate(G_Solider, m_cBarrack.Regenposition.position, Quaternion.identity);
             pdSolider.name = "solider";
             unitcount++;
             m_cUnits.Add(pdSolider.GetComponent<UnitBox>());
@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C) && Food >= 10 && MaxPopulation > NowPopulation)
         {
-            GameObject pdWorker = Instantiate(G_Worker, m_cCenter.Regenposition.position, m_cCenter.Regenposition.rotation);
+            GameObject pdWorker = Instantiate(G_Worker, m_cCenter.Regenposition.position, Quaternion.identity);
             unitcount++;
             pdWorker.name = "worker";
             m_cUnits.Add(pdWorker.GetComponent<UnitBox>());
@@ -201,7 +201,7 @@ public class GameManager : MonoBehaviour
     public void EventStart()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        InvokeRepeating("PdEnemy", 30, 1);
+        InvokeRepeating("PdEnemy", 30, 10);
         CreateUnit();
         InvokeRepeating("IncreaseRecource", 0, 1);
         //m_cCenter.DestroyCenter();

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building
+public struct Building
 {
     string strName;
     int m_nHp;
@@ -24,10 +24,6 @@ public class Building
 
     public Building(string name, int hp, int NdRs, int PdRs, string image)
     {
-        Set(name, hp, NdRs, PdRs, image);
-    }
-    public void Set(string name, int hp, int NdRs, int PdRs, string image)
-    {
         strName = name;
         m_nHp = hp;
         m_nMaxHp = hp;
@@ -35,6 +31,7 @@ public class Building
         m_nPdResource = PdRs;
         strImage = image;
     }
+
 }
 
 public class BuildingManager : MonoBehaviour {
