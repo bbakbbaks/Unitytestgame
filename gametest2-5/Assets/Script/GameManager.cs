@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
         GameCheck();
         PdBuilding();
         //Decrease();
+        m_cGUIManager.m_textResource.text = string.Format("Food: {0}  Wood: {1}  Population: {2} / {3}", Food, Wood, NowPopulation, MaxPopulation);
     }
 
     public void CreateUnit()
@@ -179,9 +180,9 @@ public class GameManager : MonoBehaviour
         Wood += LumCount * 20;
         Food += FarmCount * 5;
         MaxPopulation = HouseCount * 4;
-        Debug.Log("Wood: " + Wood);
-        Debug.Log("Food: " + Food);
-        Debug.Log("NowPopulation: " + NowPopulation + " / " + "MaxPopulation: " + MaxPopulation);
+        //Debug.Log("Wood: " + Wood);
+        //Debug.Log("Food: " + Food);
+        //Debug.Log("NowPopulation: " + NowPopulation + " / " + "MaxPopulation: " + MaxPopulation);
     }
 
     public void GameCheck()

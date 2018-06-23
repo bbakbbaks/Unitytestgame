@@ -290,7 +290,8 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1491348707}
   m_Father: {fileID: 1826469891}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -629,9 +630,13 @@ MonoBehaviour:
   G_House: {fileID: 1549145282929036, guid: bbf931395b4acbf4fba82278080ab2d5, type: 2}
   G_Farm: {fileID: 1916749164247308, guid: 3ff9ccc28ae43624783ce05c0085bb75, type: 2}
   Z_Point: {fileID: 1106284170}
-  unitcount: -1
+  ZombieAmount: 0
   m_cGUIManager: {fileID: 1826469887}
   m_eScene: 0
+  NowPopulation: 0
+  LumCount: 0
+  FarmCount: 0
+  HouseCount: 0
 --- !u!4 &428611906
 Transform:
   m_ObjectHideFlags: 0
@@ -1768,6 +1773,80 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 540, y: 489}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1491348704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1491348707}
+  - component: {fileID: 1491348706}
+  - component: {fileID: 1491348705}
+  m_Layer: 5
+  m_Name: Resource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1491348705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1491348704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Food: 0     Wood: 0     Population: 0 / 0'
+--- !u!222 &1491348706
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1491348704}
+--- !u!224 &1491348707
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1491348704}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 77800396}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.025009, y: 226.2}
+  m_SizeDelta: {x: 540.05, y: 36.4}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1519950057
 GameObject:
   m_ObjectHideFlags: 0
@@ -2116,6 +2195,7 @@ MonoBehaviour:
   - {fileID: 1053816282}
   - {fileID: 77800392}
   - {fileID: 1479609347}
+  m_textResource: {fileID: 1491348705}
 --- !u!114 &1826469888
 MonoBehaviour:
   m_ObjectHideFlags: 0

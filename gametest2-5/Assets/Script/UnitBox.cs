@@ -98,7 +98,7 @@ public class UnitBox : MonoBehaviour {
                             DetectCheck = 1;
                         }
                     }
-                    if (hit.tag == "PlayerB")
+                    else if (hit.tag == "PlayerB")
                     {
                         m_TargetofZombie = hit.gameObject.GetComponent<BuildingBox>();
                         m_fDists = Vector3.Distance(this.transform.position, m_TargetofZombie.transform.position);
@@ -192,12 +192,12 @@ public class UnitBox : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.A))
             {
                 m_UnitCommend = 1;
-                Debug.Log("attack");
+                //Debug.Log("attack");
             }
             if (Input.GetKeyDown(KeyCode.S))
             {
                 m_UnitCommend = 0;
-                Debug.Log("stop");
+                //Debug.Log("stop");
             }
         }
     }
@@ -212,12 +212,12 @@ public class UnitBox : MonoBehaviour {
             {
                 hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCheck = 1;
                 //m_MyBox.SelectCheck = 1;
-                Debug.Log(SelectCheck);
+                //Debug.Log(SelectCheck);
             }
             else if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
             {
                 SelectCheck = 0;
-                Debug.Log(SelectCheck);
+                //Debug.Log(SelectCheck);
             }
         }
     }

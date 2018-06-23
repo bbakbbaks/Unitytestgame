@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUIManager : MonoBehaviour
 {
     public List<GameObject> m_listScene;
+    public Text m_textResource;
     public enum eScene { TITLE, GAMEOVER, PLAY, THEEND, MAX };
     eScene m_eScene;
 
