@@ -106,7 +106,7 @@ public class UnitBox : MonoBehaviour {
                         {
                             this.TargetPosition = m_TargetofZombie.transform.position;
                         }
-                        if (m_fDists <= this.m_sUnit.Range + 2)
+                        if (m_fDists <= this.m_sUnit.Range + 1)
                         {
                             this.TargetPosition = this.transform.position;
                             DetectCheck = 2;

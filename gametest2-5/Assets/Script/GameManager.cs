@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public GameObject G_Lumber;
     public GameObject G_House;
     public GameObject G_Farm;
+    public GameObject G_WallHo;
+    public GameObject G_WallVer;
     public Transform Z_Point;
     int unitcount = -1; //리스트에 추가되는 유닛을 위한 카운트
     int BuildingCount = -1; //리스트에 추가되는 빌딩을 위한 카운트
@@ -71,6 +73,7 @@ public class GameManager : MonoBehaviour
         m_cBuildingManager.m_listBuildings.Add(new Building("집", 30, 50, 4, "imghouse"));
         m_cBuildingManager.m_listBuildings.Add(new Building("농장", 70, 100, 5, "imgfarm"));
         m_cBuildingManager.m_listBuildings.Add(new Building("병영", 50, 200, 0, "imgbarrack"));
+        m_cBuildingManager.m_listBuildings.Add(new Building("벽", 100, 20, 0, "imgWall"));
     }
 
     public void PdEnemy()//임시 웨이브 StartZcount + 숫자 로 한웨이브당 나오는 좀비수를 정한다
@@ -110,7 +113,7 @@ public class GameManager : MonoBehaviour
                 BuildingCount++;
                 m_cBuildings.Add(pdFarm.GetComponent<BuildingBox>());
                 m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Farm);
-                Debug.Log(BuildingCount);
+                //Debug.Log(BuildingCount);
                 FarmCount++;
                 Wood -= 100;
             }
@@ -126,7 +129,7 @@ public class GameManager : MonoBehaviour
                 BuildingCount++;
                 m_cBuildings.Add(pdLumber.GetComponent<BuildingBox>());
                 m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Lumbermill);
-                Debug.Log(BuildingCount);
+                //Debug.Log(BuildingCount);
                 LumCount++;
                 Wood -= 100;
             }
@@ -142,9 +145,39 @@ public class GameManager : MonoBehaviour
                 BuildingCount++;
                 m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
                 m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.House);
-                Debug.Log(BuildingCount);
+                //Debug.Log(BuildingCount);
                 HouseCount++;
                 Wood -= 50;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.W) && Wood >= 20)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitinfo = new RaycastHit();
+            if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
+            {
+                Vector3 posi = hitinfo.point;
+                GameObject pdHouse = Instantiate(G_WallHo, posi, Quaternion.identity);
+                BuildingCount++;
+                m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
+                m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Wall);
+                //Debug.Log(BuildingCount);
+                Wood -= 20;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Q) && Wood >= 20)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitinfo = new RaycastHit();
+            if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
+            {
+                Vector3 posi = hitinfo.point;
+                GameObject pdHouse = Instantiate(G_WallVer, posi, Quaternion.identity);
+                BuildingCount++;
+                m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
+                m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Wall);
+                //Debug.Log(BuildingCount);
+                Wood -= 20;
             }
         }
     }
@@ -158,7 +191,7 @@ public class GameManager : MonoBehaviour
             unitcount++;
             m_cUnits.Add(pdSolider.GetComponent<UnitBox>());
             m_cUnits[unitcount].m_sUnit = m_cUnitManager.GetUnit(UnitManager.eUnit.Solider);
-            Debug.Log(m_cUnits[unitcount].m_sUnit.Name);
+            //Debug.Log(m_cUnits[unitcount].m_sUnit.Name);
             Food -= 25;
             NowPopulation++;
         }
@@ -169,7 +202,7 @@ public class GameManager : MonoBehaviour
             pdWorker.name = "worker";
             m_cUnits.Add(pdWorker.GetComponent<UnitBox>());
             m_cUnits[unitcount].m_sUnit = m_cUnitManager.GetUnit(UnitManager.eUnit.Worker);
-            Debug.Log(m_cUnits[unitcount].m_sUnit.Name);
+            //Debug.Log(m_cUnits[unitcount].m_sUnit.Name);
             Food -= 10;
             NowPopulation++;
         }
