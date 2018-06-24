@@ -111,6 +111,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 01833bfe2233d4d48baf23c646e4d5cd, type: 2}
   m_StaticBatchInfo:
@@ -233,9 +234,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_eUnit: 0
-  TargetPosition: {x: 20.69, y: 0.5, z: 16.64}
+  TargetPosition: {x: 27, y: 0.5, z: 24}
   m_UnitHp: {fileID: 114951583119347074}
-  m_MyBox: {fileID: 114368301763259252}
+  m_enemy: {fileID: 0}
+  m_enemys_target: {fileID: 0}
+  TargetCenter: {fileID: 0}
+  m_TargetofZombie: {fileID: 0}
+  DetectCheck: 0
+  m_UnitCommend: 0
+  SelectCheck: 0
 --- !u!114 &114874497743082680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -329,7 +336,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1325513304654774}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 49.99999, y: 50, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224645600009610634}
@@ -347,7 +354,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1884529900723340}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
   - {fileID: 224833727241276888}
@@ -367,7 +374,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1264031636162536}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 50, y: 50, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224645600009610634}

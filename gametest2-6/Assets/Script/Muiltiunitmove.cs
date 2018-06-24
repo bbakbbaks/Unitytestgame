@@ -40,9 +40,9 @@ public class Muiltiunitmove : MonoBehaviour {
             transform.position -= transform.forward * Time.deltaTime * 10
                 + transform.up * Time.deltaTime * 10;
         }
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
-            transform.position += transform.forward;
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
-            transform.position -= transform.forward;
+        //if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        //    transform.position += transform.forward;
+        //if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        //    transform.position -= transform.forward;
     }
 }

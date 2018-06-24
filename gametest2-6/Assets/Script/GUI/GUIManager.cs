@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class GUIManager : MonoBehaviour
 {
     public List<GameObject> m_listScene;
-    public Text m_textResource;
+    public Text m_textFood;
+    public Text m_textWood;
+    public Text m_textPopulation;
+    public Text m_textInfo;
     public enum eScene { TITLE, GAMEOVER, PLAY, THEEND, MAX };
     eScene m_eScene;
 

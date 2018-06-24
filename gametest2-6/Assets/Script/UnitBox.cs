@@ -205,6 +205,7 @@ public class UnitBox : MonoBehaviour {
                 hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCheck = 1;
                 //m_MyBox.SelectCheck = 1;
                 //Debug.Log(SelectCheck);
+                //GameManager.GetInstance().m_cGUIManager.m_textInfo.text = m_sUnit.Name + "\n" + m_sUnit.Hp + " / " + m_sUnit.MaxHp;
             }
             else if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
             {
@@ -305,11 +306,11 @@ public class UnitBox : MonoBehaviour {
             if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
             {
                 Vector3 posi = hitinfo.point;
-                GameObject pdTest = Instantiate(GameManager.GetInstance().G_Farm, posi, Quaternion.identity);
+                
                 if (Input.GetKeyDown(KeyCode.F) && GameManager.GetInstance().Wood >= 100)
                 {
                     //Debug.Log("1");
-                    
+                    GameObject pdTest = Instantiate(GameManager.GetInstance().G_Farm, posi, Quaternion.identity);
                     Debug.Log("1");
                     Collider[] hitCollider = Physics.OverlapSphere(pdTest.transform.position, 1.0f);
                     //this.TargetPosition = posi;
@@ -383,7 +384,6 @@ public class UnitBox : MonoBehaviour {
             }
         }
     }
-
 
     public void Dead()
     {

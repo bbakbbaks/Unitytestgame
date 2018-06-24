@@ -59,7 +59,8 @@ public class GameManager : MonoBehaviour
         GameCheck();
         //PdBuilding();
         //Decrease();
-        m_cGUIManager.m_textResource.text = string.Format("Food: {0}  Wood: {1}  Population: {2} / {3}", Food, Wood, NowPopulation, MaxPopulation);
+        //m_cGUIManager.m_textResource.text = string.Format("Food: {0}  Wood: {1}  Population: {2} / {3}", Food, Wood, NowPopulation, MaxPopulation);
+        ResourceText();
     }
 
     public void CreateUnit()
@@ -186,7 +187,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M) && Food >= 25 && MaxPopulation > NowPopulation)//배럭에서 솔저 생산
         {
-            GameObject pdSolider = Instantiate(G_Solider, m_cBarrack.Regenposition.position, Quaternion.identity);
+            GameObject pdSolider = Instantiate(G_Solider, m_cCenter.Regenposition.position, Quaternion.identity);
             pdSolider.name = "solider";
             unitcount++;
             m_cUnits.Add(pdSolider.GetComponent<UnitBox>());
@@ -229,13 +230,19 @@ public class GameManager : MonoBehaviour
         {
             m_cGUIManager.SetScene(GUIManager.eScene.THEEND); 
         }
+    }
 
+    public void ResourceText()
+    {
+        m_cGUIManager.m_textFood.text = string.Format("{0}", Food);
+        m_cGUIManager.m_textWood.text = string.Format("{0}", Wood);
+        m_cGUIManager.m_textPopulation.text = string.Format("{0} / {1}", NowPopulation, MaxPopulation);
     }
 
     public void EventStart()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        //InvokeRepeating("PdEnemy", 30, 10);
+        InvokeRepeating("PdEnemy", 30, 100);
         CreateUnit();
         InvokeRepeating("IncreaseRecource", 0, 1);
         //m_cCenter.DestroyCenter();
