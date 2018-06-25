@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
         //Decrease();
         //m_cGUIManager.m_textResource.text = string.Format("Food: {0}  Wood: {1}  Population: {2} / {3}", Food, Wood, NowPopulation, MaxPopulation);
         ResourceText();
+        GameInfo();
     }
 
     public void CreateUnit()
@@ -229,6 +230,18 @@ public class GameManager : MonoBehaviour
         if (WaveCount == 5 && ZombieAmount == 0) //승리
         {
             m_cGUIManager.SetScene(GUIManager.eScene.THEEND); 
+        }
+    }
+
+    public void GameInfo()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            m_cGUIManager.SetScene(GUIManager.eScene.GAMEINFO);
+        }
+        else if(Input.GetKeyUp(KeyCode.F1))
+        {
+            m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
         }
     }
 

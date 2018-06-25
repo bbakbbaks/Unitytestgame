@@ -181,6 +181,7 @@ public class UnitBox : MonoBehaviour {
     {
         if (SelectCheck == 1 && this.tag == "PlayerU")
         {
+            //GameManager.GetInstance().m_cGUIManager.SetScene(GUIManager.eScene.UCOMMEND);
             if (Input.GetKeyDown(KeyCode.A))
             {
                 m_UnitCommend = 1;
@@ -233,40 +234,6 @@ public class UnitBox : MonoBehaviour {
             this.TargetPosition = TargetCenter.transform.position;
         }
     }
-
-    //public void TestBuildingAttack()
-    //{
-    //    if (m_MyBox.tag == "PlayerU" && Input.GetMouseButtonDown(1))
-    //    {
-    //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //        RaycastHit hitinfo;
-
-    //        if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Center")))//타겟 선택 공격
-    //        {
-    //            m_enemys_target = hitinfo.collider.gameObject.GetComponent<Center>();
-    //            Debug.Log("센터 ");
-    //            m_fDists = Vector3.Distance(m_MyBox.transform.position, m_enemys_target.transform.position);
-    //            if (m_fDists <= m_MyBox.m_sUnit.Range)
-    //            {
-    //                m_MyBox.TargetPosition = m_MyBox.transform.position;
-    //                if (m_enemys_target != null)
-    //                {
-    //                    m_enemys_target.m_Center.Hp = m_enemys_target.m_Center.Hp - m_sUnit.Damage;
-    //                    m_enemys_target.ChangeHp(m_enemys_target.m_Center.Hp, m_enemys_target.m_Center.MaxHp);
-    //                    if (m_enemys_target.m_Center.Hp <= 0)
-    //                    {
-    //                        Destroy(m_enemys_target.gameObject);
-    //                        m_enemys_target = null;
-    //                    }
-    //                }
-    //            }
-    //            if (m_fDists > m_MyBox.m_sUnit.Range)
-    //            {
-    //                m_MyBox.TargetPosition = m_enemys_target.transform.position;
-    //            }
-    //        }
-    //    }
-    //}
 
     public void ZombieAttacktoBuilding()
     {

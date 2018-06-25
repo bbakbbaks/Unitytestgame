@@ -10,7 +10,7 @@ public class GUIManager : MonoBehaviour
     public Text m_textWood;
     public Text m_textPopulation;
     public Text m_textInfo;
-    public enum eScene { TITLE, GAMEOVER, PLAY, THEEND, MAX };
+    public enum eScene { TITLE, GAMEOVER, PLAY, THEEND, GAMEINFO ,MAX };
     eScene m_eScene;
 
     public void SetScene(eScene scene)
@@ -24,6 +24,8 @@ public class GUIManager : MonoBehaviour
             case eScene.PLAY:
                 break;
             case eScene.THEEND:
+                break;
+            case eScene.GAMEINFO:
                 break;
         }
         ShowScene(scene);
@@ -41,6 +43,8 @@ public class GUIManager : MonoBehaviour
             case eScene.PLAY:
                 break;
             case eScene.THEEND:
+                break;
+            case eScene.GAMEINFO:
                 break;
         }
     }
