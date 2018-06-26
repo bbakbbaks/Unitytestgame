@@ -18,7 +18,7 @@ public class Center : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //DestroyCenter();
+        PdUnit();
 	}
 
     public void ChangeHp(float unithp, float unitmaxhp)//HP바의 체력변화
@@ -27,9 +27,29 @@ public class Center : MonoBehaviour {
         m_CHp.m_cRectTransform.sizeDelta = new Vector3(HpRatio, m_CHp.m_cRectTransform.sizeDelta.y);
     }
 
-    //public void DestroyCenter()
-    //{
-    //    if (m_Center.Hp <= 0)
-    //        CenterCheck = 1;
-    //}
+    public void PdUnit()
+    {
+        //if (Input.GetKeyDown(KeyCode.M) && GameManager.GetInstance().Food >= 25 && GameManager.GetInstance().MaxPopulation > GameManager.GetInstance().NowPopulation)//배럭에서 솔저 생산
+        //{
+        //    GameObject pdSolider = Instantiate(GameManager.GetInstance().G_Solider, this.Regenposition.position, Quaternion.identity);
+        //    pdSolider.name = "solider";
+        //    GameManager.GetInstance().unitcount++;
+        //    GameManager.GetInstance().m_cUnits.Add(pdSolider.GetComponent<UnitBox>());
+        //    GameManager.GetInstance().m_cUnits[GameManager.GetInstance().unitcount].m_sUnit = GameManager.GetInstance().m_cUnitManager.GetUnit(UnitManager.eUnit.Solider);
+        //    //Debug.Log(m_cUnits[unitcount].m_sUnit.Name);
+        //    GameManager.GetInstance().Food -= 25;
+        //    GameManager.GetInstance().NowPopulation++;
+        //}
+        if (Input.GetKeyDown(KeyCode.C) && GameManager.GetInstance().Food >= 10 && GameManager.GetInstance().MaxPopulation > GameManager.GetInstance().NowPopulation)
+        {
+            GameObject pdWorker = Instantiate(GameManager.GetInstance().G_Worker, this.Regenposition.position, Quaternion.identity);
+            GameManager.GetInstance().unitcount++;
+            pdWorker.name = "worker";
+            GameManager.GetInstance().m_cUnits.Add(pdWorker.GetComponent<UnitBox>());
+            GameManager.GetInstance().m_cUnits[GameManager.GetInstance().unitcount].m_sUnit = GameManager.GetInstance().m_cUnitManager.GetUnit(UnitManager.eUnit.Worker);
+            //Debug.Log(m_cUnits[unitcount].m_sUnit.Name);
+            GameManager.GetInstance().Food -= 10;
+            GameManager.GetInstance().NowPopulation++;
+        }
+    }
 }

@@ -9,16 +9,17 @@ public class GameManager : MonoBehaviour
     public List<UnitBox> m_cEnemies = new List<UnitBox>();
     public BuildingManager m_cBuildingManager;
     public List<BuildingBox> m_cBuildings = new List<BuildingBox>();
-    public Barrack m_cBarrack;
     public Center m_cCenter;
     public GameObject G_Solider;
     public GameObject G_Worker;
     public GameObject G_Zombie;
     public GameObject G_Lumber;
     public GameObject G_House;
+    public GameObject G_Barrack;
     public GameObject G_Farm;
     public GameObject G_WallHo;
     public GameObject G_WallVer;
+    public Barrack m_cBarrack;
     public Transform Z_Point;
     public int unitcount = -1; //리스트에 추가되는 유닛을 위한 카운트
     public int BuildingCount = -1; //리스트에 추가되는 빌딩을 위한 카운트
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        PdUnit();
+        //PdUnit();
         if (WaveCount == 5)
             CancelInvoke("PdEnemy");
         GameCheck();
@@ -184,31 +185,31 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
-    public void PdUnit()
-    {
-        if (Input.GetKeyDown(KeyCode.M) && Food >= 25 && MaxPopulation > NowPopulation)//배럭에서 솔저 생산
-        {
-            GameObject pdSolider = Instantiate(G_Solider, m_cCenter.Regenposition.position, Quaternion.identity);
-            pdSolider.name = "solider";
-            unitcount++;
-            m_cUnits.Add(pdSolider.GetComponent<UnitBox>());
-            m_cUnits[unitcount].m_sUnit = m_cUnitManager.GetUnit(UnitManager.eUnit.Solider);
-            //Debug.Log(m_cUnits[unitcount].m_sUnit.Name);
-            Food -= 25;
-            NowPopulation++;
-        }
-        if (Input.GetKeyDown(KeyCode.C) && Food >= 10 && MaxPopulation > NowPopulation)
-        {
-            GameObject pdWorker = Instantiate(G_Worker, m_cCenter.Regenposition.position, Quaternion.identity);
-            unitcount++;
-            pdWorker.name = "worker";
-            m_cUnits.Add(pdWorker.GetComponent<UnitBox>());
-            m_cUnits[unitcount].m_sUnit = m_cUnitManager.GetUnit(UnitManager.eUnit.Worker);
-            //Debug.Log(m_cUnits[unitcount].m_sUnit.Name);
-            Food -= 10;
-            NowPopulation++;
-        }
-    }
+    //public void PdUnit()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.M) && Food >= 25 && MaxPopulation > NowPopulation)//배럭에서 솔저 생산
+    //    {
+    //        GameObject pdSolider = Instantiate(G_Solider, m_cCenter.Regenposition.position, Quaternion.identity);
+    //        pdSolider.name = "solider";
+    //        unitcount++;
+    //        m_cUnits.Add(pdSolider.GetComponent<UnitBox>());
+    //        m_cUnits[unitcount].m_sUnit = m_cUnitManager.GetUnit(UnitManager.eUnit.Solider);
+    //        //Debug.Log(m_cUnits[unitcount].m_sUnit.Name);
+    //        Food -= 25;
+    //        NowPopulation++;
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.C) && Food >= 10 && MaxPopulation > NowPopulation)
+    //    {
+    //        GameObject pdWorker = Instantiate(G_Worker, m_cCenter.Regenposition.position, Quaternion.identity);
+    //        unitcount++;
+    //        pdWorker.name = "worker";
+    //        m_cUnits.Add(pdWorker.GetComponent<UnitBox>());
+    //        m_cUnits[unitcount].m_sUnit = m_cUnitManager.GetUnit(UnitManager.eUnit.Worker);
+    //        //Debug.Log(m_cUnits[unitcount].m_sUnit.Name);
+    //        Food -= 10;
+    //        NowPopulation++;
+    //    }
+    //}
 
     public void IncreaseRecource()
     {

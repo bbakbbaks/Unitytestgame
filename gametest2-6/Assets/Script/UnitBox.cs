@@ -26,6 +26,7 @@ public class UnitBox : MonoBehaviour {
         m_fMax = m_UnitHp.m_cRectTransform.sizeDelta.x;
         InvokeRepeating("Attack", 0, 1);
         InvokeRepeating("ZombieAttacktoBuilding", 0, 1);
+        StartPosition();
     }
 
     void Update()
@@ -39,6 +40,18 @@ public class UnitBox : MonoBehaviour {
         //TestBuildingAttack();
         PdBuilding();
         Dead();
+    }
+
+    public void StartPosition()
+    {
+        if (this.m_sUnit.Name == "일꾼")
+        {
+            this.TargetPosition = GameManager.GetInstance().m_cCenter.Regenposition.position;
+        }
+        if (this.m_sUnit.Name == "군인")
+        {
+            this.TargetPosition = GameManager.GetInstance().m_cBarrack.Regenposition.position;
+        }
     }
 
     public void ChangeHp(float unithp, float unitmaxhp)//HP바의 체력변화
@@ -300,7 +313,16 @@ public class UnitBox : MonoBehaviour {
                     Destroy(pdTest);
                     
                     //}
+                }
 
+                if (Input.GetKeyDown(KeyCode.B) && GameManager.GetInstance().Wood >= 200)
+                {
+                    GameObject pdBarrack = Instantiate(GameManager.GetInstance().G_Barrack, posi, Quaternion.identity);
+                    GameManager.GetInstance().BuildingCount++;
+                    GameManager.GetInstance().m_cBuildings.Add(pdBarrack.GetComponent<BuildingBox>());
+                    GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Barrack);
+                    GameManager.GetInstance().Wood -= 200;
+                    //Debug.Log(GameManager.GetInstance().m_cBarrack.Regenposition.position);
                 }
                 if (Input.GetKeyDown(KeyCode.L) && GameManager.GetInstance().Wood >= 100)
                 {
