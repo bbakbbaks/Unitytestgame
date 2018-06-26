@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4643847152513022}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Regenpositon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   - component: {fileID: 224841624357650834}
   - component: {fileID: 222132122600672204}
   - component: {fileID: 114875772802170302}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: MaxHp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 208468179582543070}
   - component: {fileID: 114258374271937580}
   - component: {fileID: 114248599649770272}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Barrack_Model
   m_TagString: PlayerB
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 222052049654139516}
   - component: {fileID: 114299363789209290}
   - component: {fileID: 114441238413671350}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Hp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 223257209316956326}
   - component: {fileID: 114672726338817904}
   - component: {fileID: 114970966463904792}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: HpBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,6 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Regenposition: {fileID: 4643847152513022}
   SelectCheck: 0
+  SoliderCount: -1
 --- !u!114 &114258374271937580
 MonoBehaviour:
   m_ObjectHideFlags: 1

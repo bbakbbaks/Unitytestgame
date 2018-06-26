@@ -1051,6 +1051,8 @@ MonoBehaviour:
   DetectCheck: 0
   m_UnitCommend: 0
   SelectCheck: 0
+  BuildingNumber: 0
+  BuildClock: -1
 --- !u!114 &114238774439639528
 MonoBehaviour:
   m_ObjectHideFlags: 1

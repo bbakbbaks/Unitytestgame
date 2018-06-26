@@ -19,6 +19,8 @@ public class UnitBox : MonoBehaviour {
     public int DetectCheck = 0; //1이면 사거리안 유닛, 0이면 밖, 2면 건물, 3이면 센터
     public int m_UnitCommend = 0; //1이면 공격모드, 0이면 스탑모드
     public int SelectCheck = 0; //1이면 유닛선택, 0이면 해제
+    public int BuildingNumber = 0; //1: Farm, 2: Barrack, 3: Lumber, 4: House, 5: WallHo, 6: WallVer
+    public int BuildClock = -1;
 
     void Start()
     {
@@ -27,6 +29,7 @@ public class UnitBox : MonoBehaviour {
         InvokeRepeating("Attack", 0, 1);
         InvokeRepeating("ZombieAttacktoBuilding", 0, 1);
         StartPosition();
+        InvokeRepeating("ClockCount", 1, 1);
     }
 
     void Update()
@@ -40,6 +43,7 @@ public class UnitBox : MonoBehaviour {
         //TestBuildingAttack();
         PdBuilding();
         Dead();
+        Build();
     }
 
     public void StartPosition()
@@ -286,91 +290,157 @@ public class UnitBox : MonoBehaviour {
             if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
             {
                 Vector3 posi = hitinfo.point;
-                
+                //GameObject pdTest = Instantiate(GameManager.GetInstance().G_Farm, posi, Quaternion.identity);
                 if (Input.GetKeyDown(KeyCode.F) && GameManager.GetInstance().Wood >= 100)
                 {
-                    //Debug.Log("1");
-                    GameObject pdTest = Instantiate(GameManager.GetInstance().G_Farm, posi, Quaternion.identity);
-                    Debug.Log("1");
-                    Collider[] hitCollider = Physics.OverlapSphere(pdTest.transform.position, 1.0f);
-                    //this.TargetPosition = posi;
-                    //if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
+                    //Collider[] hitCollider = Physics.OverlapSphere(pdTest.transform.position, 1.0f);
+                    this.TargetPosition = posi;
                     //{
-
-                    foreach (Collider hit in hitCollider) //이렇게해버리면 hit이 일꾼일경우 건물끼리 겹침 발생
+                    if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
                     {
-                        if(hit.tag != "PlayerB")
-                        {
-                            GameObject pdFarm = Instantiate(GameManager.GetInstance().G_Farm, posi, Quaternion.identity);
-                            GameManager.GetInstance().BuildingCount++;
-                            GameManager.GetInstance().m_cBuildings.Add(pdFarm.GetComponent<BuildingBox>());
-                            GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Farm);
-                            //Debug.Log(BuildingCount);
-                            GameManager.GetInstance().FarmCount++;
-                            GameManager.GetInstance().Wood -= 100;
-                        }
+                        this.BuildingNumber = 1;
+                        this.BuildClock = 5;
                     }
-                    Destroy(pdTest);
+                    //foreach (Collider hit in hitCollider) //이렇게해버리면 hit이 일꾼일경우 건물끼리 겹침 발생
+                    {
+                        //if(/*hit.tag != "PlayerB"*/Input.GetMouseButtonDown(0))
+                        //if (this.transform.position.x == posi.x && this.transform.position.z == posi.z && this.BuildingNumber == 1)
+                        //{
+                        //    GameObject pdFarm = Instantiate(GameManager.GetInstance().G_Farm, posi, Quaternion.identity);
+                        //    GameManager.GetInstance().BuildingCount++;
+                        //    GameManager.GetInstance().m_cBuildings.Add(pdFarm.GetComponent<BuildingBox>());
+                        //    GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Farm);
+                        //    //Debug.Log(BuildingCount);
+                        //    GameManager.GetInstance().FarmCount++;
+                        //    GameManager.GetInstance().Wood -= 100;
+                        //    this.BuildingNumber = 0;
+                        //}
+                    }
+                    //Destroy(pdTest);
                     
                     //}
                 }
 
                 if (Input.GetKeyDown(KeyCode.B) && GameManager.GetInstance().Wood >= 200)
                 {
-                    GameObject pdBarrack = Instantiate(GameManager.GetInstance().G_Barrack, posi, Quaternion.identity);
-                    GameManager.GetInstance().BuildingCount++;
-                    GameManager.GetInstance().m_cBuildings.Add(pdBarrack.GetComponent<BuildingBox>());
-                    GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Barrack);
-                    GameManager.GetInstance().Wood -= 200;
-                    //Debug.Log(GameManager.GetInstance().m_cBarrack.Regenposition.position);
+                    this.TargetPosition = posi;
+                    if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
+                    {
+                        this.BuildingNumber = 2;
+                        this.BuildClock = 5;
+                    }
                 }
                 if (Input.GetKeyDown(KeyCode.L) && GameManager.GetInstance().Wood >= 100)
                 {
-
-                    GameObject pdLumber = Instantiate(GameManager.GetInstance().G_Lumber, posi, Quaternion.identity);
-                    GameManager.GetInstance().BuildingCount++;
-                    GameManager.GetInstance().m_cBuildings.Add(pdLumber.GetComponent<BuildingBox>());
-                    GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Lumbermill);
-                    //Debug.Log(BuildingCount);
-                    GameManager.GetInstance().LumCount++;
-                    GameManager.GetInstance().Wood -= 100;
-
+                    this.TargetPosition = posi;
+                    if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
+                    {
+                        this.BuildingNumber = 3;
+                        this.BuildClock = 5;
+                    }
                 }
                 if (Input.GetKeyDown(KeyCode.H) && GameManager.GetInstance().Wood >= 50)
                 {
-
-                    GameObject pdHouse = Instantiate(GameManager.GetInstance().G_House, posi, Quaternion.identity);
-                    GameManager.GetInstance().BuildingCount++;
-                    GameManager.GetInstance().m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
-                    GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.House);
-                    //Debug.Log(BuildingCount);
-                    GameManager.GetInstance().HouseCount++;
-                    GameManager.GetInstance().Wood -= 50;
-
+                    this.TargetPosition = posi;
+                    if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
+                    {
+                        this.BuildingNumber = 4;
+                        this.BuildClock = 5;
+                    }
                 }
-                if (Input.GetKeyDown(KeyCode.W) && GameManager.GetInstance().Wood >= 20)
+                if (Input.GetKey(KeyCode.W) && GameManager.GetInstance().Wood >= 20)
                 {
-
-                    GameObject pdHouse = Instantiate(GameManager.GetInstance().G_WallHo, posi, Quaternion.identity);
-                    GameManager.GetInstance().BuildingCount++;
-                    GameManager.GetInstance().m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
-                    GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Wall);
-                    //Debug.Log(BuildingCount);
-                    GameManager.GetInstance().Wood -= 20;
-
+                    this.TargetPosition = posi;
+                    if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
+                    {
+                        this.BuildingNumber = 5;
+                        this.BuildClock = 1;
+                    }
                 }
-                if (Input.GetKeyDown(KeyCode.Q) && GameManager.GetInstance().Wood >= 20)
+                if (Input.GetKey(KeyCode.Q) && GameManager.GetInstance().Wood >= 20)
                 {
-
-                    GameObject pdHouse = Instantiate(GameManager.GetInstance().G_WallVer, posi, Quaternion.identity);
-                    GameManager.GetInstance().BuildingCount++;
-                    GameManager.GetInstance().m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
-                    GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Wall);
-                    //Debug.Log(BuildingCount);
-                    GameManager.GetInstance().Wood -= 20;
-
+                    this.TargetPosition = posi;
+                    if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
+                    {
+                        this.BuildingNumber = 6;
+                        this.BuildClock = 1;
+                    }
                 }
             }
+        }
+    }
+
+    public void ClockCount()
+    {
+        if (this.BuildClock >= 1)
+        {
+            this.BuildClock--;
+        }
+    }
+
+    public void Build()
+    {
+        if (this.BuildingNumber == 1 && this.BuildClock == 0)
+        {
+            GameObject pdFarm = Instantiate(GameManager.GetInstance().G_Farm, this.transform.position, Quaternion.identity);
+            GameManager.GetInstance().BuildingCount++;
+            GameManager.GetInstance().m_cBuildings.Add(pdFarm.GetComponent<BuildingBox>());
+            GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Farm);
+            //Debug.Log(BuildingCount);
+            GameManager.GetInstance().FarmCount++;
+            GameManager.GetInstance().Wood -= 100;
+            this.BuildingNumber = 0;
+        }
+        if (this.BuildingNumber == 2 && this.BuildClock == 0)
+        {
+            GameObject pdBarrack = Instantiate(GameManager.GetInstance().G_Barrack, this.transform.position, Quaternion.identity);
+            GameManager.GetInstance().BuildingCount++;
+            GameManager.GetInstance().m_cBuildings.Add(pdBarrack.GetComponent<BuildingBox>());
+            GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Barrack);
+            GameManager.GetInstance().Wood -= 200;
+            this.BuildingNumber = 0;
+        }
+        if (this.BuildingNumber == 3 && this.BuildClock == 0)
+        {
+            GameObject pdLumber = Instantiate(GameManager.GetInstance().G_Lumber, this.transform.position, Quaternion.identity);
+            GameManager.GetInstance().BuildingCount++;
+            GameManager.GetInstance().m_cBuildings.Add(pdLumber.GetComponent<BuildingBox>());
+            GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Lumbermill);
+            //Debug.Log(BuildingCount);
+            GameManager.GetInstance().LumCount++;
+            GameManager.GetInstance().Wood -= 100;
+            this.BuildingNumber = 0;
+        }
+        if (this.BuildingNumber == 4 && this.BuildClock == 0)
+        {
+            GameObject pdHouse = Instantiate(GameManager.GetInstance().G_House, this.transform.position, Quaternion.identity);
+            GameManager.GetInstance().BuildingCount++;
+            GameManager.GetInstance().m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
+            GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.House);
+            //Debug.Log(BuildingCount);
+            GameManager.GetInstance().HouseCount++;
+            GameManager.GetInstance().Wood -= 50;
+            this.BuildingNumber = 0;
+        }
+        if (this.BuildingNumber == 5 && this.BuildClock == 0)
+        {
+            GameObject pdHouse = Instantiate(GameManager.GetInstance().G_WallHo, this.transform.position, Quaternion.identity);
+            GameManager.GetInstance().BuildingCount++;
+            GameManager.GetInstance().m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
+            GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Wall);
+            //Debug.Log(BuildingCount);
+            GameManager.GetInstance().Wood -= 20;
+            this.BuildingNumber = 0;
+        }
+        if (this.BuildingNumber == 6 && this.BuildClock == 0)
+        {
+            GameObject pdHouse = Instantiate(GameManager.GetInstance().G_WallVer, this.transform.position, Quaternion.identity);
+            GameManager.GetInstance().BuildingCount++;
+            GameManager.GetInstance().m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
+            GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Wall);
+            //Debug.Log(BuildingCount);
+            GameManager.GetInstance().Wood -= 20;
+            this.BuildingNumber = 0;
         }
     }
 
