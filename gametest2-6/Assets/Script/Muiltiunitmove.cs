@@ -14,7 +14,6 @@ public class Muiltiunitmove : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        
         Camerawalk();
     }
 
