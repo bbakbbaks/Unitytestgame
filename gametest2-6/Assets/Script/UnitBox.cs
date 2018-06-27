@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class UnitBox : MonoBehaviour {
     public UnitManager.eUnit m_eUnit;
@@ -44,6 +45,7 @@ public class UnitBox : MonoBehaviour {
         PdBuilding();
         Dead();
         Build();
+        TimeCounter();
     }
 
     public void StartPosition()
@@ -224,11 +226,13 @@ public class UnitBox : MonoBehaviour {
                 //m_MyBox.SelectCheck = 1;
                 //Debug.Log(SelectCheck);
                 //GameManager.GetInstance().m_cGUIManager.m_textInfo.text = m_sUnit.Name + "\n" + m_sUnit.Hp + " / " + m_sUnit.MaxHp;
+                GameManager.GetInstance().UnitSelectCount++;
             }
             else if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
             {
                 SelectCheck = 0;
                 //Debug.Log(SelectCheck);
+                GameManager.GetInstance().UnitSelectCount = 0;
             }
         }
     }
@@ -372,7 +376,7 @@ public class UnitBox : MonoBehaviour {
 
     public void ClockCount()
     {
-        if (this.BuildClock >= 1)
+        if (this.BuildClock > 0)
         {
             this.BuildClock--;
         }
@@ -390,6 +394,7 @@ public class UnitBox : MonoBehaviour {
             GameManager.GetInstance().FarmCount++;
             GameManager.GetInstance().Wood -= 100;
             this.BuildingNumber = 0;
+            this.BuildClock = -1;
         }
         if (this.BuildingNumber == 2 && this.BuildClock == 0)
         {
@@ -399,6 +404,7 @@ public class UnitBox : MonoBehaviour {
             GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Barrack);
             GameManager.GetInstance().Wood -= 200;
             this.BuildingNumber = 0;
+            this.BuildClock = -1;
         }
         if (this.BuildingNumber == 3 && this.BuildClock == 0)
         {
@@ -410,6 +416,7 @@ public class UnitBox : MonoBehaviour {
             GameManager.GetInstance().LumCount++;
             GameManager.GetInstance().Wood -= 100;
             this.BuildingNumber = 0;
+            this.BuildClock = -1;
         }
         if (this.BuildingNumber == 4 && this.BuildClock == 0)
         {
@@ -421,6 +428,7 @@ public class UnitBox : MonoBehaviour {
             GameManager.GetInstance().HouseCount++;
             GameManager.GetInstance().Wood -= 50;
             this.BuildingNumber = 0;
+            this.BuildClock = -1;
         }
         if (this.BuildingNumber == 5 && this.BuildClock == 0)
         {
@@ -431,6 +439,7 @@ public class UnitBox : MonoBehaviour {
             //Debug.Log(BuildingCount);
             GameManager.GetInstance().Wood -= 20;
             this.BuildingNumber = 0;
+            this.BuildClock = -1;
         }
         if (this.BuildingNumber == 6 && this.BuildClock == 0)
         {
@@ -441,6 +450,26 @@ public class UnitBox : MonoBehaviour {
             //Debug.Log(BuildingCount);
             GameManager.GetInstance().Wood -= 20;
             this.BuildingNumber = 0;
+            this.BuildClock = -1;
+        }
+    }
+
+    public void TimeCounter()
+    {
+        if (GameManager.GetInstance().UnitSelectCount == 1)
+        {
+            if (this.BuildClock > 0)
+            {
+                GameManager.GetInstance().m_cGUIManager.m_textInfo.text = "건물 생성중..." + this.BuildClock;
+            }
+            if (this.BuildClock < 0)
+            {
+                GameManager.GetInstance().m_cGUIManager.m_textInfo.text = "";
+            }
+        }
+        else
+        {
+            GameManager.GetInstance().m_cGUIManager.m_textInfo.text = "";
         }
     }
 

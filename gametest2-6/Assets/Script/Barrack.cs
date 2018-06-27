@@ -17,7 +17,8 @@ public class Barrack : MonoBehaviour {
         BarrackSelect();
         PdSoliderCount();
         PdUnit();
-	}
+        TimeCounter();
+    }
 
     public void BarrackSelect()
     {
@@ -49,6 +50,18 @@ public class Barrack : MonoBehaviour {
         if(this.SoliderCount >= 1)
         {
             this.SoliderCount--;
+        }
+    }
+
+    public void TimeCounter()
+    {
+        if (this.SoliderCount > 0)
+        {
+            GameManager.GetInstance().m_cGUIManager.m_textInfo.text = "군인 생성중..." + this.SoliderCount;
+        }
+        if (this.SoliderCount < 0)
+        {
+            GameManager.GetInstance().m_cGUIManager.m_textInfo.text = "";
         }
     }
 

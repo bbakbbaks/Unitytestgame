@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     public int unitcount = -1; //리스트에 추가되는 유닛을 위한 카운트
     public int BuildingCount = -1; //리스트에 추가되는 빌딩을 위한 카운트
     int Zcount = -1; //좀비리스트에 추가되는 좀비를 위한 카운트
-    public int ZombieAmount = 0;
+    public int ZombieAmount = 0; //좀비 수
     int StartZcount = 0; //한 웨이브에 나오는 좀비의 수에 관련된 변수
     int WaveCount = 0; //웨이브 횟수
     public GUIManager m_cGUIManager;
@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public int LumCount = 0; //재재소 갯수
     public int FarmCount = 0; //농장 갯수
     public int HouseCount = 0; //집 갯수
+    public int UnitSelectCount = 0; //선택된 유닛의 갯수
 
     static GameManager m_cInstance;
 
@@ -251,12 +252,16 @@ public class GameManager : MonoBehaviour
         m_cGUIManager.m_textFood.text = string.Format("{0}", Food);
         m_cGUIManager.m_textWood.text = string.Format("{0}", Wood);
         m_cGUIManager.m_textPopulation.text = string.Format("{0} / {1}", NowPopulation, MaxPopulation);
+        if (WaveCount > 0)
+        {
+            m_cGUIManager.m_textZombieInfo.text = WaveCount + "번째 웨이브" + "\n남은 좀비 수: " + ZombieAmount;
+        }
     }
 
     public void EventStart()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        //InvokeRepeating("PdEnemy", 30, 100);
+        //InvokeRepeating("PdEnemy", 3, 100);
         CreateUnit();
         InvokeRepeating("IncreaseRecource", 0, 1);
         //m_cCenter.DestroyCenter();
