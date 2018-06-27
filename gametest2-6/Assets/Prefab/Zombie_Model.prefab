@@ -1133,12 +1133,14 @@ MonoBehaviour:
   m_UnitHp: {fileID: 114068072631823136}
   m_enemy: {fileID: 0}
   m_enemys_target: {fileID: 0}
-  TargetCenter: {fileID: 114573769833285102, guid: 2e46aa2c01b27ed4eb1a1fbb477def8c,
+  TargetCenter: {fileID: 114256654679895494, guid: 2e46aa2c01b27ed4eb1a1fbb477def8c,
     type: 2}
   m_TargetofZombie: {fileID: 0}
   DetectCheck: 0
   m_UnitCommend: 1
   SelectCheck: 0
+  BuildingNumber: 0
+  BuildClock: -1
 --- !u!137 &137935935348001314
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -209,6 +209,7 @@ public class UnitBox : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.S))
             {
                 m_UnitCommend = 0;
+                this.TargetPosition = this.transform.position;
                 //Debug.Log("stop");
             }
         }
