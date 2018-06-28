@@ -82,14 +82,14 @@ public class GameManager : MonoBehaviour
 
     public void PdEnemy()//임시 웨이브 StartZcount + 숫자 로 한웨이브당 나오는 좀비수를 정한다
     {
-        for (Zcount = StartZcount; Zcount < StartZcount + 3; Zcount++)
+        for (Zcount = StartZcount; Zcount < StartZcount + 10; Zcount++)
         {
             GameObject pdZombie = Instantiate(G_Zombie, Z_Point.position, Z_Point.rotation);
             m_cEnemies.Add(pdZombie.GetComponent<UnitBox>());
             m_cEnemies[Zcount].m_sUnit = m_cUnitManager.GetUnit(UnitManager.eUnit.Zombie);
             ZombieAmount++;
         }
-        StartZcount += 3;
+        StartZcount += 10;
         WaveCount++;
     }
 
@@ -261,7 +261,7 @@ public class GameManager : MonoBehaviour
     public void EventStart()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        InvokeRepeating("PdEnemy", 60, 10);
+        InvokeRepeating("PdEnemy", 60, 60);
         CreateUnit();
         InvokeRepeating("IncreaseRecource", 0, 1);
         //m_cCenter.DestroyCenter();
