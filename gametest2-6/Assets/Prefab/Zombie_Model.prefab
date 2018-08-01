@@ -1129,7 +1129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_eUnit: 0
-  TargetPosition: {x: 0, y: 0, z: 0}
+  TargetPosition: {x: 5, y: 0, z: 5}
   m_UnitHp: {fileID: 114068072631823136}
   m_enemy: {fileID: 0}
   m_enemys_target: {fileID: 0}

@@ -469,6 +469,7 @@ GameObject:
   - component: {fileID: 195314556226576910}
   - component: {fileID: 65410882587682138}
   - component: {fileID: 114198383316878208}
+  - component: {fileID: 114961357273642540}
   m_Layer: 8
   m_Name: Worker_Model
   m_TagString: PlayerU
@@ -1051,8 +1052,6 @@ MonoBehaviour:
   DetectCheck: 0
   m_UnitCommend: 0
   SelectCheck: 0
-  BuildingNumber: 0
-  BuildClock: -1
 --- !u!114 &114238774439639528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1128,6 +1127,24 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114961357273642540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1812301641718694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a54094003bc5c2499b06bbbc24e95fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetPosition: {x: 0, y: 0, z: 0}
+  test: {fileID: 1709073588508740, guid: 3c9a30a1daba6d44cb52e93b13ae7eeb, type: 2}
+  SelectCheck: 0
+  BuildingNumber: 0
+  BuildClock: -1
+  BuildType: 0
+  DestinationCheck: 0
 --- !u!114 &114978270759004164
 MonoBehaviour:
   m_ObjectHideFlags: 1

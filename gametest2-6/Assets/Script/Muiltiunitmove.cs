@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Muiltiunitmove : MonoBehaviour {
-   
+    public Camera camera;
     // Use this for initialization
     void Start()
     {
@@ -39,9 +39,19 @@ public class Muiltiunitmove : MonoBehaviour {
             transform.position -= transform.forward * Time.deltaTime * 10
                 + transform.up * Time.deltaTime * 10;
         }
-        //if (Input.GetAxis("Mouse ScrollWheel") > 0)
-        //    transform.position += transform.forward;
-        //if (Input.GetAxis("Mouse ScrollWheel") < 0)
-        //    transform.position -= transform.forward;
+        camera.orthographicSize -= Input.GetAxis("Mouse ScrollWheel");
+        if (camera.orthographicSize >= 15)
+        {
+            camera.orthographicSize = 15f;
+        }
+        if (camera.orthographicSize <= 10)
+        {
+            camera.orthographicSize = 10f;
+        }
+        Vector3 limitmap;
+        limitmap.x = Mathf.Clamp(transform.position.x, (float)11.5, (float)58.5);
+        limitmap.y = Mathf.Clamp(transform.position.y, (float)23.5, (float)48.5);
+        limitmap.z = Mathf.Clamp(transform.position.z, (float)-20, (float)14);
+        transform.position = limitmap;
     }
 }
