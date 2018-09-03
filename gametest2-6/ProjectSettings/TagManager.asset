@@ -8,6 +8,7 @@ TagManager:
   - EnemyU
   - PlayerB
   - Center
+  - Map
   layers:
   - Default
   - TransparentFX

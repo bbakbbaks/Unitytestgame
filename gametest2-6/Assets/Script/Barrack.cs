@@ -69,7 +69,7 @@ public class Barrack : MonoBehaviour {
     {
         if (this.SoliderCount == 0)//배럭에서 솔저 생산
         {
-            GameObject pdSolider = Instantiate(GameManager.GetInstance().G_Solider, this.Regenposition.position, Quaternion.identity);
+            GameObject pdSolider = Instantiate(GameManager.GetInstance().G_Solider, this.transform.position, Quaternion.identity);
             pdSolider.name = "solider";
             GameManager.GetInstance().unitcount++;
             GameManager.GetInstance().m_cUnits.Add(pdSolider.GetComponent<UnitBox>());

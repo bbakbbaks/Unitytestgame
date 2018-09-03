@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UnitBox : MonoBehaviour {
     public UnitManager.eUnit m_eUnit;
-    public Vector3 TargetPosition;
+    Vector3 TargetPosition;
     NavMeshAgent nav;//유닛 박스에 직접 네비매시를 입력
     public Unit m_sUnit;
     public UnitHp m_UnitHp;
@@ -28,6 +28,8 @@ public class UnitBox : MonoBehaviour {
     void Start()
     {
         nav = GetComponent<NavMeshAgent>();
+        TargetPosition = this.transform.position;
+        Debug.Log(this.transform.position);       
         m_fMax = m_UnitHp.m_cRectTransform.sizeDelta.x;
         InvokeRepeating("Attack", 0, 1);
         InvokeRepeating("ZombieAttacktoBuilding", 0, 1);

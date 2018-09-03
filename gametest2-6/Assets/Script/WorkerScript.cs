@@ -57,7 +57,10 @@ public class WorkerScript : MonoBehaviour
             RaycastHit hitinfo;
             if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("playerunit")))
             {
-                hitinfo.collider.gameObject.GetComponent<WorkerScript>().SelectCheck = 1;
+                if (hitinfo.collider.name == "worker")
+                {
+                    hitinfo.collider.gameObject.GetComponent<WorkerScript>().SelectCheck = 1;
+                }
             }
             else if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
             {
