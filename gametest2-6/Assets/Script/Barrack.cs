@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Barrack : MonoBehaviour {
     public Transform Regenposition;
+    public GameObject Barrack_UI;
     public int SelectCheck = 0;
     public int SoliderCount = -1;
 
@@ -17,7 +18,8 @@ public class Barrack : MonoBehaviour {
         BarrackSelect();
         PdSoliderCount();
         PdUnit();
-        TimeCounter();
+        BarrackUI();
+        //TimeCounter();
     }
 
     public void BarrackSelect()
@@ -30,16 +32,40 @@ public class Barrack : MonoBehaviour {
             {
                 hitinfo.collider.gameObject.GetComponent<Barrack>().SelectCheck = 1;
             }
-            else 
-            {
-                SelectCheck = 0;
-            }
+            //else
+            //{
+            //    SelectCheck = 0;
+            //}
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            SelectCheck = 0;
+        }
+    }
+
+    public void BarrackUI()
+    {
+        if (SelectCheck == 1)
+        {
+            Barrack_UI.SetActive(true);
+        }
+        else
+        {
+            Barrack_UI.SetActive(false);
         }
     }
 
     public void PdSoliderCount()
     {
-        if (SelectCheck == 1 && Input.GetKeyDown(KeyCode.M) && GameManager.GetInstance().Food >= 25 && GameManager.GetInstance().MaxPopulation > GameManager.GetInstance().NowPopulation)//배럭에서 솔저 생산
+        if (SelectCheck == 1 && Input.GetKeyDown(KeyCode.M) && GameManager.GetInstance().Food >= 25 && 
+            GameManager.GetInstance().MaxPopulation > GameManager.GetInstance().NowPopulation)//배럭에서 솔저 생산
+        {
+            this.SoliderCount = 2;
+        }
+    }
+    public void PdSoliderCount2()
+    {
+        if (GameManager.GetInstance().Food >= 25 && GameManager.GetInstance().MaxPopulation > GameManager.GetInstance().NowPopulation)
         {
             this.SoliderCount = 2;
         }

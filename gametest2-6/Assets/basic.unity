@@ -316,7 +316,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &77800393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1242,8 +1242,8 @@ MonoBehaviour:
   ZombieAmount: 0
   m_cGUIManager: {fileID: 1826469887}
   m_eScene: 0
-  Food: 20
-  Wood: 200
+  Food: 200
+  Wood: 2000
   MaxPopulation: 1
   NowPopulation: 0
   LumCount: 0
@@ -1933,17 +1933,19 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "\uAC8C\uC784 \uC2B9\uB9AC\uC870\uAC74: 5\uBC88\uC758 \uC880\uBE44 \uC6E8\uC774\uBE0C\uB97C
     \uB9C9\uC73C\uBA74 \uC2B9\uB9AC\n\uAC8C\uC784 \uD328\uBC30\uC870\uAC74: \uC13C\uD130\uAC00
-    \uD30C\uAD34\uB418\uBA74 \uD328\uBC30\n\n\uBA85\uB839\uC5B4\n\nC: \uC77C\uAFBC
-    \uC0DD\uC0B0(\uC74C\uC2DD 10, \uC778\uAD6C 1\uD544\uC694)\n\n\uBCD1\uC601 \uD074\uB9AD\uD6C4\nM:
-    \uBCD1\uC0AC \uC0DD\uC0B0(\uC74C\uC2DD 25, \uC778\uAD6C 1\uD544\uC694, 1\uCD08\uC18C\uBAA8)\n\n\uC77C\uAFBC
-    \uD074\uB9AD\uD6C4\nL: \uC81C\uC7AC\uC18C \uAC74\uC124(\uB098\uBB34 100\uD544\uC694,
-    \uCD08\uB2F9 \uB098\uBB3420\uC0DD\uC0B0, 5\uCD08\uC18C\uBAA8)\nB: \uBCD1\uC601
-    \uAC74\uC124(\uB098\uBB34 200\uD544\uC694, \uAD70\uC778 \uC0DD\uC0B0\uAC00\uB2A5,
-    5\uCD08\uC18C\uBAA8)\nF: \uB18D\uC7A5 \uAC74\uC124(\uB098\uBB34 100\uD544\uC694,
-    \uCD08\uB2F9 \uBC00 5\uC0DD\uC0B0, 5\uCD08\uC18C\uBAA8)\nH: \uC9D1 \uAC74\uC124(\uB098\uBB34
-    50\uD544\uC694, \uCD5C\uB300\uC778\uAD6C\uC218 4\uC99D\uAC00, 5\uCD08\uC18C\uBAA8)\nQ:
-    \uC218\uD3C9\uBCBD \uAC74\uC124(\uB098\uBB34 20\uD544\uC694, 1\uCD08\uC18C\uBAA8)\nW:
-    \uC218\uC9C1\uBCBD \uAC74\uC124(\uB098\uBB34 20\uD544\uC6941, 1\uCD08\uC18C\uBAA8)\n"
+    \uD30C\uAD34\uB418\uBA74 \uD328\uBC30\n\n\uBA85\uB839\uC5B4\n\uC13C\uD130 \uD074\uB9AD
+    \uD6C4\nC: \uC77C\uAFBC \uC0DD\uC0B0(\uC74C\uC2DD 10, \uC778\uAD6C 1\uD544\uC694)\n\uBCD1\uC601
+    \uD074\uB9AD \uD6C4\nM: \uBCD1\uC0AC \uC0DD\uC0B0(\uC74C\uC2DD 25, \uC778\uAD6C
+    1\uD544\uC694, 1\uCD08\uC18C\uBAA8)\n\n\uC77C\uAFBC \uD074\uB9AD\uD6C4\nL: \uC81C\uC7AC\uC18C
+    \uAC74\uC124(\uB098\uBB34 100\uD544\uC694, \uCD08\uB2F9 \uB098\uBB3420\uC0DD\uC0B0,
+    5\uCD08\uC18C\uBAA8)\nB: \uBCD1\uC601 \uAC74\uC124(\uB098\uBB34 200\uD544\uC694,
+    \uAD70\uC778 \uC0DD\uC0B0\uAC00\uB2A5, 5\uCD08\uC18C\uBAA8)\nF: \uB18D\uC7A5 \uAC74\uC124(\uB098\uBB34
+    100\uD544\uC694, \uCD08\uB2F9 \uBC00 5\uC0DD\uC0B0, 5\uCD08\uC18C\uBAA8)\nH: \uC9D1
+    \uAC74\uC124(\uB098\uBB34 50\uD544\uC694, \uCD5C\uB300\uC778\uAD6C\uC218 4\uC99D\uAC00,
+    5\uCD08\uC18C\uBAA8)\nQ: \uC218\uD3C9\uBCBD \uAC74\uC124(\uB098\uBB34 20\uD544\uC694,
+    1\uCD08\uC18C\uBAA8)\nW: \uC218\uC9C1\uBCBD \uAC74\uC124(\uB098\uBB34 20\uD544\uC6941,
+    1\uCD08\uC18C\uBAA8)\nF1\uB204\uB974\uACE0 \uC788\uC73C\uBA74 \uC774\uCC3D\uC744
+    \uB2E4\uC2DC \uBCFC\uC218 \uC788\uC2B5\uB2C8\uB2E4\n"
 --- !u!222 &740499300
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2653,7 +2655,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Start
 --- !u!222 &1176719382
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4255,10 +4257,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -4266,7 +4268,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC77C\uAFBC\n(\uC2DD\uB7C9:10)"
 --- !u!222 &1821742343
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4461,7 +4463,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Info
 --- !u!222 &1859741903
 CanvasRenderer:
   m_ObjectHideFlags: 0

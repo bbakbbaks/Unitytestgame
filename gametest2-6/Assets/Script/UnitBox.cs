@@ -20,10 +20,6 @@ public class UnitBox : MonoBehaviour {
     public int DetectCheck = 0; //1이면 사거리안 유닛, 0이면 밖, 2면 건물, 3이면 센터
     public int m_UnitCommend = 0; //1이면 공격모드, 0이면 스탑모드
     public int SelectCheck = 0; //1이면 유닛선택, 0이면 해제
-    //public int BuildingNumber = 0; //1: Farm, 2: Barrack, 3: Lumber, 4: House, 5: WallHo, 6: WallVer
-    //public int BuildClock = -1;
-    //Vector3 BuildingPosi;
-    //GameObject BuildPreview;
 
     void Start()
     {
@@ -33,7 +29,7 @@ public class UnitBox : MonoBehaviour {
         m_fMax = m_UnitHp.m_cRectTransform.sizeDelta.x;
         InvokeRepeating("Attack", 0, 1);
         InvokeRepeating("ZombieAttacktoBuilding", 0, 1);
-        StartPosition();
+        //StartPosition();
         //InvokeRepeating("ClockCount", 1, 1);
     }
 
@@ -50,18 +46,6 @@ public class UnitBox : MonoBehaviour {
         Dead();
         //Build();
         //TimeCounter();
-    }
-
-    public void StartPosition()
-    {
-        if (this.m_sUnit.Name == "일꾼")
-        {
-            this.TargetPosition = GameManager.GetInstance().m_cCenter.Regenposition.position;
-        }
-        if (this.m_sUnit.Name == "군인")
-        {
-            this.TargetPosition = GameManager.GetInstance().m_cBarrack.Regenposition.position;
-        }
     }
 
     public void ChangeHp(float unithp, float unitmaxhp)//HP바의 체력변화
@@ -227,16 +211,12 @@ public class UnitBox : MonoBehaviour {
             RaycastHit hitinfo;
             if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("playerunit")))
             {
-                hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCheck = 1;
-                //m_MyBox.SelectCheck = 1;
-                //Debug.Log(SelectCheck);
-                //GameManager.GetInstance().m_cGUIManager.m_textInfo.text = m_sUnit.Name + "\n" + m_sUnit.Hp + " / " + m_sUnit.MaxHp;
+                hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCheck = 1;               
                 GameManager.GetInstance().UnitSelectCount++;
             }
             else if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
             {
                 SelectCheck = 0;
-                //Debug.Log(SelectCheck);
                 GameManager.GetInstance().UnitSelectCount = 0;
             }
         }
@@ -289,194 +269,6 @@ public class UnitBox : MonoBehaviour {
             }
         }
     }
-
-    //public void PdBuilding()
-    //{
-    //    if (this.m_sUnit.Name == "일꾼" && this.SelectCheck == 1)
-    //    {
-    //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //        RaycastHit hitinfo = new RaycastHit();
-    //        if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
-    //        {
-    //            Vector3 posi = hitinfo.point;
-    //            //GameObject pdTest = Instantiate(GameManager.GetInstance().G_Farm, posi, Quaternion.identity);
-    //            if (Input.GetKeyDown(KeyCode.F) && GameManager.GetInstance().Wood >= 100)
-    //            {
-    //                //Collider[] hitCollider = Physics.OverlapSphere(pdTest.transform.position, 1.0f);
-    //                this.TargetPosition = posi;
-    //                //{
-    //                if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
-    //                {
-    //                    this.BuildingNumber = 1;
-    //                    this.BuildClock = 5;
-    //                }
-    //                //foreach (Collider hit in hitCollider) //이렇게해버리면 hit이 일꾼일경우 건물끼리 겹침 발생
-    //                {
-    //                    //if(/*hit.tag != "PlayerB"*/Input.GetMouseButtonDown(0))
-    //                    //if (this.transform.position.x == posi.x && this.transform.position.z == posi.z && this.BuildingNumber == 1)
-    //                    //{
-    //                    //    GameObject pdFarm = Instantiate(GameManager.GetInstance().G_Farm, posi, Quaternion.identity);
-    //                    //    GameManager.GetInstance().BuildingCount++;
-    //                    //    GameManager.GetInstance().m_cBuildings.Add(pdFarm.GetComponent<BuildingBox>());
-    //                    //    GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Farm);
-    //                    //    //Debug.Log(BuildingCount);
-    //                    //    GameManager.GetInstance().FarmCount++;
-    //                    //    GameManager.GetInstance().Wood -= 100;
-    //                    //    this.BuildingNumber = 0;
-    //                    //}
-    //                }
-    //                //Destroy(pdTest);
-                    
-    //                //}
-    //            }
-
-    //            if (Input.GetKeyDown(KeyCode.B) && GameManager.GetInstance().Wood >= 200)
-    //            {
-    //                this.TargetPosition = posi;
-    //                if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
-    //                {
-    //                    this.BuildingNumber = 2;
-    //                    this.BuildClock = 5;
-    //                }
-    //            }
-    //            if (Input.GetKeyDown(KeyCode.L) && GameManager.GetInstance().Wood >= 100)
-    //            {
-    //                this.TargetPosition = posi;
-    //                if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
-    //                {
-    //                    this.BuildingNumber = 3;
-    //                    this.BuildClock = 5;
-    //                }
-    //            }
-    //            if (Input.GetKeyDown(KeyCode.H) && GameManager.GetInstance().Wood >= 50)
-    //            {
-    //                this.TargetPosition = posi;
-    //                if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
-    //                {
-    //                    this.BuildingNumber = 4;
-    //                    this.BuildClock = 5;
-    //                }
-    //            }
-    //            if (Input.GetKey(KeyCode.W) && GameManager.GetInstance().Wood >= 20)
-    //            {
-    //                this.TargetPosition = posi;
-    //                if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
-    //                {
-    //                    this.BuildingNumber = 5;
-    //                    this.BuildClock = 1;
-    //                }
-    //            }
-    //            if (Input.GetKey(KeyCode.Q) && GameManager.GetInstance().Wood >= 20)
-    //            {
-    //                this.TargetPosition = posi;
-    //                if (this.transform.position.x == posi.x && this.transform.position.z == posi.z)
-    //                {
-    //                    this.BuildingNumber = 6;
-    //                    this.BuildClock = 1;
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
-    //public void ClockCount()
-    //{
-    //    if (this.BuildClock > 0)
-    //    {
-    //        this.BuildClock--;
-    //    }
-    //}
-
-    //public void Build()
-    //{
-    //    if (this.BuildingNumber == 1 && this.BuildClock == 0)
-    //    {
-    //        GameObject pdFarm = Instantiate(GameManager.GetInstance().G_Farm, this.transform.position, Quaternion.identity);
-    //        GameManager.GetInstance().BuildingCount++;
-    //        GameManager.GetInstance().m_cBuildings.Add(pdFarm.GetComponent<BuildingBox>());
-    //        GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Farm);
-    //        //Debug.Log(BuildingCount);
-    //        GameManager.GetInstance().FarmCount++;
-    //        GameManager.GetInstance().Wood -= 100;
-    //        this.BuildingNumber = 0;
-    //        this.BuildClock = -1;
-    //    }
-    //    if (this.BuildingNumber == 2 && this.BuildClock == 0)
-    //    {
-    //        GameObject pdBarrack = Instantiate(GameManager.GetInstance().G_Barrack, this.transform.position, Quaternion.identity);
-    //        GameManager.GetInstance().BuildingCount++;
-    //        GameManager.GetInstance().m_cBuildings.Add(pdBarrack.GetComponent<BuildingBox>());
-    //        GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Barrack);
-    //        GameManager.GetInstance().Wood -= 200;
-    //        this.BuildingNumber = 0;
-    //        this.BuildClock = -1;
-    //    }
-    //    if (this.BuildingNumber == 3 && this.BuildClock == 0)
-    //    {
-    //        GameObject pdLumber = Instantiate(GameManager.GetInstance().G_Lumber, this.transform.position, Quaternion.identity);
-    //        GameManager.GetInstance().BuildingCount++;
-    //        GameManager.GetInstance().m_cBuildings.Add(pdLumber.GetComponent<BuildingBox>());
-    //        GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Lumbermill);
-    //        //Debug.Log(BuildingCount);
-    //        GameManager.GetInstance().LumCount++;
-    //        GameManager.GetInstance().Wood -= 100;
-    //        this.BuildingNumber = 0;
-    //        this.BuildClock = -1;
-    //    }
-    //    if (this.BuildingNumber == 4 && this.BuildClock == 0)
-    //    {
-    //        GameObject pdHouse = Instantiate(GameManager.GetInstance().G_House, this.transform.position, Quaternion.identity);
-    //        GameManager.GetInstance().BuildingCount++;
-    //        GameManager.GetInstance().m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
-    //        GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.House);
-    //        //Debug.Log(BuildingCount);
-    //        GameManager.GetInstance().HouseCount++;
-    //        GameManager.GetInstance().Wood -= 50;
-    //        this.BuildingNumber = 0;
-    //        this.BuildClock = -1;
-    //    }
-    //    if (this.BuildingNumber == 5 && this.BuildClock == 0)
-    //    {
-    //        GameObject pdHouse = Instantiate(GameManager.GetInstance().G_WallHo, this.transform.position, Quaternion.identity);
-    //        GameManager.GetInstance().BuildingCount++;
-    //        GameManager.GetInstance().m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
-    //        GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Wall);
-    //        //Debug.Log(BuildingCount);
-    //        GameManager.GetInstance().Wood -= 20;
-    //        this.BuildingNumber = 0;
-    //        this.BuildClock = -1;
-    //    }
-    //    if (this.BuildingNumber == 6 && this.BuildClock == 0)
-    //    {
-    //        GameObject pdHouse = Instantiate(GameManager.GetInstance().G_WallVer, this.transform.position, Quaternion.identity);
-    //        GameManager.GetInstance().BuildingCount++;
-    //        GameManager.GetInstance().m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
-    //        GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Wall);
-    //        //Debug.Log(BuildingCount);
-    //        GameManager.GetInstance().Wood -= 20;
-    //        this.BuildingNumber = 0;
-    //        this.BuildClock = -1;
-    //    }
-    //}
-
-    //public void TimeCounter()
-    //{
-    //    if (GameManager.GetInstance().UnitSelectCount == 1)
-    //    {
-    //        if (this.BuildClock > 0)
-    //        {
-    //            GameManager.GetInstance().m_cGUIManager.m_textInfo.text = "건물 생성중..." + this.BuildClock;
-    //        }
-    //        if (this.BuildClock < 0)
-    //        {
-    //            GameManager.GetInstance().m_cGUIManager.m_textInfo.text = "";
-    //        }
-    //    }
-    //    else
-    //    {
-    //        GameManager.GetInstance().m_cGUIManager.m_textInfo.text = "";
-    //    }
-    //}
 
     public void Dead()
     {

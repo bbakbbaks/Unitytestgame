@@ -16,6 +16,8 @@ public class WorkerScript : MonoBehaviour
     public int DestinationCheck = 0; //일꾼의 목적지 도착여부
     Vector3 BuildingPosi;
     GameObject BuildPreview;
+    public GameObject Commend_UI;
+    public GameObject Build_UI;
 
     void Start()
     {
@@ -33,6 +35,7 @@ public class WorkerScript : MonoBehaviour
         TimeCounter();
         UnitMove();
         BuildNumber();
+        ButtonActive();
     }
 
     public void UnitMove()
@@ -62,11 +65,35 @@ public class WorkerScript : MonoBehaviour
                     hitinfo.collider.gameObject.GetComponent<WorkerScript>().SelectCheck = 1;
                 }
             }
-            else if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
-            {
-                SelectCheck = 0;
-            }
+            //else if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
+            //{
+            //    SelectCheck = 0;
+            //}
         }
+    }
+
+    public void ButtonActive()
+    {
+        if (SelectCheck == 1)
+        {
+            Commend_UI.SetActive(true);
+        }
+        else
+        {
+            Commend_UI.SetActive(false);
+        }
+    }
+
+    public void BuildButton()
+    {
+        Build_UI.SetActive(true);
+        Commend_UI.SetActive(false);
+    }
+
+    public void BackButton()
+    {
+        Commend_UI.SetActive(true);
+        Build_UI.SetActive(false);
     }
 
     public void BuildNumber()
@@ -104,6 +131,36 @@ public class WorkerScript : MonoBehaviour
                 //this.BuildClock = 1;
             }
         }
+    }
+
+    public void FarmButton()
+    {
+        this.BuildingNumber = 1;
+    }
+
+    public void BarrackButton()
+    {
+        this.BuildingNumber = 2;
+    }
+
+    public void LumberButton()
+    {
+        this.BuildingNumber = 3;
+    }
+
+    public void HouseButton()
+    {
+        this.BuildingNumber = 4;
+    }
+
+    public void WallHoButton()
+    {
+        this.BuildingNumber = 5;
+    }
+
+    public void WallVerButton()
+    {
+        this.BuildingNumber = 6;
     }
 
     public void PdBuilding()
@@ -273,9 +330,9 @@ public class WorkerScript : MonoBehaviour
         }
         if (this.DestinationCheck == 1 && this.BuildClock == 0 && this.BuildType == 5)
         {
-            GameObject pdHouse = Instantiate(GameManager.GetInstance().G_WallHo, this.transform.position, Quaternion.identity);
+            GameObject pdWallHo = Instantiate(GameManager.GetInstance().G_WallHo, this.transform.position, Quaternion.identity);
             GameManager.GetInstance().BuildingCount++;
-            GameManager.GetInstance().m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
+            GameManager.GetInstance().m_cBuildings.Add(pdWallHo.GetComponent<BuildingBox>());
             GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Wall);
             //Debug.Log(BuildingCount);
             GameManager.GetInstance().Wood -= 20;
@@ -285,9 +342,9 @@ public class WorkerScript : MonoBehaviour
         }
         if (this.DestinationCheck == 1 && this.BuildClock == 0 && this.BuildType == 6)
         {
-            GameObject pdHouse = Instantiate(GameManager.GetInstance().G_WallVer, this.transform.position, Quaternion.identity);
+            GameObject pdWallVer = Instantiate(GameManager.GetInstance().G_WallVer, this.transform.position, Quaternion.identity);
             GameManager.GetInstance().BuildingCount++;
-            GameManager.GetInstance().m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
+            GameManager.GetInstance().m_cBuildings.Add(pdWallVer.GetComponent<BuildingBox>());
             GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Wall);
             //Debug.Log(BuildingCount);
             GameManager.GetInstance().Wood -= 20;

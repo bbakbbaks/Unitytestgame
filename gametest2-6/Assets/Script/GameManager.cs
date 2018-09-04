@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     {
         m_cInstance = this;
         m_cGUIManager.SetScene(m_eScene);
-        //InvokeRepeating("PdEnemy", 1, 1);
+        //InvokeRepeating("PdEnemy", 60, 60);
         //PdEnemy();
     }
 
@@ -59,10 +59,8 @@ public class GameManager : MonoBehaviour
         if (WaveCount == 5)
             CancelInvoke("PdEnemy");
         GameCheck();
-        //PdBuilding();
-        //Decrease();
-        //m_cGUIManager.m_textResource.text = string.Format("Food: {0}  Wood: {1}  Population: {2} / {3}", Food, Wood, NowPopulation, MaxPopulation);
         ResourceText();
+        GameInfo2();
     }
 
     public void CreateUnit()
@@ -92,133 +90,11 @@ public class GameManager : MonoBehaviour
         WaveCount++;
     }
 
-    //public void PdBuilding()
-    //{
-    //    //if (Input.GetKeyDown(KeyCode.B))
-    //    //{
-    //    //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //    //    RaycastHit hitinfo = new RaycastHit();
-    //    //    if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
-    //    //    {
-    //    //        Vector3 posi = hitinfo.point;
-    //    //        Instantiate(m_cBarrack, posi, Quaternion.identity);
-    //    //        //GameObject pdBarrack = Instantiate(m_cBarrack, posi, Quaternion.identity);
-    //    //    }
-    //    //}
-    //    if (Input.GetKeyDown(KeyCode.F) && Wood >= 100)
-    //    {
-    //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //        RaycastHit hitinfo = new RaycastHit();
-    //        if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
-    //        {
-    //            Vector3 posi = hitinfo.point;
-    //            GameObject pdFarm = Instantiate(G_Farm, posi, Quaternion.identity);
-    //            BuildingCount++;
-    //            m_cBuildings.Add(pdFarm.GetComponent<BuildingBox>());
-    //            m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Farm);
-    //            //Debug.Log(BuildingCount);
-    //            FarmCount++;
-    //            Wood -= 100;
-    //        }
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.L) && Wood >= 100)
-    //    {
-    //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //        RaycastHit hitinfo = new RaycastHit();
-    //        if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
-    //        {
-    //            Vector3 posi = hitinfo.point;
-    //            GameObject pdLumber = Instantiate(G_Lumber, posi, Quaternion.identity);
-    //            BuildingCount++;
-    //            m_cBuildings.Add(pdLumber.GetComponent<BuildingBox>());
-    //            m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Lumbermill);
-    //            //Debug.Log(BuildingCount);
-    //            LumCount++;
-    //            Wood -= 100;
-    //        }
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.H) && Wood >= 50)
-    //    {
-    //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //        RaycastHit hitinfo = new RaycastHit();
-    //        if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
-    //        {
-    //            Vector3 posi = hitinfo.point;
-    //            GameObject pdHouse = Instantiate(G_House, posi, Quaternion.identity);
-    //            BuildingCount++;
-    //            m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
-    //            m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.House);
-    //            //Debug.Log(BuildingCount);
-    //            HouseCount++;
-    //            Wood -= 50;
-    //        }
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.W) && Wood >= 20)
-    //    {
-    //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //        RaycastHit hitinfo = new RaycastHit();
-    //        if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
-    //        {
-    //            Vector3 posi = hitinfo.point;
-    //            GameObject pdHouse = Instantiate(G_WallHo, posi, Quaternion.identity);
-    //            BuildingCount++;
-    //            m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
-    //            m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Wall);
-    //            //Debug.Log(BuildingCount);
-    //            Wood -= 20;
-    //        }
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.Q) && Wood >= 20)
-    //    {
-    //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //        RaycastHit hitinfo = new RaycastHit();
-    //        if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
-    //        {
-    //            Vector3 posi = hitinfo.point;
-    //            GameObject pdHouse = Instantiate(G_WallVer, posi, Quaternion.identity);
-    //            BuildingCount++;
-    //            m_cBuildings.Add(pdHouse.GetComponent<BuildingBox>());
-    //            m_cBuildings[BuildingCount].m_Building = m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Wall);
-    //            //Debug.Log(BuildingCount);
-    //            Wood -= 20;
-    //        }
-    //    }
-    //}
-
-    //public void PdUnit()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.M) && Food >= 25 && MaxPopulation > NowPopulation)//배럭에서 솔저 생산
-    //    {
-    //        GameObject pdSolider = Instantiate(G_Solider, m_cCenter.Regenposition.position, Quaternion.identity);
-    //        pdSolider.name = "solider";
-    //        unitcount++;
-    //        m_cUnits.Add(pdSolider.GetComponent<UnitBox>());
-    //        m_cUnits[unitcount].m_sUnit = m_cUnitManager.GetUnit(UnitManager.eUnit.Solider);
-    //        //Debug.Log(m_cUnits[unitcount].m_sUnit.Name);
-    //        Food -= 25;
-    //        NowPopulation++;
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.C) && Food >= 10 && MaxPopulation > NowPopulation)
-    //    {
-    //        GameObject pdWorker = Instantiate(G_Worker, m_cCenter.Regenposition.position, Quaternion.identity);
-    //        unitcount++;
-    //        pdWorker.name = "worker";
-    //        m_cUnits.Add(pdWorker.GetComponent<UnitBox>());
-    //        m_cUnits[unitcount].m_sUnit = m_cUnitManager.GetUnit(UnitManager.eUnit.Worker);
-    //        //Debug.Log(m_cUnits[unitcount].m_sUnit.Name);
-    //        Food -= 10;
-    //        NowPopulation++;
-    //    }
-    //}
-
     public void IncreaseRecource()
     {
         Wood += LumCount * 20;
         Food += FarmCount * 5;
         MaxPopulation = 1 + HouseCount * 4;
-        //Debug.Log("Wood: " + Wood);
-        //Debug.Log("Food: " + Food);
-        //Debug.Log("NowPopulation: " + NowPopulation + " / " + "MaxPopulation: " + MaxPopulation);
     }
 
     public void GameCheck()
@@ -256,15 +132,18 @@ public class GameManager : MonoBehaviour
 
     public void GameInfo()
     {
-        m_cGUIManager.SetScene(GUIManager.eScene.GAMEINFO);
-        //if (Input.GetKeyDown(KeyCode.F1))
-        //{
-        //    m_cGUIManager.SetScene(GUIManager.eScene.GAMEINFO);
-        //}
-        //else if (Input.GetKeyUp(KeyCode.F1))
-        //{
-        //    m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        //}
+        m_cGUIManager.SetScene(GUIManager.eScene.GAMEINFO);        
+    }
+    public void GameInfo2()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            m_cGUIManager.SetScene(GUIManager.eScene.GAMEINFO);
+        }
+        else if (Input.GetKeyUp(KeyCode.F1))
+        {
+            m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
+        }
     }
 
     public void EventRetry()
