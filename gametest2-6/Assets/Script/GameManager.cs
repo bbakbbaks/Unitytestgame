@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         m_cCenter.m_Center = new Building("지휘본부", 500, 0, 0, "imgcenter");
         m_cUnitManager.m_listunits.Add(new Unit("일꾼", 5, 1, 1, 1, "imgworker"));
         m_cUnitManager.m_listunits.Add(new Unit("군인", 15, 4, 4, 1, "imgsolider"));
-        m_cUnitManager.m_listunits.Add(new Unit("좀비", 20, 3, 1, 1, "imgzombie"));
+        m_cUnitManager.m_listunits.Add(new Unit("좀비", 20, 0, 1, 1, "imgzombie"));
         //m_cBuildingManager.m_listBuildings.Add(new Building("지휘본부", 500, 0, 0, "imgcenter"));
         m_cBuildingManager.m_listBuildings.Add(new Building("제재소", 70, 100, 20, "imglumber"));
         m_cBuildingManager.m_listBuildings.Add(new Building("집", 30, 50, 4, "imghouse"));
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     public void EventStart()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        //InvokeRepeating("PdEnemy", 60, 60);
+        InvokeRepeating("PdEnemy", 0, 60);
         CreateUnit();
         InvokeRepeating("IncreaseRecource", 0, 1);
         //m_cCenter.DestroyCenter();

@@ -20,6 +20,11 @@ public class UnitBox : MonoBehaviour {
     public int DetectCheck = 0; //1이면 사거리안 유닛, 0이면 밖, 2면 건물, 3이면 센터
     public int m_UnitCommend = 0; //1이면 공격모드, 0이면 스탑모드
     public int SelectCheck = 0; //1이면 유닛선택, 0이면 해제
+    public GameObject HitEffect;
+    public GameObject HitEffectpoint;
+    public GameObject ShootEffect;
+    public GameObject ShootEffectpoint;
+    public GameObject HpbarPosition;
 
     void Start()
     {
@@ -46,6 +51,7 @@ public class UnitBox : MonoBehaviour {
         Dead();
         //Build();
         //TimeCounter();
+        HpbarPosition.transform.rotation = Quaternion.Euler(0, -180, 0);
     }
 
     public void ChangeHp(float unithp, float unitmaxhp)//HP바의 체력변화
@@ -174,6 +180,13 @@ public class UnitBox : MonoBehaviour {
             if (m_UnitCommend == 1 && DetectCheck == 1)
             {
                 m_enemy.m_sUnit.Hp = m_enemy.m_sUnit.Hp - m_sUnit.Damage;
+                this.transform.LookAt(m_enemy.transform);
+                if (this.CompareTag("PlayerU"))
+                {
+                    Instantiate(HitEffect, HitEffectpoint.transform.position, Quaternion.identity);
+                    SoundManager.instance.PlaySound();
+                }
+                Instantiate(ShootEffect, ShootEffectpoint.transform.position, Quaternion.identity);
                 m_enemy.ChangeHp(m_enemy.m_sUnit.Hp, m_enemy.m_sUnit.MaxHp);
                 if (m_enemy.m_sUnit.Hp <= 0)
                 {

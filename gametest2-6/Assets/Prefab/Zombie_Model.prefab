@@ -416,6 +416,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1544669687856090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4049758642618848}
+  m_Layer: 9
+  m_Name: Shootpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1593341820990164
 GameObject:
   m_ObjectHideFlags: 1
@@ -548,6 +563,19 @@ Transform:
   - {fileID: 4151977746883134}
   m_Father: {fileID: 4473548471777098}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4049758642618848
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1544669687856090}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.806, z: 0.085}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4689340803537934}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4059073854554342
 Transform:
@@ -827,6 +855,7 @@ Transform:
   - {fileID: 4868573591587474}
   - {fileID: 4733396940329152}
   - {fileID: 224364178508375974}
+  - {fileID: 4049758642618848}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1129,7 +1158,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_eUnit: 0
-  TargetPosition: {x: 5, y: 0, z: 5}
   m_UnitHp: {fileID: 114068072631823136}
   m_enemy: {fileID: 0}
   m_enemys_target: {fileID: 0}
@@ -1139,8 +1167,12 @@ MonoBehaviour:
   DetectCheck: 0
   m_UnitCommend: 1
   SelectCheck: 0
-  BuildingNumber: 0
-  BuildClock: -1
+  HitEffect: {fileID: 0}
+  HitEffectpoint: {fileID: 0}
+  ShootEffect: {fileID: 1014189961793090, guid: a8f8226e47d7a50478dfbba25dbe8b38,
+    type: 2}
+  ShootEffectpoint: {fileID: 1544669687856090}
+  HpbarPosition: {fileID: 1127947303851924}
 --- !u!137 &137935935348001314
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -18,6 +18,7 @@ public class WorkerScript : MonoBehaviour
     GameObject BuildPreview;
     public GameObject Commend_UI;
     public GameObject Build_UI;
+    int buttoncheck = 0;
 
     void Start()
     {
@@ -74,7 +75,7 @@ public class WorkerScript : MonoBehaviour
 
     public void ButtonActive()
     {
-        if (SelectCheck == 1)
+        if (SelectCheck == 1 && buttoncheck == 0)
         {
             Commend_UI.SetActive(true);
         }
@@ -86,14 +87,22 @@ public class WorkerScript : MonoBehaviour
 
     public void BuildButton()
     {
-        Build_UI.SetActive(true);
-        Commend_UI.SetActive(false);
+        if (SelectCheck == 1)
+        {
+            Build_UI.SetActive(true);
+            buttoncheck = 1;
+            Commend_UI.SetActive(false);
+        }
     }
 
     public void BackButton()
     {
-        Commend_UI.SetActive(true);
-        Build_UI.SetActive(false);
+        if (SelectCheck == 1)
+        {
+            Commend_UI.SetActive(true);
+            buttoncheck = 0;
+            Build_UI.SetActive(false);
+        }
     }
 
     public void BuildNumber()
@@ -135,32 +144,38 @@ public class WorkerScript : MonoBehaviour
 
     public void FarmButton()
     {
-        this.BuildingNumber = 1;
+        if (BuildPreview == null && GameManager.GetInstance().Wood >= 100)
+            this.BuildingNumber = 1;
     }
 
     public void BarrackButton()
     {
-        this.BuildingNumber = 2;
+        if (BuildPreview == null && GameManager.GetInstance().Wood >= 200)
+            this.BuildingNumber = 2;
     }
 
     public void LumberButton()
     {
-        this.BuildingNumber = 3;
+        if (BuildPreview == null && GameManager.GetInstance().Wood >= 100)
+            this.BuildingNumber = 3;
     }
 
     public void HouseButton()
     {
-        this.BuildingNumber = 4;
+        if (BuildPreview == null && GameManager.GetInstance().Wood >= 50)
+            this.BuildingNumber = 4;
     }
 
     public void WallHoButton()
     {
-        this.BuildingNumber = 5;
+        if (BuildPreview == null && GameManager.GetInstance().Wood >= 20)
+            this.BuildingNumber = 5;
     }
 
     public void WallVerButton()
     {
-        this.BuildingNumber = 6;
+        if (BuildPreview == null && GameManager.GetInstance().Wood >= 20)
+            this.BuildingNumber = 6;
     }
 
     public void PdBuilding()
