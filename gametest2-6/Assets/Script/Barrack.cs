@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Barrack : MonoBehaviour {
     public Transform Regenposition;
@@ -26,21 +27,21 @@ public class Barrack : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitinfo;
-            if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Barrack")))
+            if (EventSystem.current.IsPointerOverGameObject() == false)
             {
-                hitinfo.collider.gameObject.GetComponent<Barrack>().SelectCheck = 1;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hitinfo;
+                if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Barrack")))
+                {
+                    hitinfo.collider.gameObject.GetComponent<Barrack>().SelectCheck = 1;
+                }
+                else
+                {
+                    SelectCheck = 0;
+                }
             }
-            //else
-            //{
-            //    SelectCheck = 0;
-            //}
         }
-        if (Input.GetMouseButtonDown(1))
-        {
-            SelectCheck = 0;
-        }
+
     }
 
     public void BarrackUI()

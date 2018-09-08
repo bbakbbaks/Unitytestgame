@@ -11,6 +11,7 @@ public class GUIManager : MonoBehaviour
     public Text m_textPopulation;
     public Text m_textInfo;
     public Text m_textZombieInfo;
+    public Text m_textWaveTimer;
     public enum eScene { TITLE, GAMEOVER, PLAY, THEEND, GAMEINFO ,MAX };
     eScene m_eScene;
 

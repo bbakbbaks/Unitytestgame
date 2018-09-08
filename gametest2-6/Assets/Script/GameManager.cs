@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
     public int FarmCount = 0; //농장 갯수
     public int HouseCount = 0; //집 갯수
     public int UnitSelectCount = 0; //선택된 유닛의 갯수
+    public float Wavetimer = 60;
+    int wavetimerstart = 0;
 
     static GameManager m_cInstance;
 
@@ -61,6 +63,14 @@ public class GameManager : MonoBehaviour
         GameCheck();
         ResourceText();
         GameInfo2();
+        if (wavetimerstart == 1)
+        {
+            Wavetimer -= Time.deltaTime;
+            if (Wavetimer <= 0)
+            {
+                Wavetimer = 60;
+            }
+        }
     }
 
     public void CreateUnit()
@@ -119,15 +129,18 @@ public class GameManager : MonoBehaviour
         {
             m_cGUIManager.m_textZombieInfo.text = WaveCount + "번째 웨이브" + "\n남은 좀비 수: " + ZombieAmount;
         }
+        m_cGUIManager.m_textWaveTimer.text = "남은 웨이브까지 남은시간: " + Wavetimer + "초";
     }
 
     public void EventStart()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        InvokeRepeating("PdEnemy", 0, 60);
+        //InvokeRepeating("PdEnemy", 0, 60);
         CreateUnit();
         InvokeRepeating("IncreaseRecource", 0, 1);
         //m_cCenter.DestroyCenter();
+        wavetimerstart = 1;
+        
     }
 
     public void GameInfo()

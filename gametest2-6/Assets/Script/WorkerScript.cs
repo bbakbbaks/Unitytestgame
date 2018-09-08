@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class WorkerScript : MonoBehaviour
 {
@@ -14,11 +15,11 @@ public class WorkerScript : MonoBehaviour
     public int BuildClock = -1; //건설 시간
     public int BuildType = 0; //건설할 건물 종류
     public int DestinationCheck = 0; //일꾼의 목적지 도착여부
-    Vector3 BuildingPosi;
-    GameObject BuildPreview;
-    public GameObject Commend_UI;
-    public GameObject Build_UI;
-    int buttoncheck = 0;
+    Vector3 BuildingPosi; //미리보기(?) 위치
+    GameObject BuildPreview; //건물 미리보기
+    public GameObject Commend_UI; //일반 UI
+    public GameObject Build_UI; //건물 생산 UI
+    int buttoncheck = 0; //건물버튼활성화 여부
 
     void Start()
     {
@@ -57,19 +58,22 @@ public class WorkerScript : MonoBehaviour
     {
         if (BuildPreview == null && Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitinfo;
-            if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("playerunit")))
+            if (EventSystem.current.IsPointerOverGameObject() == false) //UI위가 아닐경우에
             {
-                if (hitinfo.collider.name == "worker")
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hitinfo;
+                if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("playerunit")))
                 {
-                    hitinfo.collider.gameObject.GetComponent<WorkerScript>().SelectCheck = 1;
+                    if (hitinfo.collider.name == "worker")
+                    {
+                        hitinfo.collider.gameObject.GetComponent<WorkerScript>().SelectCheck = 1;
+                    }
+                }
+                else
+                {
+                    SelectCheck = 0;
                 }
             }
-            //else if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
-            //{
-            //    SelectCheck = 0;
-            //}
         }
     }
 
@@ -82,6 +86,12 @@ public class WorkerScript : MonoBehaviour
         else
         {
             Commend_UI.SetActive(false);
+        }
+
+        if (SelectCheck == 0)
+        {
+            Build_UI.SetActive(false);
+            buttoncheck = 0;
         }
     }
 
@@ -242,7 +252,7 @@ public class WorkerScript : MonoBehaviour
                         Debug.Log(this.transform.position);
                         
                     }
-                    if (this.transform.position.x == this.TargetPosition.x && this.transform.position.z == this.TargetPosition.z)
+                    if (this.transform.position.x == BuildingPosi.x && this.transform.position.z == BuildingPosi.z)
                     {
                         this.DestinationCheck = 1;
                         if (this.BuildType == 1)

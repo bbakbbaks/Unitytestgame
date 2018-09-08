@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UnitBox : MonoBehaviour {
     public UnitManager.eUnit m_eUnit;
@@ -25,6 +26,8 @@ public class UnitBox : MonoBehaviour {
     public GameObject ShootEffect;
     public GameObject ShootEffectpoint;
     public GameObject HpbarPosition;
+    public GameObject m_UnitInfo;
+    public Text m_UnitInfotext;
 
     void Start()
     {
@@ -46,11 +49,8 @@ public class UnitBox : MonoBehaviour {
         UnitMove();
         Detect();
         DirectAttack();
-        //TestBuildingAttack();
-        //PdBuilding();
         Dead();
-        //Build();
-        //TimeCounter();
+        UnitInfo();
         HpbarPosition.transform.rotation = Quaternion.Euler(0, -180, 0);
     }
 
@@ -216,22 +216,49 @@ public class UnitBox : MonoBehaviour {
         }
     }
 
+    public void attackbutton()
+    {
+        m_UnitCommend = 1;
+    }
+
+    public void stopbutton()
+    {
+        m_UnitCommend = 0;
+        this.TargetPosition = this.transform.position;
+    }
+
     public void UnitSelect()
     {
         if (this.tag == "PlayerU" && Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitinfo;
-            if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("playerunit")))
+            if (EventSystem.current.IsPointerOverGameObject() == false)
             {
-                hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCheck = 1;               
-                GameManager.GetInstance().UnitSelectCount++;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hitinfo;
+                if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("playerunit")))
+                {
+                    hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCheck = 1;
+                    GameManager.GetInstance().UnitSelectCount++;
+                }
+                else
+                {
+                    SelectCheck = 0;
+                    GameManager.GetInstance().UnitSelectCount = 0;
+                }
             }
-            else if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
-            {
-                SelectCheck = 0;
-                GameManager.GetInstance().UnitSelectCount = 0;
-            }
+        }
+    }
+
+    public void UnitInfo()
+    {
+        if (SelectCheck == 1)
+        {
+            m_UnitInfo.SetActive(true);
+            m_UnitInfotext.text = this.m_sUnit.Name + "\n" + this.m_sUnit.Hp + "/" + this.m_sUnit.MaxHp;
+        }
+        else
+        {
+            m_UnitInfo.SetActive(false);
         }
     }
 

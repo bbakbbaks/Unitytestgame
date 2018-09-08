@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Center : MonoBehaviour {
     public Building m_Center;
@@ -38,25 +39,20 @@ public class Center : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitinfo = new RaycastHit();
         if (Input.GetMouseButtonDown(0))
-        {                      
-            if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Center")))
+        {
+            if (EventSystem.current.IsPointerOverGameObject() == false) //UI위가 아닐경우에
             {
-                hitinfo.collider.gameObject.GetComponent<Center>().SelectCheck = 1;
-                //if (hitinfo.collider.tag == "Center")
-                //{
-                    
-                //    this.SelectCheck = 1;
-                //}
-                //if(hitinfo.collider.tag!="Center" || hitinfo.collider.tag != "Map")
-                //{
-                //    SelectCheck = 0;
-                //}
+                if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Center")))
+                {
+                    hitinfo.collider.gameObject.GetComponent<Center>().SelectCheck = 1;
+                }
+                else
+                {
+                    SelectCheck = 0;
+                }
             }
         }
-        if (Input.GetMouseButtonDown(1))
-        {
-            SelectCheck = 0;
-        }
+
     }
 
     public void UCheck()
