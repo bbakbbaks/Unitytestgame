@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
     public void EventStart()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        //InvokeRepeating("PdEnemy", 0, 60);
+        InvokeRepeating("PdEnemy", 0, 600);
         CreateUnit();
         InvokeRepeating("IncreaseRecource", 0, 1);
         //m_cCenter.DestroyCenter();

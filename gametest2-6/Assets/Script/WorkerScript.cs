@@ -20,6 +20,9 @@ public class WorkerScript : MonoBehaviour
     public GameObject Commend_UI; //일반 UI
     public GameObject Build_UI; //건물 생산 UI
     int buttoncheck = 0; //건물버튼활성화 여부
+    int Workerbuild = 0; //건물건설중일때 일꾼 못움직이게 만들기위한 변수
+    public GameObject BuildInfo; //건물 건설정보
+    public Text m_buildinfotext; //건물 건설정보 텍스트
 
     void Start()
     {
@@ -42,7 +45,7 @@ public class WorkerScript : MonoBehaviour
 
     public void UnitMove()
     {
-        if (this.SelectCheck == 1 && Input.GetMouseButtonDown(1))
+        if (this.SelectCheck == 1 && Input.GetMouseButtonDown(1) && Workerbuild == 0)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitinfo;
@@ -88,8 +91,13 @@ public class WorkerScript : MonoBehaviour
             Commend_UI.SetActive(false);
         }
 
-        if (SelectCheck == 0)
+        if (SelectCheck == 1)
         {
+            BuildInfo.SetActive(true);
+        }
+        else
+        {
+            BuildInfo.SetActive(false);
             Build_UI.SetActive(false);
             buttoncheck = 0;
         }
@@ -255,6 +263,7 @@ public class WorkerScript : MonoBehaviour
                     if (this.transform.position.x == BuildingPosi.x && this.transform.position.z == BuildingPosi.z)
                     {
                         this.DestinationCheck = 1;
+                        this.Workerbuild = 1;
                         if (this.BuildType == 1)
                         {
                             this.BuildClock = 5;
@@ -315,6 +324,7 @@ public class WorkerScript : MonoBehaviour
             this.BuildType = 0;
             this.DestinationCheck = 0;
             this.BuildClock = -1;
+            this.Workerbuild = 0;
         }
         if (this.DestinationCheck == 1 && this.BuildClock == 0 && this.BuildType == 2)
         {
@@ -326,6 +336,7 @@ public class WorkerScript : MonoBehaviour
             this.BuildType = 0;
             this.DestinationCheck = 0;
             this.BuildClock = -1;
+            this.Workerbuild = 0;
         }
         if (this.DestinationCheck == 1 && this.BuildClock == 0 && this.BuildType == 3)
         {
@@ -339,6 +350,7 @@ public class WorkerScript : MonoBehaviour
             this.BuildType = 0;
             this.DestinationCheck = 0;
             this.BuildClock = -1;
+            this.Workerbuild = 0;
         }
         if (this.DestinationCheck == 1 && this.BuildClock == 0 && this.BuildType == 4)
         {
@@ -352,6 +364,7 @@ public class WorkerScript : MonoBehaviour
             this.BuildType = 0;
             this.DestinationCheck = 0;
             this.BuildClock = -1;
+            this.Workerbuild = 0;
         }
         if (this.DestinationCheck == 1 && this.BuildClock == 0 && this.BuildType == 5)
         {
@@ -364,6 +377,7 @@ public class WorkerScript : MonoBehaviour
             this.BuildType = 0;
             this.DestinationCheck = 0;
             this.BuildClock = -1;
+            this.Workerbuild = 0;
         }
         if (this.DestinationCheck == 1 && this.BuildClock == 0 && this.BuildType == 6)
         {
@@ -376,25 +390,19 @@ public class WorkerScript : MonoBehaviour
             this.BuildType = 0;
             this.DestinationCheck = 0;
             this.BuildClock = -1;
+            this.Workerbuild = 0;
         }
     }
 
     public void TimeCounter()
     {
-        if (GameManager.GetInstance().UnitSelectCount == 1)
+        if (this.BuildClock > 0)
         {
-            if (this.BuildClock > 0)
-            {
-                GameManager.GetInstance().m_cGUIManager.m_textInfo.text = "건물 생성중..." + this.BuildClock;
-            }
-            if (this.BuildClock < 0)
-            {
-                GameManager.GetInstance().m_cGUIManager.m_textInfo.text = "";
-            }
+            m_buildinfotext.text = "건물 생성중..." + this.BuildClock;
         }
-        else
+        if (this.BuildClock < 0)
         {
-            GameManager.GetInstance().m_cGUIManager.m_textInfo.text = "";
+            m_buildinfotext.text = "";
         }
     }
 

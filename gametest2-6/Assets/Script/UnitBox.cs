@@ -21,19 +21,23 @@ public class UnitBox : MonoBehaviour {
     public int DetectCheck = 0; //1이면 사거리안 유닛, 0이면 밖, 2면 건물, 3이면 센터
     public int m_UnitCommend = 0; //1이면 공격모드, 0이면 스탑모드
     public int SelectCheck = 0; //1이면 유닛선택, 0이면 해제
-    public GameObject HitEffect;
-    public GameObject HitEffectpoint;
-    public GameObject ShootEffect;
-    public GameObject ShootEffectpoint;
-    public GameObject HpbarPosition;
-    public GameObject m_UnitInfo;
-    public Text m_UnitInfotext;
+    public GameObject HitEffect; //타격 이펙트 
+    public GameObject HitEffectpoint; //타격 이펙트 지점
+    public GameObject ShootEffect; //피격 이펙트
+    public GameObject ShootEffectpoint; //피격 이펙트 지점
+    public GameObject HpbarPosition; //Hp바 위치고정용
+    public GameObject m_UnitInfo; //유닛 정보 UI
+    public Text m_UnitInfotext; //유닛정보UI의 텍스트
+    double deathtime = 2;
+
+    Animator animator;
 
     void Start()
     {
         nav = GetComponent<NavMeshAgent>();
         TargetPosition = this.transform.position;
-        Debug.Log(this.transform.position);       
+        animator = GetComponent<Animator>();
+        //Debug.Log(this.transform.position);       
         m_fMax = m_UnitHp.m_cRectTransform.sizeDelta.x;
         InvokeRepeating("Attack", 0, 1);
         InvokeRepeating("ZombieAttacktoBuilding", 0, 1);
@@ -72,17 +76,20 @@ public class UnitBox : MonoBehaviour {
                 {
                     if (hit.tag == "EnemyU")
                     {
-                        m_enemy = hit.gameObject.GetComponent<UnitBox>(); //탐지 한 적개체를 타겟으로 지정
-                        m_fDists = Vector3.Distance(this.transform.position, m_enemy.transform.position);
-                        if (m_fDists > this.m_sUnit.Range)
+                        if (hit.gameObject.GetComponent<UnitBox>().m_sUnit.Hp >= 0)
                         {
-                            this.TargetPosition = m_enemy.transform.position;//적유닛의 위치로이동
-                            DetectCheck = 0;
-                        }
-                        if (m_fDists <= this.m_sUnit.Range)//사거리 안으로 이동시
-                        {
-                            this.TargetPosition = this.transform.position;//현재위치에 멈춤
-                            DetectCheck = 1;
+                            m_enemy = hit.gameObject.GetComponent<UnitBox>(); //탐지 한 적개체를 타겟으로 지정
+                            m_fDists = Vector3.Distance(this.transform.position, m_enemy.transform.position);
+                            if (m_fDists > this.m_sUnit.Range)
+                            {
+                                this.TargetPosition = m_enemy.transform.position;//적유닛의 위치로이동
+                                DetectCheck = 0;
+                            }
+                            if (m_fDists <= this.m_sUnit.Range + 0.2)//사거리 안으로 이동시
+                            {
+                                this.TargetPosition = this.transform.position;//현재위치에 멈춤
+                                DetectCheck = 1;
+                            }
                         }
                     }
                 }
@@ -102,9 +109,11 @@ public class UnitBox : MonoBehaviour {
                         {
                             this.TargetPosition = m_enemy.transform.position;//적유닛의 위치로이동
                                                                              //Debug.Log("too far");
+                            animator.SetBool("walking", true);
+                            animator.SetBool("Attacking", false);
                             DetectCheck = 0;
                         }
-                        if (m_fDists <= this.m_sUnit.Range)//사거리 안으로 이동시
+                        if (m_fDists <= this.m_sUnit.Range + 0.2)//사거리 안으로 이동시
                         {
                             this.TargetPosition = this.transform.position;//현재위치에 멈춤
                                                                           //Attack();
@@ -119,6 +128,8 @@ public class UnitBox : MonoBehaviour {
                         if (m_fDists > this.m_sUnit.Range)
                         {
                             this.TargetPosition = m_TargetofZombie.transform.position;
+                            animator.SetBool("walking", true);
+                            animator.SetBool("Attacking", false);
                         }
                         if (m_fDists <= this.m_sUnit.Range + 1)
                         {
@@ -133,6 +144,8 @@ public class UnitBox : MonoBehaviour {
                         if (m_fDists > this.m_sUnit.Range)
                         {
                             this.TargetPosition = m_enemys_target.transform.position;
+                            animator.SetBool("walking", true);
+                            animator.SetBool("Attacking", false);
                             //ZombieDeCheck = 0;
                         }
                         if (m_fDists <= this.m_sUnit.Range + 2)
@@ -186,11 +199,19 @@ public class UnitBox : MonoBehaviour {
                     Instantiate(HitEffect, HitEffectpoint.transform.position, Quaternion.identity);
                     SoundManager.instance.PlaySound();
                 }
-                Instantiate(ShootEffect, ShootEffectpoint.transform.position, Quaternion.identity);
+                if (this.CompareTag("EnemyU"))
+                {
+                    animator.SetBool("Attacking", true);
+                }
+                Instantiate(ShootEffect, m_enemy.ShootEffectpoint.transform.position, Quaternion.identity);
                 m_enemy.ChangeHp(m_enemy.m_sUnit.Hp, m_enemy.m_sUnit.MaxHp);
                 if (m_enemy.m_sUnit.Hp <= 0)
                 {
                     //Destroy(m_enemy.gameObject);
+                    if (this.CompareTag("EnemyU"))
+                    {
+                        animator.SetBool("Attacking", false);
+                    }
                     m_enemy = null;
                 }
             }
@@ -278,6 +299,7 @@ public class UnitBox : MonoBehaviour {
         if(this.tag=="EnemyU" && m_enemy == null)
         {
             this.TargetPosition = TargetCenter.transform.position;
+            animator.SetBool("walking", true);
         }
     }
 
@@ -287,22 +309,26 @@ public class UnitBox : MonoBehaviour {
         {
             if (DetectCheck == 2 && m_TargetofZombie != null)
             {
+                animator.SetBool("Attacking", true);
                 m_TargetofZombie.m_Building.Hp = m_TargetofZombie.m_Building.Hp - m_sUnit.Damage;
                 //Debug.Log("건물공격중");
                 m_TargetofZombie.ChangeHp(m_TargetofZombie.m_Building.Hp, m_TargetofZombie.m_Building.MaxHp);
                 if (m_TargetofZombie.m_Building.Hp <= 0)
                 {
-                    //Destroy(m_TargetofZombie.gameObject);
+                    Destroy(m_TargetofZombie.gameObject);
+                    animator.SetBool("Attacking", false);
                     m_TargetofZombie = null;
                 }
             }
             if (DetectCheck == 3 && m_enemys_target != null)
             {
+                animator.SetBool("Attacking", true);
                 m_enemys_target.m_Center.Hp = m_enemys_target.m_Center.Hp - m_sUnit.Damage;
                 //Debug.Log("1");
                 m_enemys_target.ChangeHp(m_enemys_target.m_Center.Hp, m_enemys_target.m_Center.MaxHp);
                 if (m_enemys_target.m_Center.Hp <= 0)
                 {
+                    animator.SetBool("Attacking", false);
                     Destroy(m_enemys_target.gameObject);
                     m_enemys_target = null;
                 }
@@ -317,12 +343,19 @@ public class UnitBox : MonoBehaviour {
             if (this.tag == "PlayerU")
             {
                 GameManager.GetInstance().NowPopulation--;
+                Destroy(this.gameObject);
             }
             if (this.tag == "EnemyU")
-            {
-                GameManager.GetInstance().ZombieAmount--;
+            {               
+                animator.SetBool("death", true);               
+                deathtime -= Time.deltaTime;
+                if (deathtime <= 0)
+                {
+                    Destroy(this.gameObject);
+                    GameManager.GetInstance().ZombieAmount--;
+                }
             }
-            Destroy(this.gameObject);
+            
         }
     }
 }
