@@ -8,21 +8,24 @@ using UnityEngine.EventSystems;
 public class WorkerScript : MonoBehaviour
 {
     public Vector3 TargetPosition;
-    public GameObject test;
+    public GameObject test; //건설가능 미리보기
+    public GameObject test2; //건설불가 미리보기
+    GameObject BuildPreview = null; //건설가능 미리보기 복사용
+    GameObject BuildPreview2 = null; //건설불가 미리보기 복사용
     NavMeshAgent nav;//유닛 박스에 직접 네비매시를 입력
     public int SelectCheck = 0; //1이면 유닛선택, 0이면 해제
     public int BuildingNumber = 0; //(미리보기)1: Farm, 2: Barrack, 3: Lumber, 4: House, 5: WallHo, 6: WallVer
     public int BuildClock = -1; //건설 시간
     public int BuildType = 0; //건설할 건물 종류
     public int DestinationCheck = 0; //일꾼의 목적지 도착여부
-    Vector3 BuildingPosi; //미리보기(?) 위치
-    GameObject BuildPreview; //건물 미리보기
+    Vector3 BuildingPosi; //미리보기(?) 위치   
     public GameObject Commend_UI; //일반 UI
     public GameObject Build_UI; //건물 생산 UI
     int buttoncheck = 0; //건물버튼활성화 여부
     int Workerbuild = 0; //건물건설중일때 일꾼 못움직이게 만들기위한 변수
     public GameObject BuildInfo; //건물 건설정보
     public Text m_buildinfotext; //건물 건설정보 텍스트
+    public int BuildFieldCheck = 0; //0: 건설가능 1: 건설불가
 
     void Start()
     {
@@ -200,7 +203,7 @@ public class WorkerScript : MonoBehaviour
     {
         if (this.SelectCheck == 1)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // 마우스에서 광선을 쏨
             RaycastHit hitinfo = new RaycastHit();
             if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
             {
@@ -213,38 +216,42 @@ public class WorkerScript : MonoBehaviour
                     {
                         //BuildPreview = Instantiate(GameManager.GetInstance().G_Farm, BuildingPosi, Quaternion.identity);
                         BuildPreview = Instantiate(test, BuildingPosi, Quaternion.identity);
+                        BuildPreview2 = Instantiate(test2, BuildingPosi, Quaternion.identity);
                         this.BuildType = 1;
-                        Debug.Log("1");
                     }
                     if (this.BuildingNumber == 2)
                     {
                         //BuildPreview = Instantiate(GameManager.GetInstance().G_Barrack, BuildingPosi, Quaternion.identity);
                         BuildPreview = Instantiate(test, BuildingPosi, Quaternion.identity);
+                        BuildPreview2 = Instantiate(test2, BuildingPosi, Quaternion.identity);
                         this.BuildType = 2;                       
                     }
                     if (this.BuildingNumber == 3)
                     {
                         //BuildPreview = Instantiate(GameManager.GetInstance().G_Lumber, BuildingPosi, Quaternion.identity);
                         BuildPreview = Instantiate(test, BuildingPosi, Quaternion.identity);
+                        BuildPreview2 = Instantiate(test2, BuildingPosi, Quaternion.identity);
                         this.BuildType = 3;
-                        Debug.Log("1");
                     }
                     if (this.BuildingNumber == 4)
                     {
                         //BuildPreview = Instantiate(GameManager.GetInstance().G_House, BuildingPosi, Quaternion.identity);
                         BuildPreview = Instantiate(test, BuildingPosi, Quaternion.identity);
+                        BuildPreview2 = Instantiate(test2, BuildingPosi, Quaternion.identity);
                         this.BuildType = 4;                       
                     }
                     if (this.BuildingNumber == 5)
                     {
                         //BuildPreview = Instantiate(GameManager.GetInstance().G_WallHo, BuildingPosi, Quaternion.identity);
                         BuildPreview = Instantiate(test, BuildingPosi, Quaternion.identity);
+                        BuildPreview2 = Instantiate(test2, BuildingPosi, Quaternion.identity);
                         this.BuildType = 5;                        
                     }
                     if (this.BuildingNumber == 6)
                     {
                         //BuildPreview = Instantiate(GameManager.GetInstance().G_WallVer, BuildingPosi, Quaternion.identity);
                         BuildPreview = Instantiate(test, BuildingPosi, Quaternion.identity);
+                        BuildPreview2 = Instantiate(test2, BuildingPosi, Quaternion.identity);
                         this.BuildType = 6;
                     }
                 }
@@ -252,15 +259,64 @@ public class WorkerScript : MonoBehaviour
                 {
                     this.BuildingNumber = 0;
                     BuildPreview.transform.position = BuildingPosi;
+                    BuildPreview2.transform.position = BuildingPosi;
+                    BuildPreview2.SetActive(false);
 
-                    if (Input.GetMouseButtonDown(0))
+                    if (BuildFieldCheck == 0)
                     {
-                        this.TargetPosition = BuildingPosi;
-                        Debug.Log(this.TargetPosition);
-                        Debug.Log(this.transform.position);
-                        
+                        BuildPreview.SetActive(true);
+                        BuildPreview2.SetActive(false);
                     }
-                    if (this.transform.position.x == BuildingPosi.x && this.transform.position.z == BuildingPosi.z)
+                    else
+                    {
+                        BuildPreview.SetActive(false);
+                        BuildPreview2.SetActive(true);
+                    }
+
+                    RaycastHit hit = new RaycastHit();
+                    if(Physics.Raycast(BuildPreview.transform.position, -BuildPreview.transform.up, out hit, 1f))
+                    {
+                        if (BuildType == 1)
+                        {
+                            if (hit.collider.CompareTag("foodtile"))
+                            {
+                                BuildFieldCheck = 0;
+                            }
+                            else
+                            {
+                                BuildFieldCheck = 1;
+                            }
+                        }
+                        else if (BuildType == 3)
+                        {
+                            if (hit.collider.CompareTag("woodtile"))
+                            {
+                                BuildFieldCheck = 0;
+                            }
+                            else
+                            {
+                                BuildFieldCheck = 1;
+                            }
+                        }
+                        else
+                        {
+                            if (hit.collider.tag != "watertile")
+                            {
+                                BuildFieldCheck = 0;
+                            }
+                            if (hit.collider.CompareTag("watertile"))
+                            {
+                                BuildFieldCheck = 1;
+                            }
+                        }
+                    }
+
+                    if (Input.GetMouseButtonDown(0) && BuildFieldCheck == 0)
+                    {
+                        this.TargetPosition = BuildingPosi;                        
+                    }
+                    if (this.transform.position.x == BuildingPosi.x && 
+                        this.transform.position.z == BuildingPosi.z && BuildFieldCheck == 0)
                     {
                         this.DestinationCheck = 1;
                         this.Workerbuild = 1;
@@ -289,13 +345,17 @@ public class WorkerScript : MonoBehaviour
                             this.BuildClock = 1;
                         }
                         Destroy(BuildPreview);
+                        Destroy(BuildPreview2);
                         BuildPreview = null;
+                        BuildPreview2 = null;
                     }
                     if (Input.GetMouseButtonDown(1))
                     {
                         this.BuildType = 0;
                         Destroy(BuildPreview);
+                        Destroy(BuildPreview2);
                         BuildPreview = null;
+                        BuildPreview2 = null;
                     }
                 }
             }

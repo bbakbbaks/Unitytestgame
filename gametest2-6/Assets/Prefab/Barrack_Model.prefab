@@ -235,7 +235,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.45643282, y: 0.30273896, z: 0.3911012}
+  m_Size: {x: 0.3, y: 0.30273896, z: 0.35}
   m_Center: {x: -0.0050942153, y: 0.13033602, z: -0.011042863}
 --- !u!95 &95016809175899970
 Animator:
@@ -685,9 +685,9 @@ RectTransform:
   m_Father: {fileID: 224123171707685528}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 226, y: -194}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -40, y: 48}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224841624357650834

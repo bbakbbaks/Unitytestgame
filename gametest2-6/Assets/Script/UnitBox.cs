@@ -28,7 +28,9 @@ public class UnitBox : MonoBehaviour {
     public GameObject HpbarPosition; //Hp바 위치고정용
     public GameObject m_UnitInfo; //유닛 정보 UI
     public Text m_UnitInfotext; //유닛정보UI의 텍스트
-    double deathtime = 2;
+    public GameObject SelectCircle; //유닛 선택됐을 때 바닥에 생기는 원
+
+    double deathtime = 2; //죽는 애니메이션을 위한 시간
 
     Animator animator;
 
@@ -259,11 +261,13 @@ public class UnitBox : MonoBehaviour {
                 if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("playerunit")))
                 {
                     hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCheck = 1;
+                    hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCircle.SetActive(true);
                     GameManager.GetInstance().UnitSelectCount++;
                 }
                 else
                 {
                     SelectCheck = 0;
+                    SelectCircle.SetActive(false);
                     GameManager.GetInstance().UnitSelectCount = 0;
                 }
             }

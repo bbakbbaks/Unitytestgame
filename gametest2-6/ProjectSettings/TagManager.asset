@@ -9,6 +9,10 @@ TagManager:
   - PlayerB
   - Center
   - Map
+  - foodtile
+  - woodtile
+  - normaltile
+  - watertile
   layers:
   - Default
   - TransparentFX

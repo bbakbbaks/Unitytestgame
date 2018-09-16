@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Muiltiunitmove : MonoBehaviour {
     public Camera camera;
+
     // Use this for initialization
     void Start()
     {
@@ -53,5 +55,15 @@ public class Muiltiunitmove : MonoBehaviour {
         limitmap.y = Mathf.Clamp(transform.position.y, (float)23.5, (float)48.5);
         limitmap.z = Mathf.Clamp(transform.position.z, (float)-20, (float)14);
         transform.position = limitmap;
+    }
+
+    public void GoTutorial()
+    {
+        SceneManager.LoadScene("tutorial");
+    }
+
+    public void GoMain()
+    {
+        SceneManager.LoadScene("basic");
     }
 }

@@ -129,13 +129,13 @@ public class GameManager : MonoBehaviour
         {
             m_cGUIManager.m_textZombieInfo.text = WaveCount + "번째 웨이브" + "\n남은 좀비 수: " + ZombieAmount;
         }
-        m_cGUIManager.m_textWaveTimer.text = "남은 웨이브까지 남은시간: " + Wavetimer + "초";
+        m_cGUIManager.m_textWaveTimer.text = "다음 웨이브: " + (int)Wavetimer + "초";
     }
 
     public void EventStart()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        InvokeRepeating("PdEnemy", 0, 600);
+        //InvokeRepeating("PdEnemy", 0, 600);
         CreateUnit();
         InvokeRepeating("IncreaseRecource", 0, 1);
         //m_cCenter.DestroyCenter();
