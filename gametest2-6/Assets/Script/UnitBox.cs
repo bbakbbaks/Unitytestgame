@@ -260,15 +260,20 @@ public class UnitBox : MonoBehaviour {
                 RaycastHit hitinfo;
                 if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("playerunit")))
                 {
-                    hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCheck = 1;
-                    hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCircle.SetActive(true);
-                    GameManager.GetInstance().UnitSelectCount++;
+                    if (!(GameManager.GetInstance().BuildingSelectCheck))
+                    {
+                        hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCheck = 1;
+                        hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCircle.SetActive(true);
+                        //GameManager.GetInstance().UnitSelectCount++;
+                        GameManager.GetInstance().UnitSelectCheck = true;
+                    }
                 }
                 else
                 {
                     SelectCheck = 0;
                     SelectCircle.SetActive(false);
-                    GameManager.GetInstance().UnitSelectCount = 0;
+                    //GameManager.GetInstance().UnitSelectCount = 0;
+                    GameManager.GetInstance().UnitSelectCheck = false;
                 }
             }
         }

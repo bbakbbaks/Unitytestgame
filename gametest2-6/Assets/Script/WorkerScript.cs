@@ -25,6 +25,8 @@ public class WorkerScript : MonoBehaviour
     int Workerbuild = 0; //건물건설중일때 일꾼 못움직이게 만들기위한 변수
     public GameObject BuildInfo; //건물 건설정보
     public Text m_buildinfotext; //건물 건설정보 텍스트
+    public Text m_buildtext; //건설불가시 나오는 메세지
+    public float m_buildtexttime = 0; //메세지 지속시간
     public int BuildFieldCheck = 0; //0: 건설가능 1: 건설불가
 
     void Start()
@@ -44,6 +46,7 @@ public class WorkerScript : MonoBehaviour
         UnitMove();
         BuildNumber();
         ButtonActive();
+        messagecheck();
     }
 
     public void UnitMove()
@@ -57,27 +60,31 @@ public class WorkerScript : MonoBehaviour
                 this.TargetPosition = hitinfo.point;
             }
         }
-
     }
 
     public void UnitSelect()
     {
-        if (BuildPreview == null && Input.GetMouseButtonDown(0))
+        if(!(GameManager.GetInstance().BuildingSelectCheck))
         {
-            if (EventSystem.current.IsPointerOverGameObject() == false) //UI위가 아닐경우에
+            if (BuildPreview == null && Input.GetMouseButtonDown(0))
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hitinfo;
-                if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("playerunit")))
+                if (EventSystem.current.IsPointerOverGameObject() == false) //UI위가 아닐경우에
                 {
-                    if (hitinfo.collider.name == "worker")
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hitinfo;
+                    if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("playerunit")))
                     {
-                        hitinfo.collider.gameObject.GetComponent<WorkerScript>().SelectCheck = 1;
+                        if (hitinfo.collider.name == "worker")
+                        {
+                            hitinfo.collider.gameObject.GetComponent<WorkerScript>().SelectCheck = 1;
+                            GameManager.GetInstance().UnitSelectCheck = true;
+                        }
                     }
-                }
-                else
-                {
-                    SelectCheck = 0;
+                    else
+                    {
+                        SelectCheck = 0;
+                        GameManager.GetInstance().UnitSelectCheck = false;
+                    }
                 }
             }
         }
@@ -270,7 +277,7 @@ public class WorkerScript : MonoBehaviour
                     else
                     {
                         BuildPreview.SetActive(false);
-                        BuildPreview2.SetActive(true);
+                        BuildPreview2.SetActive(true);                        
                     }
 
                     RaycastHit hit = new RaycastHit();
@@ -390,6 +397,7 @@ public class WorkerScript : MonoBehaviour
         {
             GameObject pdBarrack = Instantiate(GameManager.GetInstance().G_Barrack, this.transform.position, Quaternion.identity);
             GameManager.GetInstance().BuildingCount++;
+            pdBarrack.name = "barrack";
             GameManager.GetInstance().m_cBuildings.Add(pdBarrack.GetComponent<BuildingBox>());
             GameManager.GetInstance().m_cBuildings[GameManager.GetInstance().BuildingCount].m_Building = GameManager.GetInstance().m_cBuildingManager.GetBuilding(BuildingManager.eBuilding.Barrack);
             GameManager.GetInstance().Wood -= 200;
@@ -466,5 +474,24 @@ public class WorkerScript : MonoBehaviour
         }
     }
 
-    
+    public void messagecheck()
+    {
+        if (BuildFieldCheck == 1)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                m_buildtext.text = "건설할 수 없습니다.";
+                m_buildtexttime = 1;
+            }
+        }
+        if (m_buildtexttime > 0)
+        {
+            m_buildtexttime -= Time.deltaTime;
+            if (m_buildtexttime <= 0)
+            {
+                m_buildtext.text = "";
+                m_buildtexttime = 0;
+            }
+        }
+    }
 }

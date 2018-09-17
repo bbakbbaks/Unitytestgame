@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
     public int FarmCount = 0; //농장 갯수
     public int HouseCount = 0; //집 갯수
     public int UnitSelectCount = 0; //선택된 유닛의 갯수
+    public bool BuildingSelectCheck = false; //건물선택체크
+    public bool UnitSelectCheck = false; //유닛선택체크 //건물과 유닛의 중복 체크 방지
     public float Wavetimer = 60;
     int wavetimerstart = 0;
 
@@ -177,5 +179,10 @@ public class GameManager : MonoBehaviour
     public void EventGameOver()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.GAMEOVER);
+    }
+
+    public void Tutorial()
+    {
+        Time.timeScale = 0;
     }
 }

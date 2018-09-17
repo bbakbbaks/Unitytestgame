@@ -33,15 +33,19 @@ public class Barrack : MonoBehaviour {
                 RaycastHit hitinfo;
                 if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Barrack")))
                 {
-                    hitinfo.collider.gameObject.GetComponent<Barrack>().SelectCheck = 1;
+                    if (!(GameManager.GetInstance().UnitSelectCheck))
+                    {
+                        hitinfo.collider.gameObject.GetComponent<Barrack>().SelectCheck = 1;
+                        GameManager.GetInstance().BuildingSelectCheck = true;
+                    }
                 }
                 else
                 {
                     SelectCheck = 0;
+                    GameManager.GetInstance().BuildingSelectCheck = false;
                 }
             }
         }
-
     }
 
     public void BarrackUI()

@@ -36,19 +36,24 @@ public class Center : MonoBehaviour {
 
     public void CenterSelect()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hitinfo = new RaycastHit();
-        if (Input.GetMouseButtonDown(0))
+        if (!(GameManager.GetInstance().UnitSelectCheck))
         {
-            if (EventSystem.current.IsPointerOverGameObject() == false) //UI위가 아닐경우에
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitinfo = new RaycastHit();
+            if (Input.GetMouseButtonDown(0))
             {
-                if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Center")))
+                if (EventSystem.current.IsPointerOverGameObject() == false) //UI위가 아닐경우에
                 {
-                    hitinfo.collider.gameObject.GetComponent<Center>().SelectCheck = 1;
-                }
-                else
-                {
-                    SelectCheck = 0;
+                    if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Center")))
+                    {
+                        hitinfo.collider.gameObject.GetComponent<Center>().SelectCheck = 1;
+                        GameManager.GetInstance().BuildingSelectCheck = true;
+                    }
+                    else
+                    {
+                        SelectCheck = 0;
+                        GameManager.GetInstance().BuildingSelectCheck = false;
+                    }
                 }
             }
         }
