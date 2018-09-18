@@ -38,13 +38,10 @@ public class UnitBox : MonoBehaviour {
     {
         nav = GetComponent<NavMeshAgent>();
         TargetPosition = this.transform.position;
-        animator = GetComponent<Animator>();
-        //Debug.Log(this.transform.position);       
+        animator = GetComponent<Animator>();     
         m_fMax = m_UnitHp.m_cRectTransform.sizeDelta.x;
         InvokeRepeating("Attack", 0, 1);
         InvokeRepeating("ZombieAttacktoBuilding", 0, 1);
-        //StartPosition();
-        //InvokeRepeating("ClockCount", 1, 1);
     }
 
     void Update()

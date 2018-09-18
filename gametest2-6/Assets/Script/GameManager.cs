@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour
     public bool UnitSelectCheck = false; //유닛선택체크 //건물과 유닛의 중복 체크 방지
     public float Wavetimer = 60;
     int wavetimerstart = 0;
+    public GameObject G_goal; // 매뉴->목표
+    public GameObject G_continue; // 매뉴->계속하기
+    public GameObject G_keyNprice; // 매뉴->키및가격
+
 
     static GameManager m_cInstance;
 
@@ -181,8 +185,19 @@ public class GameManager : MonoBehaviour
         m_cGUIManager.SetScene(GUIManager.eScene.GAMEOVER);
     }
 
-    public void Tutorial()
+    public void Menubutton()
     {
         Time.timeScale = 0;
+        G_goal.SetActive(true);
+        G_continue.SetActive(true);
+        G_keyNprice.SetActive(true);
+    }
+
+    public void ContinueButton()
+    {
+        Time.timeScale = 1;
+        G_goal.SetActive(false);
+        G_continue.SetActive(false);
+        G_keyNprice.SetActive(false);
     }
 }
