@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public GameObject G_WallHo;
     public GameObject G_WallVer;
     public Barrack m_cBarrack;
-    public Transform Z_Point;
+    public Transform Z_Point; //좀비 리젠 포인트
     public int unitcount = -1; //리스트에 추가되는 유닛을 위한 카운트
     public int BuildingCount = -1; //리스트에 추가되는 빌딩을 위한 카운트
     int Zcount = -1; //좀비리스트에 추가되는 좀비를 위한 카운트
@@ -40,10 +40,16 @@ public class GameManager : MonoBehaviour
     public bool BuildingSelectCheck = false; //건물선택체크
     public bool UnitSelectCheck = false; //유닛선택체크 //건물과 유닛의 중복 체크 방지
     public float Wavetimer = 60;
-    int wavetimerstart = 0;
+    bool wavetimerstart = false;
     public GameObject G_goal; // 매뉴->목표
     public GameObject G_continue; // 매뉴->계속하기
-    public GameObject G_keyNprice; // 매뉴->키및가격
+    public GameObject G_keyNprice; // 매뉴->설명서
+    public GameObject G_KnPImage; //설명서클릭시 나오는 이미지
+    public GameObject G_GImage; //목표클릭시 나오는 이미지
+    public UnitBox MultiUnit;
+    public GameObject MultiAttackB;
+    public GameObject MultiStopB;
+    public GameObject G_BackB; // 뒤로가기 버튼
 
 
     static GameManager m_cInstance;
@@ -68,8 +74,8 @@ public class GameManager : MonoBehaviour
             CancelInvoke("PdEnemy");
         GameCheck();
         ResourceText();
-        GameInfo2();
-        if (wavetimerstart == 1)
+        //GameInfo2();
+        if (wavetimerstart)
         {
             Wavetimer -= Time.deltaTime;
             if (Wavetimer <= 0)
@@ -77,6 +83,7 @@ public class GameManager : MonoBehaviour
                 Wavetimer = 60;
             }
         }
+        MultiUI();
     }
 
     public void CreateUnit()
@@ -84,7 +91,7 @@ public class GameManager : MonoBehaviour
         m_cCenter.m_Center = new Building("지휘본부", 500, 0, 0, "imgcenter");
         m_cUnitManager.m_listunits.Add(new Unit("일꾼", 5, 1, 1, 1, "imgworker"));
         m_cUnitManager.m_listunits.Add(new Unit("군인", 15, 4, 4, 1, "imgsolider"));
-        m_cUnitManager.m_listunits.Add(new Unit("좀비", 20, 0, 1, 1, "imgzombie"));
+        m_cUnitManager.m_listunits.Add(new Unit("좀비", 20, 3, 1, 1, "imgzombie"));
         //m_cBuildingManager.m_listBuildings.Add(new Building("지휘본부", 500, 0, 0, "imgcenter"));
         m_cBuildingManager.m_listBuildings.Add(new Building("제재소", 70, 100, 20, "imglumber"));
         m_cBuildingManager.m_listBuildings.Add(new Building("집", 30, 50, 4, "imghouse"));
@@ -106,6 +113,20 @@ public class GameManager : MonoBehaviour
         WaveCount++;
     }
 
+    public void MultiUI()
+    {
+        if (UnitSelectCount >= 2)
+        {
+            MultiAttackB.SetActive(true);
+            MultiStopB.SetActive(true);
+        }
+        else
+        {
+            MultiAttackB.SetActive(false);
+            MultiStopB.SetActive(false);
+        }
+    }
+
     public void IncreaseRecource()
     {
         Wood += LumCount * 20;
@@ -119,10 +140,11 @@ public class GameManager : MonoBehaviour
         {
             //Debug.Log("GameOver");
             m_cGUIManager.SetScene(GUIManager.eScene.GAMEOVER);
+            Time.timeScale = 0;
         }
         if (WaveCount == 5 && ZombieAmount == 0) //승리
         {
-            m_cGUIManager.SetScene(GUIManager.eScene.THEEND); 
+            m_cGUIManager.SetScene(GUIManager.eScene.THEEND);
         }
     }
 
@@ -141,11 +163,11 @@ public class GameManager : MonoBehaviour
     public void EventStart()
     {
         m_cGUIManager.SetScene(GUIManager.eScene.PLAY);
-        //InvokeRepeating("PdEnemy", 0, 600);
+        InvokeRepeating("PdEnemy", 60, 60);
         CreateUnit();
         InvokeRepeating("IncreaseRecource", 0, 1);
         //m_cCenter.DestroyCenter();
-        wavetimerstart = 1;
+        wavetimerstart = true;
         
     }
 
@@ -199,5 +221,33 @@ public class GameManager : MonoBehaviour
         G_goal.SetActive(false);
         G_continue.SetActive(false);
         G_keyNprice.SetActive(false);
+    }
+
+    public void KnPButton()
+    {
+        G_goal.SetActive(false);
+        G_continue.SetActive(false);
+        G_keyNprice.SetActive(false);
+        G_KnPImage.SetActive(true);
+        G_BackB.SetActive(true);
+    }
+
+    public void GoalButton()
+    {
+        G_goal.SetActive(false);
+        G_continue.SetActive(false);
+        G_keyNprice.SetActive(false);
+        G_GImage.SetActive(true);
+        G_BackB.SetActive(true);
+    }
+
+    public void BackButton()
+    {
+        G_goal.SetActive(true);
+        G_continue.SetActive(true);
+        G_keyNprice.SetActive(true);
+        G_KnPImage.SetActive(false);
+        G_GImage.SetActive(false);
+        G_BackB.SetActive(false);
     }
 }

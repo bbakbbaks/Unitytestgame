@@ -7,6 +7,16 @@ public class BuildingBox : MonoBehaviour {
     public Building m_Building;
     public UnitHp m_Hp;
     float m_fMax;
+    public GameObject FireEffect;
+    public GameObject Firepoint1; //체력 75퍼이하일때 불
+    bool Fire1check = false;
+    public GameObject Firepoint2; //체력 50퍼이하일때 불
+    bool Fire2check = false;
+    public GameObject Firepoint3; //체력 25퍼이하일때 불
+    bool Fire3check = false;
+    GameObject Fire1;
+    GameObject Fire2;
+    GameObject Fire3;
 
     // Use this for initialization
     void Start () {
@@ -15,8 +25,8 @@ public class BuildingBox : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        DTbuilding();
-	}
+        Damagedbyzombie();
+    }
 
     public void ChangeHp(float unithp, float unitmaxhp)//HP바의 체력변화
     {
@@ -24,9 +34,25 @@ public class BuildingBox : MonoBehaviour {
         m_Hp.m_cRectTransform.sizeDelta = new Vector3(HpRatio, m_Hp.m_cRectTransform.sizeDelta.y);
     }
 
-    public void DTbuilding()
+    public void Damagedbyzombie()
     {
-        if (this.m_Building.Hp <= 0) 
+        float HpRatio = this.m_Building.Hp / this.m_Building.MaxHp * 100;
+        if (HpRatio <= 75 && !(Fire1check))
+        {
+            Fire1 = Instantiate(FireEffect, Firepoint1.transform.position, Quaternion.identity);
+            Fire1check = true;
+        }
+        if (HpRatio <= 50 && !(Fire2check))
+        {
+            Fire2 = Instantiate(FireEffect, Firepoint2.transform.position, Quaternion.identity);
+            Fire2check = true;
+        }
+        if (HpRatio <= 25 && !(Fire3check))
+        {
+            Fire3 = Instantiate(FireEffect, Firepoint3.transform.position, Quaternion.identity);
+            Fire3check = true;
+        }
+        if (HpRatio <= 0)
         {
             if (this.m_Building.Name == "제재소")
             {
@@ -41,6 +67,9 @@ public class BuildingBox : MonoBehaviour {
                 GameManager.GetInstance().HouseCount--;
             }
             Destroy(this.gameObject);
+            Destroy(Fire1);
+            Destroy(Fire2);
+            Destroy(Fire3);        
         }
     }
 }

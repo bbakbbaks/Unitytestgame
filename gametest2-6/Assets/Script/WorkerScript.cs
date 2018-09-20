@@ -28,6 +28,7 @@ public class WorkerScript : MonoBehaviour
     public Text m_buildtext; //건설불가시 나오는 메세지
     public float m_buildtexttime = 0; //메세지 지속시간
     public int BuildFieldCheck = 0; //0: 건설가능 1: 건설불가
+    public bool PreviewCheck = false; //미리보기가 건설가능 상태일때 미리보기의 위치를 고정시키기 위한 용도
 
     void Start()
     {
@@ -60,6 +61,15 @@ public class WorkerScript : MonoBehaviour
                 this.TargetPosition = hitinfo.point;
             }
         }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            this.TargetPosition = this.transform.position;
+        }
+    }
+
+    public void StopB()
+    {
+        this.TargetPosition = this.transform.position;
     }
 
     public void UnitSelect()
@@ -92,7 +102,7 @@ public class WorkerScript : MonoBehaviour
 
     public void ButtonActive()
     {
-        if (SelectCheck == 1 && buttoncheck == 0)
+        if (SelectCheck == 1 && buttoncheck == 0 && GameManager.GetInstance().UnitSelectCount == 1)
         {
             Commend_UI.SetActive(true);
         }
@@ -101,7 +111,7 @@ public class WorkerScript : MonoBehaviour
             Commend_UI.SetActive(false);
         }
 
-        if (SelectCheck == 1)
+        if (SelectCheck == 1 && GameManager.GetInstance().UnitSelectCount == 1)
         {
             BuildInfo.SetActive(true);
         }
@@ -214,9 +224,12 @@ public class WorkerScript : MonoBehaviour
             RaycastHit hitinfo = new RaycastHit();
             if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
             {
-                BuildingPosi.x = Mathf.Round(hitinfo.point.x);
-                //BuildingPosi.y = Mathf.Round(hitinfo.point.y);
-                BuildingPosi.z = Mathf.Round(hitinfo.point.z);               
+                if (!(PreviewCheck))
+                {
+                    BuildingPosi.x = Mathf.Round(hitinfo.point.x);
+                    //BuildingPosi.y = Mathf.Round(hitinfo.point.y);
+                    BuildingPosi.z = Mathf.Round(hitinfo.point.z);
+                }        
                 if (BuildPreview == null)
                 {
                     if(this.BuildingNumber == 1)
@@ -320,6 +333,7 @@ public class WorkerScript : MonoBehaviour
 
                     if (Input.GetMouseButtonDown(0) && BuildFieldCheck == 0)
                     {
+                        PreviewCheck = true;
                         this.TargetPosition = BuildingPosi;                        
                     }
                     if (this.transform.position.x == BuildingPosi.x && 
@@ -355,6 +369,7 @@ public class WorkerScript : MonoBehaviour
                         Destroy(BuildPreview2);
                         BuildPreview = null;
                         BuildPreview2 = null;
+                        PreviewCheck = false;
                     }
                     if (Input.GetMouseButtonDown(1))
                     {
@@ -363,6 +378,7 @@ public class WorkerScript : MonoBehaviour
                         Destroy(BuildPreview2);
                         BuildPreview = null;
                         BuildPreview2 = null;
+                        PreviewCheck = false;
                     }
                 }
             }

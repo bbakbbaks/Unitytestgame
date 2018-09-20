@@ -818,7 +818,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1657199645088338
 GameObject:
   m_ObjectHideFlags: 1
@@ -1873,6 +1873,7 @@ MonoBehaviour:
   m_UnitInfo: {fileID: 1229675756870994}
   m_UnitInfotext: {fileID: 114024238747353122}
   SelectCircle: {fileID: 1398570646528758}
+  UnitCountCheck: 0
 --- !u!114 &114214971112277648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2778,8 +2779,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114198383316878208}
-        m_MethodName: stopbutton
+      - m_Target: {fileID: 114961357273642540}
+        m_MethodName: StopB
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2956,6 +2957,7 @@ MonoBehaviour:
   m_buildtext: {fileID: 114053626769766416}
   m_buildtexttime: 0
   BuildFieldCheck: 0
+  PreviewCheck: 0
 --- !u!114 &114966267297758976
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -29,6 +29,7 @@ public class UnitBox : MonoBehaviour {
     public GameObject m_UnitInfo; //유닛 정보 UI
     public Text m_UnitInfotext; //유닛정보UI의 텍스트
     public GameObject SelectCircle; //유닛 선택됐을 때 바닥에 생기는 원
+    public bool UnitCountCheck = false;
 
     double deathtime = 2; //죽는 애니메이션을 위한 시간
 
@@ -261,15 +262,21 @@ public class UnitBox : MonoBehaviour {
                     {
                         hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCheck = 1;
                         hitinfo.collider.gameObject.GetComponent<UnitBox>().SelectCircle.SetActive(true);
-                        //GameManager.GetInstance().UnitSelectCount++;
+                        hitinfo.collider.gameObject.GetComponent<UnitBox>().UnitCountCheck = true;
                         GameManager.GetInstance().UnitSelectCheck = true;
+                        if (this.SelectCheck == 1 && this.UnitCountCheck)
+                        {
+                            GameManager.GetInstance().UnitSelectCount++; 
+                            this.UnitCountCheck = false;
+                        }//버그->한개체당 1씩만 올라가야하는데 2씩 올라갈때가 있다
                     }
                 }
                 else
                 {
                     SelectCheck = 0;
                     SelectCircle.SetActive(false);
-                    //GameManager.GetInstance().UnitSelectCount = 0;
+                    UnitCountCheck = false;
+                    GameManager.GetInstance().UnitSelectCount = 0;
                     GameManager.GetInstance().UnitSelectCheck = false;
                 }
             }
@@ -278,7 +285,7 @@ public class UnitBox : MonoBehaviour {
 
     public void UnitInfo()
     {
-        if (SelectCheck == 1)
+        if (SelectCheck == 1 && GameManager.GetInstance().UnitSelectCount == 1)
         {
             m_UnitInfo.SetActive(true);
             m_UnitInfotext.text = this.m_sUnit.Name + "\n" + this.m_sUnit.Hp + "/" + this.m_sUnit.MaxHp;
@@ -321,7 +328,7 @@ public class UnitBox : MonoBehaviour {
                 m_TargetofZombie.ChangeHp(m_TargetofZombie.m_Building.Hp, m_TargetofZombie.m_Building.MaxHp);
                 if (m_TargetofZombie.m_Building.Hp <= 0)
                 {
-                    Destroy(m_TargetofZombie.gameObject);
+                    //Destroy(m_TargetofZombie.gameObject);
                     animator.SetBool("Attacking", false);
                     m_TargetofZombie = null;
                 }
@@ -330,12 +337,12 @@ public class UnitBox : MonoBehaviour {
             {
                 animator.SetBool("Attacking", true);
                 m_enemys_target.m_Center.Hp = m_enemys_target.m_Center.Hp - m_sUnit.Damage;
-                //Debug.Log("1");
+                //Debug.Log(m_enemys_target.m_Center.Hp);
                 m_enemys_target.ChangeHp(m_enemys_target.m_Center.Hp, m_enemys_target.m_Center.MaxHp);
                 if (m_enemys_target.m_Center.Hp <= 0)
                 {
                     animator.SetBool("Attacking", false);
-                    Destroy(m_enemys_target.gameObject);
+                    //Destroy(m_enemys_target.gameObject);
                     m_enemys_target = null;
                 }
             }

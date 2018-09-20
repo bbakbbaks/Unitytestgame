@@ -5,19 +5,19 @@ using UnityEngine;
 public struct Building
 {
     string strName;
-    int m_nHp;
-    int m_nMaxHp;
+    float m_nHp;
+    float m_nMaxHp;
     int m_nNdResource;
     int m_nPdResource;
     string strImage;
 
     public string Name { get { return strName; } }
-    public int Hp
+    public float Hp
     {
         set { m_nHp = value; }
         get { return m_nHp; }
     }
-    public int MaxHp { get { return m_nMaxHp; } }
+    public float MaxHp { get { return m_nMaxHp; } }
     public int NdResource { get { return m_nNdResource; } }
     public int PdResource { get { return m_nPdResource; } }
     public string Image { get { return strImage; } }
