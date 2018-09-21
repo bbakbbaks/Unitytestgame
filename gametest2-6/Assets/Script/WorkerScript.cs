@@ -370,6 +370,7 @@ public class WorkerScript : MonoBehaviour
                         BuildPreview = null;
                         BuildPreview2 = null;
                         PreviewCheck = false;
+                        this.SelectCheck = 0;
                     }
                     if (Input.GetMouseButtonDown(1))
                     {

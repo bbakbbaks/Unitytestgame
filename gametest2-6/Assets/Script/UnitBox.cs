@@ -305,7 +305,10 @@ public class UnitBox : MonoBehaviour {
             if (Physics.Raycast(ray, out hitinfo, 100.0f, 1 << LayerMask.NameToLayer("Default")))
             {
                 this.m_UnitCommend = 0;
-                this.TargetPosition = hitinfo.point;
+                if (this.gameObject.name == "solider")
+                {
+                    this.TargetPosition = hitinfo.point;
+                }
             }
         }
 
