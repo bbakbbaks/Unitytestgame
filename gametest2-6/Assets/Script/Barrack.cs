@@ -8,9 +8,10 @@ public class Barrack : MonoBehaviour {
     public GameObject Barrack_UI;
     public int SelectCheck = 0;
     public int SoliderCount = -1;
+    public GameObject selectcircle;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         InvokeRepeating("CountDown", 1, 1);
 	}
 	
@@ -21,6 +22,19 @@ public class Barrack : MonoBehaviour {
         PdUnit();
         BarrackUI();
         //TimeCounter();
+        circlecheck();
+    }
+
+    public void circlecheck()
+    {
+        if (SelectCheck == 1)
+        {
+            selectcircle.SetActive(true);
+        }
+        else
+        {
+            selectcircle.SetActive(false);
+        }
     }
 
     public void BarrackSelect()

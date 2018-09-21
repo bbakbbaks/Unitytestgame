@@ -1462,6 +1462,7 @@ MonoBehaviour:
   m_UnitInfo: {fileID: 1454580927663020}
   m_UnitInfotext: {fileID: 114820015241958902}
   SelectCircle: {fileID: 1184254557659658}
+  UnitCountCheck: 0
 --- !u!114 &114542096618618678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1797,7 +1798,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 492ace083f8ae9d49837e55ee3207868, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ef0a28b0759a7ac46ac734ae73f768b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

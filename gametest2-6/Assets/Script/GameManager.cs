@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     public int UnitSelectCount = 0; //선택된 유닛의 갯수
     public bool BuildingSelectCheck = false; //건물선택체크
     public bool UnitSelectCheck = false; //유닛선택체크 //건물과 유닛의 중복 체크 방지
-    public float Wavetimer = 90;
+    float Wavetimer = 90;
     bool wavetimerstart = false;
     public GameObject G_goal; // 매뉴->목표
     public GameObject G_continue; // 매뉴->계속하기

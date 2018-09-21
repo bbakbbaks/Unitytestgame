@@ -23,6 +23,7 @@ public class Center : MonoBehaviour {
     GameObject Fire1;
     GameObject Fire2;
     GameObject Fire3;
+    public GameObject selectcircle;
     //public GameObject DestroyEffect;
     //GameObject Destroy1;
     //bool Destroycheck = false;
@@ -40,6 +41,19 @@ public class Center : MonoBehaviour {
         CenterUI();
         UCheck2();
         Damagedbyzombie();
+        circlecheck();
+    }
+
+    public void circlecheck()
+    {
+        if (SelectCheck == 1)
+        {
+            selectcircle.SetActive(true);
+        }
+        else
+        {
+            selectcircle.SetActive(false);
+        }
     }
 
     public void ChangeHp(float unithp, float unitmaxhp)//HP바의 체력변화
